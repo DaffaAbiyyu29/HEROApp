@@ -38,6 +38,7 @@
                 <!-- Isi dari card pertama -->
                 <!-- Anda dapat menambahkan ImageView dan TextView sesuai dengan kebutuhan -->
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/maintenance_process_btn"
                     android:layout_width="60dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center|start"
@@ -210,6 +211,7 @@
                     app:layout_constraintTop_toBottomOf="@id/material_card_view">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_search_maintenance"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
@@ -221,7 +223,7 @@
                         app:iconTint="@color/red_primary" />
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/search_view"
+                        android:id="@+id/search_view_maintenance"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="8dp"

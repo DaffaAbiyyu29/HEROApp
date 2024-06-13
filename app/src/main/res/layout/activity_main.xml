@@ -21,7 +21,6 @@
             android:background="@color/red_secondary"
             tools:ignore="MissingConstraints">
 
-            <!-- Isi app bar, termasuk tombol logout dan tampilan tanggal/waktu -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/logout"
                 android:layout_width="wrap_content"
@@ -34,6 +33,24 @@
                 app:icon="@drawable/ic_logout"
                 app:iconTint="@color/white"
                 app:iconGravity="textTop"
+                android:background="@android:color/transparent"
+                app:iconSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/back_to_maintenance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_b"
+                android:textSize="11sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_back"
+                app:iconTint="@color/white"
+                app:iconGravity="textTop"
+                android:visibility="gone"
                 android:background="@android:color/transparent"
                 app:iconSize="20dp"
                 app:layout_constraintStart_toStartOf="parent"

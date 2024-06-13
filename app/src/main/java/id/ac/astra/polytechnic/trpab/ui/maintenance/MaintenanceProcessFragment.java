@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -27,43 +28,39 @@ import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 
-public class MaintenanceFragment extends Fragment {
+public class MaintenanceProcessFragment extends Fragment {
 
-    private MaintenanceViewModel mViewModel;
+    private MaintenanceProcessViewModel mViewModel;
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
     private List<HeavyEngine> dashboardItemList;
 
-    public static MaintenanceFragment newInstance() {
-        return new MaintenanceFragment();
+    public static MaintenanceProcessFragment newInstance() {
+        return new MaintenanceProcessFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_maintenance, container, false);
+        View view = inflater.inflate(R.layout.fragment_maintenance_process, container, false);
 
         Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
 
-        ((MainActivity) getActivity()).showLogoutButton();
+        ((MainActivity) getActivity()).showBackButton();
 
-        MaterialButton maintenanceProcessBtn = view.findViewById(R.id.maintenance_process_btn);
-        maintenanceProcessBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Gunakan NavController untuk navigasi ke fragment lain
-                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-                navController.navigate(R.id.nav_maintenance_process);
-            }
-        });
+//        MaterialButton maintenanceProcessBtn = view.findViewById(R.id.maintenance_process_btn);
+//        maintenanceProcessBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+//                navController.navigate(R.id.nav_maintenance_process);
+//            }
+//        });
 
-        // Menginisialisasi RecyclerView dan menambahkan layout manager
-        recyclerView = view.findViewById(R.id.recycler_view_maintenance);
+        recyclerView = view.findViewById(R.id.recycler_view_maintenance_process);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Menginisialisasi data dan adapter
         dashboardItemList = new ArrayList<>();
-        // Tambahkan data ke dashboardItemList
         dashboardItemList.add(new HeavyEngine("D85ESS-2", "5674 Hours", "Sedang Digunakan", R.drawable.beko1));
         dashboardItemList.add(new HeavyEngine("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
         dashboardItemList.add(new HeavyEngine("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
@@ -71,11 +68,8 @@ public class MaintenanceFragment extends Fragment {
         dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
         dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
 
-        // Filter daftar item yang tersedia
         List<HeavyEngine> availableItems = filterAvailableItems(dashboardItemList);
-
-        // Menginisialisasi adapter dengan daftar yang difilter
-        mHeavyEngineAdapter = new HeavyEngineAdapter(availableItems);
+        mHeavyEngineAdapter = new HeavyEngineAdapter(dashboardItemList);
         recyclerView.setAdapter(mHeavyEngineAdapter);
 
         return view;
@@ -83,15 +77,13 @@ public class MaintenanceFragment extends Fragment {
 
     private List<HeavyEngine> filterAvailableItems(List<HeavyEngine> items) {
         return items.stream()
-                .filter(item -> "Tersedia".equals(item.getStatus()))
+                .filter(item -> "Sedang Dalam Perawatan".equals(item.getStatus()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(MaintenanceViewModel.class);
-        // TODO: Use the ViewModel
+        mViewModel = new ViewModelProvider(this).get(MaintenanceProcessViewModel.class);
     }
-
 }
