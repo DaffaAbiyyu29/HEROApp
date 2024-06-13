@@ -25,7 +25,7 @@
             android:icon="@drawable/ic_bar"
             android:title="@string/menu_borrowing" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_maintenance"
             android:icon="@drawable/ic_tool"
             android:title="@string/menu_maintenance" />
     </group>

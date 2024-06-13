@@ -233,9 +233,21 @@
         android:textSelectHandle="@color/cream"
         app:layout_constraintVertical_bias="0.2"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center|bottom"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/poppins"
+        android:text="Copyright © 2024 HeroAppDeveloper | All Rights Reserved"
+        android:textColor="@color/cream"
+        android:textSize="9sp"
+        app:layout_constraintTop_toBottomOf="@id/login"
+        tools:ignore="MissingConstraints" />
+
     <ProgressBar
         android:id="@+id/loading"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="64dp"
@@ -243,6 +255,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.3"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
