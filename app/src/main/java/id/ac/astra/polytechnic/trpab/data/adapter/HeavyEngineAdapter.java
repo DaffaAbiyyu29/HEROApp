@@ -1,28 +1,28 @@
-package id.ac.astra.polytechnic.trpab.ui.home;
+package id.ac.astra.polytechnic.trpab.data.adapter;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.card.MaterialCardView;
-
 import java.util.List;
+
 import id.ac.astra.polytechnic.trpab.R;
+import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.ViewHolder> {
 
-    private List<HomeItem> homeItemList;
+    private List<HeavyEngine> mHeavyEngineList;
 
-    public HomeAdapter(List<HomeItem> homeItemList) {
-        this.homeItemList = homeItemList;
+    public HeavyEngineAdapter(List<HeavyEngine> heavyEngineList) {
+        this.mHeavyEngineList = heavyEngineList;
     }
 
     @NonNull
@@ -35,7 +35,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        HomeItem item = homeItemList.get(position);
+        HeavyEngine item = mHeavyEngineList.get(position);
         holder.titleTextView.setText(item.getTitle());
         holder.hoursTextView.setText(item.getHours());
         holder.statusTextView.setText(item.getStatus());
@@ -58,7 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return homeItemList.size();
+        return mHeavyEngineList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

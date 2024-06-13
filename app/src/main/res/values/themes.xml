@@ -31,4 +31,14 @@
         <item name="cornerSizeTopRight">55dp</item>
     </style>
 
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Atur warna popup overlay sesuai kebutuhan aplikasi Anda -->
+        <item name="android:popupMenuStyle">@style/PopupMenu</item>
+        <item name="android:popupTheme">@style/AppTheme.PopupOverlay</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu" />
+
 </resources>

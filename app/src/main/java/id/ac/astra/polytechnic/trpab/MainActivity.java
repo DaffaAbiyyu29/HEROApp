@@ -50,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 // Buat dan mulai intent untuk LoginActivity
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
-
-                // Panggil finish() untuk mengakhiri aktivitas saat ini (MainActivity)
                 finish();
             }
         });
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
 
         // Menghubungkan BottomNavigationView dengan NavController
-        BottomNavigationView bottomNavigationView = binding.appBarMain.contentMain.bottomNavView;
+        BottomNavigationView bottomNavigationView = binding.bottomNavView;
         if (bottomNavigationView != null) {
             mAppBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.nav_home, R.id.nav_borrowing, R.id.nav_maintenance)
@@ -115,22 +113,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateDateTime() {
-        TextView textView = findViewById(R.id.text_datetime);
-        if (textView != null) {
-            SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
-            SimpleDateFormat outputFormat = new SimpleDateFormat("EEEE, d MMMM yyyy HH:mm 'WIB'", new Locale("id", "ID"));
+        TextView textView = findViewById(R.id.text_date);
+        TextView textView2 = findViewById(R.id.text_time);
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("EEEE, d MMMM yyyy", new Locale("id", "ID"));
+        SimpleDateFormat outputFormat2 = new SimpleDateFormat("HH:mm 'WIB'", new Locale("id", "ID"));
 
-            try {
-                // Menggunakan tanggal saat ini
-                Date dateNow = new Date();
-                String formattedDate = outputFormat.format(dateNow);
-                textView.setText(formattedDate);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            // TextView tidak ditemukan, mungkin ada masalah dengan layout
-            throw new RuntimeException("TextView with ID text_datetime not found in the layout.");
+        try {
+            // Menggunakan tanggal saat ini
+            Date dateNow = new Date();
+            String formattedDate = outputFormat.format(dateNow);
+            String formattedDate2 = outputFormat2.format(dateNow);
+            textView.setText(formattedDate);
+            textView2.setText(formattedDate2);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -1,68 +1,119 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-Wrap the DrawerLayout with FrameLayout to use the same View type for the same view ID
-across the layout configurations
--->
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Wrap the DrawerLayout with FrameLayout to use the same View type for the same view ID across the layout configurations -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/cream">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:fontFamily="@font/poppins_b"
-        android:text="Logout"
-        android:textSize="11sp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:icon="@drawable/ic_logout"
-        app:iconTint="@color/white"
-        app:iconGravity="textTop"
-        android:background="@android:color/transparent"
-        app:iconSize="20dp" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="40dp"
-        app:cardCornerRadius="10dp"
-        android:background="@color/white"
-        >
-
-        <TextView
-            android:id="@+id/text_datetime"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:textColor="@color/red_primary"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppins"
-            android:text="Jam  aaaaa"
-            android:drawableStart="@drawable/ic_clock"
-            android:drawablePadding="12dp"
-            android:gravity="center" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <!-- ConstraintLayout sebagai container utama -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/app_bar_main"
-            layout="@layout/app_bar_main"
+        <!-- App Bar -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:background="@color/red_secondary"
+            tools:ignore="MissingConstraints">
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+            <!-- Isi app bar, termasuk tombol logout dan tampilan tanggal/waktu -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_b"
+                android:text="Logout"
+                android:textSize="11sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:icon="@drawable/ic_logout"
+                app:iconTint="@color/white"
+                app:iconGravity="textTop"
+                android:background="@android:color/transparent"
+                app:iconSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:cardCornerRadius="10dp"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/text_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:textColor="@color/red_primary"
+                        android:layout_marginEnd="5dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:text="tanggal"
+                        android:fontFamily="@font/poppins"
+                        android:drawablePadding="12dp"
+                        android:gravity="center"
+                        app:drawableStartCompat="@drawable/ic_clock" />
+
+                    <TextView
+                        android:id="@+id/text_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:textColor="@color/red_primary"
+                        android:layout_marginEnd="10dp"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:text="jam"
+                        android:fontFamily="@font/poppins_b"
+                        android:gravity="center|end" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Fragment Container -->
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment_content_main"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/app_bar"
+            app:layout_constraintBottom_toTopOf="@id/bottom_nav_view"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/mobile_navigation" />
+
+        <!-- Bottom Navigation -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bottom_nav_background"
+            app:itemIconSize="30dp"
+            app:itemIconTint="@color/icon_color"
+            app:itemRippleColor="@color/red_secondary"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_navigation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

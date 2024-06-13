@@ -1,13 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/red_secondary"
     tools:context=".ui.maintenance.MaintenanceFragment">
 
-    <TextView
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/top_card"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        android:backgroundTint="@color/red_secondary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView2"
+                android:layout_width="230dp"
+                android:layout_height="130dp"
+                android:layout_marginStart="20dp"
+                android:backgroundTint="@color/cream"
+                app:cardCornerRadius="30dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Isi dari card pertama -->
+                <!-- Anda dapat menambahkan ImageView dan TextView sesuai dengan kebutuhan -->
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center|start"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="#80721812"
+                    android:enabled="true"
+                    android:fontFamily="@font/poppins_b"
+                    android:textColor="@color/red_secondary"
+                    android:textSelectHandle="@color/red_secondary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="90dp"
+                    app:icon="@drawable/ic_calendar"
+                    app:iconSize="30dp"
+                    app:iconTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:rippleColor="@color/cream" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/poppins_b"
+                    android:text="Dalam  Proses Maintenance"
+                    android:textAlignment="center"
+                    android:textColor="@color/red_primary"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center|end"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginBottom="10dp"
+                    android:backgroundTint="#80721812"
+                    android:enabled="true"
+                    android:fontFamily="@font/poppins_b"
+                    android:textColor="@color/red_secondary"
+                    android:textSelectHandle="@color/red_secondary"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="90dp"
+                    app:icon="@drawable/ic_tool"
+                    app:iconSize="30dp"
+                    app:iconTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:rippleColor="@color/cream" />
+
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginBottom="15dp"
+                    android:fontFamily="@font/poppins_b"
+                    android:text="Riwayat Maintenance"
+                    android:textAlignment="center"
+                    android:textColor="@color/red_primary"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginEnd="20dp"
+                android:backgroundTint="@color/cream"
+                app:cardCornerRadius="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="20dp"
+                app:layout_constraintHorizontal_weight="1">
+
+                <!-- Isi dari card kedua -->
+                <!-- Anda dapat menambahkan ImageView dan TextView sesuai dengan kebutuhan -->
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_patern_card_maintenance"
+                    android:layout_gravity="end"/>
+
+                <TextView
+                    android:id="@+id/total_perawatan_bulanan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red_primary"
+                    android:textSize="75sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center|start"
+                    android:fontFamily="@font/poppins_b"
+                    android:text="15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red_primary"
+                    android:textSize="35sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_gravity="center|end"
+                    android:fontFamily="@font/poppins_b"
+                    android:text="x" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red_primary"
+                    android:textSize="8sp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="end|bottom"
+                    android:fontFamily="@font/poppins_b"
+                    android:text="Perawatan" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/red_primary"
+                    android:textSize="8sp"
+                    android:layout_marginBottom="15dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="bottom|center"
+                    android:fontFamily="@font/poppins_b"
+                    android:text="Telah dilakukan Bulan ini" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/poppins_b"
+                android:gravity="bottom|center"
+                android:text="Cari Nama Alat Berat"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView2" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/material_card_view">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="10dp"
+                        android:background="@android:color/transparent"
+                        app:icon="@drawable/ic_magnifying"
+                        app:iconGravity="top"
+                        app:iconSize="20dp"
+                        app:iconTint="@color/red_primary" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/search_view"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:fontFamily="@font/poppins"
+                        android:hint="Nama Alat..."
+                        android:inputType="text" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_marginTop="270dp"
+        android:src="@drawable/rounded_top_corners_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_card"/>
 
-</FrameLayout>
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/material_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="270dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_card"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:strokeColor="@android:color/transparent">
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_maintenance"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:scrollbars="vertical"
+            android:scrollIndicators="end"
+            android:scrollbarTrackVertical="@drawable/scrollbar_track"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
+            android:clipToPadding="true"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            tools:listitem="@layout/item_dashboard" />
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

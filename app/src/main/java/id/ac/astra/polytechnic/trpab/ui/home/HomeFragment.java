@@ -2,7 +2,7 @@ package id.ac.astra.polytechnic.trpab.ui.home;
 
 import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,13 +15,15 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 import id.ac.astra.polytechnic.trpab.R;
+import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
+import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel mViewModel;
     private RecyclerView recyclerView;
-    private HomeAdapter dashboardAdapter;
-    private List<HomeItem> dashboardItemList;
+    private HeavyEngineAdapter mHeavyEngineAdapter;
+    private List<HeavyEngine> dashboardItemList;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
@@ -32,7 +34,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Log.d("HomeFragment", "onCreateView: Fragment created successfully");
+        Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
 
         // Menginisialisasi RecyclerView dan menambahkan layout manager
         recyclerView = view.findViewById(R.id.recycler_view_dashboard);
@@ -41,15 +43,18 @@ public class HomeFragment extends Fragment {
         // Menginisialisasi data dan adapter
         dashboardItemList = new ArrayList<>();
         // Tambahkan data ke dashboardItemList
-        dashboardItemList.add(new HomeItem("D85ESS-2", "5674 Hours", "Sedang Digunakan", R.drawable.beko1));
-        dashboardItemList.add(new HomeItem("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HomeItem("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HomeItem("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HomeItem("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HomeItem("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("D85ESS-2", "5674 Hours", "Sedang Digunakan", R.drawable.beko1));
+        dashboardItemList.add(new HeavyEngine("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
+        dashboardItemList.add(new HeavyEngine("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
+        dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
 
-        dashboardAdapter = new HomeAdapter(dashboardItemList);
-        recyclerView.setAdapter(dashboardAdapter);
+        // Filter daftar item yang tersedia
+
+        // Menginisialisasi adapter dengan daftar yang difilter
+        mHeavyEngineAdapter = new HeavyEngineAdapter(dashboardItemList);
+        recyclerView.setAdapter(mHeavyEngineAdapter);
 
         return view;
     }

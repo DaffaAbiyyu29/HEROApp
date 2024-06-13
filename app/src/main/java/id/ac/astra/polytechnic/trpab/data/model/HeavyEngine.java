@@ -1,12 +1,12 @@
-package id.ac.astra.polytechnic.trpab.ui.home;
+package id.ac.astra.polytechnic.trpab.data.model;
 
-public class HomeItem {
+public class HeavyEngine {
     private String title;
     private String hours;
     private String status;
     private int imageResId;
 
-    public HomeItem(String title, String hours, String status, int imageResId) {
+    public HeavyEngine(String title, String hours, String status, int imageResId) {
         this.title = title;
         this.hours = hours;
         this.status = status;
