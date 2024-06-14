@@ -45,8 +45,6 @@ public class MaintenanceFragment extends Fragment {
 
         Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
 
-        ((MainActivity) getActivity()).showLogoutButton();
-
         MaterialButton maintenanceProcessBtn = view.findViewById(R.id.maintenance_process_btn);
         maintenanceProcessBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,20 +61,19 @@ public class MaintenanceFragment extends Fragment {
 
         // Menginisialisasi data dan adapter
         dashboardItemList = new ArrayList<>();
-        // Tambahkan data ke dashboardItemList
-        dashboardItemList.add(new HeavyEngine("D85ESS-2", "5674 Hours", "Sedang Digunakan", R.drawable.beko1));
-        dashboardItemList.add(new HeavyEngine("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HeavyEngine("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("1", "D85ESS-2", "5674 Hours", "Sedang Digunakan", R.drawable.beko1));
+        dashboardItemList.add(new HeavyEngine("2", "PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
+        dashboardItemList.add(new HeavyEngine("3", "PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
+        dashboardItemList.add(new HeavyEngine("4", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("5", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("6", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
 
         // Filter daftar item yang tersedia
         List<HeavyEngine> availableItems = filterAvailableItems(dashboardItemList);
-
-        // Menginisialisasi adapter dengan daftar yang difilter
-        mHeavyEngineAdapter = new HeavyEngineAdapter(availableItems);
+        mHeavyEngineAdapter = new HeavyEngineAdapter(availableItems, false);
         recyclerView.setAdapter(mHeavyEngineAdapter);
+
+        ((MainActivity) getActivity()).showLogoutButton();
 
         return view;
     }

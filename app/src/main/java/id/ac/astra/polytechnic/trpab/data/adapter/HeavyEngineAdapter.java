@@ -20,9 +20,11 @@ import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.ViewHolder> {
 
     private List<HeavyEngine> mHeavyEngineList;
+    private boolean isMaintenanceProcessFragment;
 
-    public HeavyEngineAdapter(List<HeavyEngine> heavyEngineList) {
+    public HeavyEngineAdapter(List<HeavyEngine> heavyEngineList, boolean isMaintenanceProcessFragment) {
         this.mHeavyEngineList = heavyEngineList;
+        this.isMaintenanceProcessFragment = isMaintenanceProcessFragment;
     }
 
     @NonNull
@@ -54,6 +56,15 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
             holder.icoonStatus.setImageResource(R.drawable.ic_bag);
             holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#600D08")));
         }
+
+        // Mengatur visibilitas statusBarView berdasarkan nilai isMaintenanceProcessFragment
+        if (isMaintenanceProcessFragment) {
+            holder.statusBarView.setVisibility(View.GONE);
+            holder.icoonStatus.setVisibility(View.GONE);
+        } else {
+            holder.statusBarView.setVisibility(View.VISIBLE);
+            holder.icoonStatus.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -79,5 +90,4 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
             statusBarView = itemView.findViewById(R.id.status_bar);
         }
     }
-
 }

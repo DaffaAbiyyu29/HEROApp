@@ -1,5 +1,6 @@
 package id.ac.astra.polytechnic.trpab.ui.maintenance;
 
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class MaintenanceProcessFragment extends Fragment {
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
     private List<HeavyEngine> dashboardItemList;
+    private CardView statusBarView;
 
     public static MaintenanceProcessFragment newInstance() {
         return new MaintenanceProcessFragment();
@@ -46,31 +48,21 @@ public class MaintenanceProcessFragment extends Fragment {
 
         Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
 
-        ((MainActivity) getActivity()).showBackButton();
-
-//        MaterialButton maintenanceProcessBtn = view.findViewById(R.id.maintenance_process_btn);
-//        maintenanceProcessBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-//                navController.navigate(R.id.nav_maintenance_process);
-//            }
-//        });
-
         recyclerView = view.findViewById(R.id.recycler_view_maintenance_process);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         dashboardItemList = new ArrayList<>();
-        dashboardItemList.add(new HeavyEngine("D85ESS-2", "5674 Hours", "Sedang Digunakan", R.drawable.beko1));
-        dashboardItemList.add(new HeavyEngine("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HeavyEngine("PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HeavyEngine("CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("1", "D85ESS-2", "5674 Hours", "Sedang Digunakan", R.drawable.beko1));
+        dashboardItemList.add(new HeavyEngine("2", "PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
+        dashboardItemList.add(new HeavyEngine("3", "PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
+        dashboardItemList.add(new HeavyEngine("4", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("5", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("6", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
 
-        List<HeavyEngine> availableItems = filterAvailableItems(dashboardItemList);
-        mHeavyEngineAdapter = new HeavyEngineAdapter(dashboardItemList);
+        mHeavyEngineAdapter = new HeavyEngineAdapter(dashboardItemList, true); // Set to true for MaintenanceProcessFragment
         recyclerView.setAdapter(mHeavyEngineAdapter);
+
+        ((MainActivity) getActivity()).showBackButton();
 
         return view;
     }

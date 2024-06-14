@@ -26,7 +26,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/materialCardView2"
                 android:layout_width="230dp"
-                android:layout_height="130dp"
+                android:layout_height="135dp"
                 android:layout_marginStart="20dp"
                 android:backgroundTint="@color/cream"
                 app:cardCornerRadius="30dp"
@@ -61,7 +61,7 @@
                     app:rippleColor="@color/cream" />
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginStart="40dp"
@@ -70,7 +70,7 @@
                     android:text="Dalam  Proses Maintenance"
                     android:textAlignment="center"
                     android:textColor="@color/red_primary"
-                    android:textSize="8sp"
+                    android:textSize="9sp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.button.MaterialButton
@@ -96,7 +96,7 @@
                     app:rippleColor="@color/cream" />
 
                 <TextView
-                    android:layout_width="60dp"
+                    android:layout_width="65dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_marginEnd="40dp"
@@ -105,13 +105,13 @@
                     android:text="Riwayat Maintenance"
                     android:textAlignment="center"
                     android:textColor="@color/red_primary"
-                    android:textSize="8sp"
+                    android:textSize="9sp"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="135dp"
+                android:layout_height="135dp"
                 android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/cream"
                 app:cardCornerRadius="30dp"
@@ -156,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red_primary"
-                    android:textSize="8sp"
+                    android:textSize="9sp"
                     android:layout_marginBottom="30dp"
                     android:layout_marginEnd="10dp"
                     android:textStyle="bold"
@@ -168,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/red_primary"
-                    android:textSize="8sp"
+                    android:textSize="9sp"
                     android:layout_marginBottom="15dp"
                     android:textStyle="bold"
                     android:layout_gravity="bottom|center"
