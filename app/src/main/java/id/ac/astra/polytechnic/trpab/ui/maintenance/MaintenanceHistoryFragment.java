@@ -29,26 +29,26 @@ import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 
-public class MaintenanceProcessFragment extends Fragment {
+public class MaintenanceHistoryFragment extends Fragment {
 
-    private MaintenanceProcessViewModel mViewModel;
+    private MaintenanceHistoryViewModel mViewModel;
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
     private List<HeavyEngine> dashboardItemList;
     private CardView statusBarView;
 
-    public static MaintenanceProcessFragment newInstance() {
-        return new MaintenanceProcessFragment();
+    public static MaintenanceHistoryFragment newInstance() {
+        return new MaintenanceHistoryFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_maintenance_process, container, false);
+        View view = inflater.inflate(R.layout.fragment_maintenance_history, container, false);
 
         Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
 
-        recyclerView = view.findViewById(R.id.recycler_view_maintenance_process);
+        recyclerView = view.findViewById(R.id.recycler_view_maintenance_history);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         dashboardItemList = new ArrayList<>();
@@ -59,8 +59,7 @@ public class MaintenanceProcessFragment extends Fragment {
         dashboardItemList.add(new HeavyEngine("5", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
         dashboardItemList.add(new HeavyEngine("6", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
 
-        List<HeavyEngine> availableItems = filterAvailableItems(dashboardItemList);
-        mHeavyEngineAdapter = new HeavyEngineAdapter(availableItems, false);
+        mHeavyEngineAdapter = new HeavyEngineAdapter(dashboardItemList, true);
         recyclerView.setAdapter(mHeavyEngineAdapter);
 
         ((MainActivity) getActivity()).showBackButton();
@@ -77,6 +76,6 @@ public class MaintenanceProcessFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(MaintenanceProcessViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MaintenanceHistoryViewModel.class);
     }
 }

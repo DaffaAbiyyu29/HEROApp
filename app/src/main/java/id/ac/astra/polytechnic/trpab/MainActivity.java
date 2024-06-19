@@ -1,16 +1,20 @@
 package id.ac.astra.polytechnic.trpab;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.navigation.NavController;
@@ -26,6 +30,8 @@ import java.util.Locale;
 
 import id.ac.astra.polytechnic.trpab.databinding.ActivityMainBinding;
 import id.ac.astra.polytechnic.trpab.ui.login.LoginActivity;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -70,13 +77,61 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
 
         // Menghubungkan BottomNavigationView dengan NavController
-        BottomNavigationView bottomNavigationView = binding.bottomNavView;
-        if (bottomNavigationView != null) {
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_home, R.id.nav_borrowing, R.id.nav_maintenance)
-                    .build();
-            NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        }
+//        BottomNavigationView bottomNavigationView = binding.bottomNavView;
+//        if (bottomNavigationView != null) {
+//            mAppBarConfiguration = new AppBarConfiguration.Builder(
+//                    R.id.nav_home, R.id.nav_borrowing, R.id.nav_maintenance, R.id.nav_maintenance_process, R.id.nav_maintenance_history)
+//                    .build();
+//            NavigationUI.setupWithNavController(bottomNavigationView, navController);
+//        }
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+        MeowBottomNavigation bottomNavigationView = findViewById(R.id.bottom_nav_view);
+        bottomNavigationView.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
+        bottomNavigationView.add(new MeowBottomNavigation.Model(2, R.drawable.ic_bar));
+        bottomNavigationView.add(new MeowBottomNavigation.Model(3, R.drawable.ic_tool));
+
+        bottomNavigationView.setOnClickMenuListener(new Function1<MeowBottomNavigation.Model, Unit>() {
+            @Override
+            public Unit invoke(MeowBottomNavigation.Model model) {
+                switch (model.getId()) {
+                    case 1:
+                        navController.navigate(R.id.nav_home);
+                        break;
+                    case 2:
+                        navController.navigate(R.id.nav_borrowing);
+                        break;
+                    case 3:
+                        navController.navigate(R.id.nav_maintenance);
+                        break;
+                }
+                return null;
+            }
+        });
+
+        bottomNavigationView.setOnShowListener(new Function1<MeowBottomNavigation.Model, Unit>() {
+            @Override
+            public Unit invoke(MeowBottomNavigation.Model model) {
+                String name;
+                switch (model.getId()) {
+                    case 1:
+                        name = "Home";
+                        break;
+                    case 2:
+                        name = "Borrowing";
+                        break;
+                    case 3:
+                        name = "Maintenance";
+                        break;
+                    default:
+                        name = "";
+                        break;
+                }
+//                bottomNavigationView.setCount(1, "9");
+                return null;
+            }
+        });
+        bottomNavigationView.show(1, true);
     }
 
     @Override

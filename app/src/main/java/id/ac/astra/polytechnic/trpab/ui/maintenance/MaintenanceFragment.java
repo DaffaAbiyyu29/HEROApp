@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -46,12 +48,22 @@ public class MaintenanceFragment extends Fragment {
         Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
 
         MaterialButton maintenanceProcessBtn = view.findViewById(R.id.maintenance_process_btn);
+        MaterialButton maintenanceHistoryBtn = view.findViewById(R.id.maintenance_history_btn);
         maintenanceProcessBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Gunakan NavController untuk navigasi ke fragment lain
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
                 navController.navigate(R.id.nav_maintenance_process);
+            }
+        });
+
+        maintenanceHistoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Gunakan NavController untuk navigasi ke fragment lain
+                NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+                navController.navigate(R.id.nav_maintenance_history);
             }
         });
 
@@ -72,6 +84,12 @@ public class MaintenanceFragment extends Fragment {
         List<HeavyEngine> availableItems = filterAvailableItems(dashboardItemList);
         mHeavyEngineAdapter = new HeavyEngineAdapter(availableItems, false);
         recyclerView.setAdapter(mHeavyEngineAdapter);
+
+        Spinner jenisPerawatanSpinner = view.findViewById(R.id.detail_jenis_perawatan_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.jenis_perawatan_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        jenisPerawatanSpinner.setAdapter(adapter);
 
         ((MainActivity) getActivity()).showLogoutButton();
 

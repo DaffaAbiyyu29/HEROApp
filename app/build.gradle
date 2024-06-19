@@ -43,10 +43,9 @@ dependencies {
     implementation libs.navigation.ui
     implementation libs.annotation
     implementation libs.legacy.support.v4
+    implementation libs.activity
     testImplementation libs.junit
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.etebarian:meow-bottom-navigation:1.2.0'
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
-
-
 }
