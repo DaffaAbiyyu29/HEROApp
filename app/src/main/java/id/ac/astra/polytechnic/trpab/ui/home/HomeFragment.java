@@ -44,12 +44,12 @@ public class HomeFragment extends Fragment {
 
         // Menginisialisasi data dan adapter
         dashboardItemList = new ArrayList<>();
-        dashboardItemList.add(new HeavyEngine("1", "D85ESS-2", "5674 Hours", "Sedang Digunakan", R.drawable.beko1));
-        dashboardItemList.add(new HeavyEngine("2", "PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HeavyEngine("3", "PC200-8", "4321 Hours", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HeavyEngine("4", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HeavyEngine("5", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HeavyEngine("6", "CAT320", "7890 Hours", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("1", "D85ESS-2", "5674", "Tersedia", R.drawable.beko1));
+        dashboardItemList.add(new HeavyEngine("2", "PC200-8", "4321", "Sedang Dalam Perawatan", R.drawable.avatar_1));
+        dashboardItemList.add(new HeavyEngine("3", "E/g SAA6D140-3", "4321", "Tersedia", R.drawable.avatar_2));
+        dashboardItemList.add(new HeavyEngine("4", "PC210LC-10MO", "7890", "Sedang Dalam Perawatan", R.drawable.avatar_3));
+        dashboardItemList.add(new HeavyEngine("5", "CAT320", "7890", "Sedang Digunakan", R.drawable.avatar_4));
+        dashboardItemList.add(new HeavyEngine("6", "PC500LC-10R", "7890", "Tersedia", R.drawable.avatar_5));
 
         mHeavyEngineAdapter = new HeavyEngineAdapter(dashboardItemList, false);
         recyclerView.setAdapter(mHeavyEngineAdapter);

@@ -21,27 +21,34 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
 
     private List<HeavyEngine> mHeavyEngineList;
     private boolean isMaintenanceProcessFragment;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     public HeavyEngineAdapter(List<HeavyEngine> heavyEngineList, boolean isMaintenanceProcessFragment) {
         this.mHeavyEngineList = heavyEngineList;
         this.isMaintenanceProcessFragment = isMaintenanceProcessFragment;
     }
 
-
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_dashboard, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, mListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         HeavyEngine item = mHeavyEngineList.get(position);
         holder.titleTextView.setText(item.getTitle());
-        holder.hoursTextView.setText(item.getHours());
+        holder.hoursTextView.setText(item.getHours() + " Hours");
         holder.statusTextView.setText(item.getStatus());
         holder.imageView.setImageResource(item.getImageResId());
 
@@ -82,7 +89,7 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
         public ImageView icoonStatus;
         public CardView statusBarView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.heavyname_text);
             hoursTextView = itemView.findViewById(R.id.hoursmeter_text);
@@ -90,6 +97,18 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
             imageView = itemView.findViewById(R.id.image_view);
             icoonStatus = itemView.findViewById(R.id.icon_status);
             statusBarView = itemView.findViewById(R.id.status_bar);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

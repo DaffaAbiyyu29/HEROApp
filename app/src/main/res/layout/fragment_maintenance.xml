@@ -262,8 +262,6 @@
         app:cardBackgroundColor="@android:color/transparent"
         app:strokeColor="@android:color/transparent">
 
-
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_maintenance"
             android:layout_width="match_parent"
@@ -277,5 +275,6 @@
             android:clipToPadding="true"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             tools:listitem="@layout/item_dashboard" />
+
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

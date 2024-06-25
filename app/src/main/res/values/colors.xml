@@ -12,4 +12,9 @@
     <color name="gold">#CC9239</color>
     <color name="cream">#E2D0CF</color>
     <color name="abu2">#B38381</color>
+
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorSecondary">#303F9F</color>
+    <color name="colorBackground">#FFFFFF</color>
 </resources>

@@ -12,6 +12,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerPopupStyle</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -40,5 +41,47 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="PopupMenu" parent="Widget.AppCompat.PopupMenu" />
+
+    <style name="SpinnerPopupStyle" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/red_primary</item>
+        <item name="android:textColor">@color/cream</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/poppins_b</item>
+    </style>
+
+    <!-- Tema kustom untuk DatePickerDialog -->
+    <style name="CustomDatePickerDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/red_primary</item>
+        <item name="android:datePickerDialogTheme">@style/CustomDatePicker</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/CustomDialogButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/CustomDialogButton</item>
+    </style>
+
+    <style name="CustomDatePicker" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/red_primary</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/colorSecondary</item>
+        <item name="android:background">@color/colorBackground</item>
+    </style>
+
+    <!-- Tema kustom untuk TimePickerDialog -->
+    <style name="CustomTimePickerDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/red_primary</item>
+        <item name="android:timePickerDialogTheme">@style/CustomTimePicker</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/CustomDialogButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/CustomDialogButton</item>
+    </style>
+
+    <style name="CustomTimePicker" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/red_primary</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:textColorSecondary">@color/colorSecondary</item>
+        <item name="android:background">@color/colorBackground</item>
+    </style>
+
+    <!-- Gaya kustom untuk tombol di dialog -->
+    <style name="CustomDialogButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/red_primary</item>
+    </style>
 
 </resources>
