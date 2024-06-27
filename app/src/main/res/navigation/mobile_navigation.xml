@@ -45,13 +45,22 @@
         android:id="@+id/nav_maintenance"
         android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.MaintenanceFragment"
         android:label="@string/menu_maintenance"
-        tools:layout="@layout/fragment_maintenance" />
+        tools:layout="@layout/fragment_maintenance"/>
 
     <fragment
         android:id="@+id/nav_maintenance_process"
         android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.MaintenanceProcessFragment"
         android:label="@string/menu_maintenance"
-        tools:layout="@layout/fragment_maintenance_process" />
+        tools:layout="@layout/fragment_maintenance_process" >
+        <action
+            android:id="@+id/action_to_improvementFragment"
+            app:destination="@id/improvementFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/improvementFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.ImprovementFragment"
+        tools:layout="@layout/fragment_perbaikan" />
 
     <fragment
         android:id="@+id/nav_maintenance_history"

@@ -1,6 +1,8 @@
 package id.ac.astra.polytechnic.trpab.ui.maintenance;
 
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,12 +32,14 @@ import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 
-public class MaintenanceProcessFragment extends Fragment {
+public class MaintenanceProcessFragment extends Fragment implements HeavyEngineAdapter.OnItemClickListener{
 
     private MaintenanceProcessViewModel mViewModel;
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
     private List<HeavyEngine> dashboardItemList;
+    private List<HeavyEngine> heavyEngineList;
+
     private CardView statusBarView;
 
     public static MaintenanceProcessFragment newInstance() {
@@ -59,9 +64,13 @@ public class MaintenanceProcessFragment extends Fragment {
         dashboardItemList.add(new HeavyEngine("5", "CAT320", "7890", "Sedang Digunakan", R.drawable.avatar_4));
         dashboardItemList.add(new HeavyEngine("6", "PC500LC-10R", "7890", "Tersedia", R.drawable.avatar_5));
 
+        heavyEngineList = new ArrayList<>(dashboardItemList);
+
         List<HeavyEngine> availableItems = filterAvailableItems(dashboardItemList);
         mHeavyEngineAdapter = new HeavyEngineAdapter(availableItems, false);
         recyclerView.setAdapter(mHeavyEngineAdapter);
+
+        mHeavyEngineAdapter.setOnItemClickListener(this);
 
         ((MainActivity) getActivity()).showBackButton();
 
@@ -73,6 +82,18 @@ public class MaintenanceProcessFragment extends Fragment {
                 .filter(item -> "Sedang Dalam Perawatan".equals(item.getStatus()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void onItemClick(int position) {
+        HeavyEngine clickedItem = mHeavyEngineAdapter.getItem(position);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("title", clickedItem.getTitle());
+
+        NavController navController = NavHostFragment.findNavController(this);
+        navController.navigate(R.id.action_to_improvementFragment, bundle);
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
