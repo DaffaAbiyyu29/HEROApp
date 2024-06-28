@@ -1,6 +1,7 @@
 package id.ac.astra.polytechnic.trpab.ui.maintenance;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -31,14 +33,18 @@ import id.ac.astra.polytechnic.trpab.MainActivity;
 import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
+import id.ac.astra.polytechnic.trpab.ui.borrowing.BorrowingFragment;
 
 public class MaintenanceProcessFragment extends Fragment implements HeavyEngineAdapter.OnItemClickListener{
 
     private MaintenanceProcessViewModel mViewModel;
+    private View underlineOne, underlineTwo;
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
     private List<HeavyEngine> dashboardItemList;
-    private List<HeavyEngine> heavyEngineList;
+//    private List<HeavyEngine> heavyEngineList;
+    private List<HeavyEngine> servicelist;
+    private List<HeavyEngine> perbaikanlist;
 
     private CardView statusBarView;
 
@@ -51,10 +57,27 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_maintenance_process, container, false);
 
-        Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
+        underlineOne = view.findViewById(R.id.underline_one);
+        underlineTwo = view.findViewById(R.id.underline_two);
+
+        Button btnOne = view.findViewById(R.id.btn_one);
+        Button btnTwo = view.findViewById(R.id.btn_two);
 
         recyclerView = view.findViewById(R.id.recycler_view_maintenance_process);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setVisibility(View.VISIBLE);
+
+        int activeBackgroundColor = ContextCompat.getColor(requireContext(), R.color.red_primary);
+        int inactiveBackgroundColor = ContextCompat.getColor(requireContext(), R.color.abu2);
+
+        servicelist = new ArrayList<>();
+        perbaikanlist = new ArrayList<>();
+//        heavyEngineList = new ArrayList<>();
+
+        Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
+
+//        recyclerView = view.findViewById(R.id.recycler_view_maintenance_process);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         dashboardItemList = new ArrayList<>();
         dashboardItemList.add(new HeavyEngine("1", "D85ESS-2", "5674", "Tersedia", R.drawable.beko1));
@@ -64,15 +87,44 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         dashboardItemList.add(new HeavyEngine("5", "CAT320", "7890", "Sedang Digunakan", R.drawable.avatar_4));
         dashboardItemList.add(new HeavyEngine("6", "PC500LC-10R", "7890", "Tersedia", R.drawable.avatar_5));
 
-        heavyEngineList = new ArrayList<>(dashboardItemList);
+//        heavyEngineList = new ArrayList<>(dashboardItemList);
+        perbaikanlist = filterAvailableItems(dashboardItemList);
+        servicelist = filterAvailableItems(dashboardItemList);
 
-        List<HeavyEngine> availableItems = filterAvailableItems(dashboardItemList);
-        mHeavyEngineAdapter = new HeavyEngineAdapter(availableItems, false);
+        dashboardItemList.clear();
+        dashboardItemList = perbaikanlist;
+        underlineOne.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+
+//        List<HeavyEngine> availableItems = filterAvailableItems(dashboardItemList);
+        mHeavyEngineAdapter = new HeavyEngineAdapter(perbaikanlist, false);
         recyclerView.setAdapter(mHeavyEngineAdapter);
 
-        mHeavyEngineAdapter.setOnItemClickListener(this);
+        mHeavyEngineAdapter.setOnItemClickListener(MaintenanceProcessFragment.this);
 
         ((MainActivity) getActivity()).showBackButton();
+
+        btnOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetButtonStyles(btnOne, btnTwo, underlineOne, underlineTwo, inactiveBackgroundColor);
+                btnOne.setTextColor(activeBackgroundColor);
+                btnOne.setTextColor(activeBackgroundColor);
+                underlineOne.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                mHeavyEngineAdapter.updateData(perbaikanlist);
+            }
+        });
+        btnTwo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetButtonStyles(btnOne, btnTwo, underlineOne, underlineTwo, inactiveBackgroundColor);
+                btnTwo.setTextColor(activeBackgroundColor);
+                underlineTwo.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
+                mHeavyEngineAdapter.updateData(servicelist);
+            }
+        });
 
         return view;
     }
@@ -94,6 +146,12 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         navController.navigate(R.id.action_to_improvementFragment, bundle);
     }
 
+    private void resetButtonStyles(Button btnOne, Button btnTwo, View underlineOne, View underlineTwo, int inactiveBackgroundColor) {
+        btnOne.setTextColor(inactiveBackgroundColor);
+        btnTwo.setTextColor(inactiveBackgroundColor);
+        underlineOne.setVisibility(View.GONE);
+        underlineTwo.setVisibility(View.GONE);
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

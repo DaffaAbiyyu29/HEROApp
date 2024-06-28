@@ -27,6 +27,11 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
         void onItemClick(int position);
     }
 
+    public void updateData(List<HeavyEngine> newItems) {
+        this.mHeavyEngineList = newItems;
+        notifyDataSetChanged();
+    }
+
 
     public HeavyEngine getItem(int position) {
         return mHeavyEngineList.get(position);
