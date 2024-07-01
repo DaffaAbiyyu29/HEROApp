@@ -1,4 +1,4 @@
-package id.ac.astra.polytechnic.trpab.ui.maintenance;
+package id.ac.astra.polytechnic.trpab.ui;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -39,24 +39,27 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     private EditText endDate;
     private Spinner spinner;
     private TextView detail_keterangan_text;
+    private TextView detail_diajukan_date_start_text;
     private TextView detail_pj_text;
     private TextView detail_jenis_perawatan_text;
     private EditText detail_keterangan_value;
+    private EditText detail_pj_value;
     private MaterialCardView note_card;
     private TextView detail_diajukan_date_end_text;
     private TextView detail_catatan_text;
+    private MaterialButton detail_button_setuju;
     TextInputEditText hm1, hm2, hm3, hm4, hm5, hm6, hm7, hm8, hm9, hm10, hm11;
     public DetailHeavyEngineDialogFragment() {
         // Required empty public constructor
     }
 
-    public static DetailHeavyEngineDialogFragment newInstance(String title, String name, String description, int imageResId) {
+    public static DetailHeavyEngineDialogFragment newInstance(String title, String name, String description, String imageResId) {
         DetailHeavyEngineDialogFragment fragment = new DetailHeavyEngineDialogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         args.putString(ARG_NAME, name);
         args.putString(ARG_HM, description);
-        args.putInt(ARG_IMAGE_RES_ID, imageResId);
+        args.putString(ARG_IMAGE_RES_ID, imageResId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -83,7 +86,9 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         TextView detailHeavyName = view.findViewById(R.id.detail_heavy_name);
         ImageView detailImage = view.findViewById(R.id.detail_image);
         detail_keterangan_text = view.findViewById(R.id.detail_keterangan_text);
+        detail_diajukan_date_start_text = view.findViewById(R.id.detail_diajukan_date_start_text);
         detail_pj_text = view.findViewById(R.id.detail_pj_text);
+        detail_pj_value = view.findViewById(R.id.detail_pj_value);
         detail_jenis_perawatan_text = view.findViewById(R.id.detail_jenis_perawatan_text);
         detail_keterangan_value = view.findViewById(R.id.detail_keterangan_value);
         detail_diajukan_date_end_text = view.findViewById(R.id.detail_diajukan_date_end_text);
@@ -102,6 +107,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         hm11 = view.findViewById(R.id.hm11);
         startDate = view.findViewById(R.id.detail_diajukan_date_start);
         endDate = view.findViewById(R.id.detail_diajukan_date_end);
+        detail_button_setuju = view.findViewById(R.id.detail_button_setuju);
 
         // Inisialisasi kalender
         calendar = Calendar.getInstance();
@@ -129,17 +135,17 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             String[] hmArray = hoursMeter.split("");
 
             // Mengatur teks berdasarkan elemen array
-            if (hmArray.length > 1) hm1.setText(hmArray[1]);
-            if (hmArray.length > 2) hm2.setText(hmArray[2]);
-            if (hmArray.length > 3) hm3.setText(hmArray[3]);
-            if (hmArray.length > 4) hm4.setText(hmArray[4]);
-            if (hmArray.length > 5) hm5.setText(hmArray[5]);
-            if (hmArray.length > 6) hm6.setText(hmArray[6]);
-            if (hmArray.length > 7) hm7.setText(hmArray[7]);
-            if (hmArray.length > 8) hm8.setText(hmArray[8]);
-            if (hmArray.length > 9) hm9.setText(hmArray[9]);
-            if (hmArray.length > 10) hm10.setText(hmArray[10]);
-            if (hmArray.length > 11) hm11.setText(hmArray[11]);
+            if (hmArray.length > 0) hm1.setText(hmArray[0]);
+            if (hmArray.length > 1) hm2.setText(hmArray[1]);
+            if (hmArray.length > 2) hm3.setText(hmArray[2]);
+            if (hmArray.length > 3) hm4.setText(hmArray[3]);
+            if (hmArray.length > 4) hm5.setText(hmArray[4]);
+            if (hmArray.length > 5) hm6.setText(hmArray[5]);
+            if (hmArray.length > 6) hm7.setText(hmArray[6]);
+            if (hmArray.length > 7) hm8.setText(hmArray[7]);
+            if (hmArray.length > 8) hm9.setText(hmArray[8]);
+            if (hmArray.length > 9) hm10.setText(hmArray[9]);
+            if (hmArray.length > 10) hm11.setText(hmArray[10]);
 
             // Set data dari argumen ke dalam dialog
             detailTitle.setText(title);
@@ -177,6 +183,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             }
         });
 
+
         return view;
     }
 
@@ -199,20 +206,147 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         hm9.setBackgroundResource(R.color.cream);
         hm10.setBackgroundResource(R.color.cream);
         hm11.setBackgroundResource(R.color.cream);
+
+        detail_button_setuju.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Menutup dialog saat ini
+                dismiss();
+
+                // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                        "Berhasil !",
+                        "Perawatan alat dapat anda mulai sekarang",
+                        R.drawable.ic_success
+                );
+                dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+            }
+        });
     }
 
     private void peminjamanAlatDialog() {
+        hm1.setBackgroundResource(R.color.cream);
+        hm2.setBackgroundResource(R.color.cream);
+        hm3.setBackgroundResource(R.color.cream);
+        hm4.setBackgroundResource(R.color.cream);
+        hm5.setBackgroundResource(R.color.cream);
+        hm6.setBackgroundResource(R.color.cream);
+        hm7.setBackgroundResource(R.color.cream);
+        hm8.setBackgroundResource(R.color.cream);
+        hm9.setBackgroundResource(R.color.cream);
+        hm10.setBackgroundResource(R.color.cream);
+        hm11.setBackgroundResource(R.color.cream);
+        detail_keterangan_value.setEnabled(true);
+        detail_keterangan_value.setTextColor(getResources().getColor(R.color.red_primary));
+        detail_jenis_perawatan_text.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
+        detail_pj_text.setText("Diajukan Oleh");
+        startDate.setEnabled(false);
+        detail_diajukan_date_end_text.setVisibility(View.GONE);
+        endDate.setVisibility(View.GONE);
+        detail_catatan_text.setVisibility(View.GONE);
+        note_card.setVisibility(View.GONE);
+        detail_diajukan_date_start_text.setVisibility(View.GONE);
+        startDate.setVisibility(View.GONE);
+        detail_pj_text.setVisibility(View.GONE);
+        detail_pj_value.setVisibility(View.GONE);
+        detail_button_setuju.setText("Pinjam");
 
+        detail_button_setuju.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Menutup dialog saat ini
+                dismiss();
+
+                // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                        "Berhasil !",
+                        "Selamat peminjaman alat telah berhasil dilakukan",
+                        R.drawable.ic_success
+                );
+                dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+            }
+        });
     }
 
     private void persetujuanAlatDialog() {
+        hm1.setBackgroundResource(R.color.cream);
+        hm2.setBackgroundResource(R.color.cream);
+        hm3.setBackgroundResource(R.color.cream);
+        hm4.setBackgroundResource(R.color.cream);
+        hm5.setBackgroundResource(R.color.cream);
+        hm6.setBackgroundResource(R.color.cream);
+        hm7.setBackgroundResource(R.color.cream);
+        hm8.setBackgroundResource(R.color.cream);
+        hm9.setBackgroundResource(R.color.cream);
+        hm10.setBackgroundResource(R.color.cream);
+        hm11.setBackgroundResource(R.color.cream);
+        detail_keterangan_value.setEnabled(false);
+        detail_keterangan_value.setTextColor(getResources().getColor(R.color.cream));
+        detail_jenis_perawatan_text.setVisibility(View.GONE);
+        spinner.setVisibility(View.GONE);
+        detail_pj_text.setText("Diajukan Oleh");
+        startDate.setEnabled(false);
+        detail_diajukan_date_end_text.setVisibility(View.GONE);
+        endDate.setVisibility(View.GONE);
+        detail_catatan_text.setVisibility(View.GONE);
+        note_card.setVisibility(View.GONE);
+        detail_button_setuju.setText("Setujui");
 
+        detail_button_setuju.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Menutup dialog saat ini
+                dismiss();
+
+                // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                        "Berhasil !",
+                        "Peminjaman alat berhasil disetujui",
+                        R.drawable.ic_success
+                );
+                dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+            }
+        });
     }
 
     private void pengembalianAlatDialog() {
         detail_jenis_perawatan_text.setVisibility(View.GONE);
+        hm1.setEnabled(true);
+        hm2.setEnabled(true);
+        hm3.setEnabled(true);
+        hm4.setEnabled(true);
+        hm5.setEnabled(true);
+        hm6.setEnabled(true);
+        hm7.setEnabled(true);
+        hm8.setEnabled(true);
+        hm9.setEnabled(true);
+        hm10.setEnabled(true);
+        hm11.setEnabled(true);
+        detail_keterangan_value.setEnabled(false);
+        detail_keterangan_value.setTextColor(getResources().getColor(R.color.cream));
         spinner.setVisibility(View.GONE);
         detail_pj_text.setText("Diajukan Oleh");
+        startDate.setEnabled(false);
+        detail_diajukan_date_start_text.setText("Diajukan Pada");
+        endDate.setEnabled(false);
+        detail_button_setuju.setText("Kembalikan");
+
+        detail_button_setuju.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Menutup dialog saat ini
+                dismiss();
+
+                // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                        "Berhasil !",
+                        "Alat telah berhasil dikembalikan",
+                        R.drawable.ic_success
+                );
+                dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+            }
+        });
     }
 
     private void showDateTimePicker() {

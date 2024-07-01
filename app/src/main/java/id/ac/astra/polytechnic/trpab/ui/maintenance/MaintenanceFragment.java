@@ -1,12 +1,10 @@
 package id.ac.astra.polytechnic.trpab.ui.maintenance;
 
-import androidx.lifecycle.ViewModelProvider;
-
-import android.app.Dialog;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,8 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -30,14 +26,20 @@ import id.ac.astra.polytechnic.trpab.MainActivity;
 import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
+import id.ac.astra.polytechnic.trpab.data.viewmodel.HeavyEngineViewModel;
+import id.ac.astra.polytechnic.trpab.databinding.FragmentBorrowingBinding;
+import id.ac.astra.polytechnic.trpab.databinding.FragmentMaintenanceBinding;
+import id.ac.astra.polytechnic.trpab.ui.DetailHeavyEngineDialogFragment;
 
 public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.OnItemClickListener {
 
-    private MaintenanceViewModel mViewModel;
+    private HeavyEngineViewModel mViewModel;
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
+    private FragmentMaintenanceBinding binding;
     private List<HeavyEngine> dashboardItemList;
-    private List<HeavyEngine> availableItems;
+    private List<HeavyEngine> availableItems = new ArrayList<>(); // Inisialisasi list kosong
+    private List<HeavyEngine> heavyEngineList;
 
     public static MaintenanceFragment newInstance() {
         return new MaintenanceFragment();
@@ -46,8 +48,8 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_maintenance, container, false);
-
+        binding = FragmentMaintenanceBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
         Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
 
         MaterialButton maintenanceProcessBtn = view.findViewById(R.id.maintenance_process_btn);
@@ -74,44 +76,50 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
         recyclerView = view.findViewById(R.id.recycler_view_maintenance);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Menginisialisasi data dan adapter
-        dashboardItemList = new ArrayList<>();
-        dashboardItemList.add(new HeavyEngine("1", "D85ESS-2", "5674", "Tersedia", R.drawable.beko1));
-        dashboardItemList.add(new HeavyEngine("2", "PC200-8", "4321", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HeavyEngine("3", "E/g SAA6D140-3", "4321", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HeavyEngine("4", "PC210LC-10MO", "7890", "Sedang Dalam Perawatan", R.drawable.avatar_3));
-        dashboardItemList.add(new HeavyEngine("5", "CAT320", "7890", "Sedang Digunakan", R.drawable.avatar_4));
-        dashboardItemList.add(new HeavyEngine("6", "PC500LC-10R", "7890", "Tersedia", R.drawable.avatar_5));
+        mViewModel = new ViewModelProvider(this).get(HeavyEngineViewModel.class);
 
-        // Filter daftar item yang tersedia
-        availableItems = filterAvailableItems(dashboardItemList);
-        mHeavyEngineAdapter = new HeavyEngineAdapter(availableItems, false);
-        mHeavyEngineAdapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(mHeavyEngineAdapter);
+        mViewModel.getHeavyEngineList().observe(getViewLifecycleOwner(), new Observer<List<HeavyEngine>>() {
+            @Override
+            public void onChanged(List<HeavyEngine> heavyEngines) {
+                if (heavyEngines != null) {
+                    // Filter data hanya untuk status "1" (Sedang Dalam Perawatan)
+                    availableItems = filterAvailableItems(heavyEngines); // Inisialisasi availableItems
+
+                    // Set adapter untuk RecyclerView
+                    setupRecyclerView(availableItems);
+                } else {
+                    Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         ((MainActivity) getActivity()).showLogoutButton();
 
         return view;
     }
 
+    private void setupRecyclerView(List<HeavyEngine> items) {
+        mHeavyEngineAdapter = new HeavyEngineAdapter(items, false);
+        mHeavyEngineAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(mHeavyEngineAdapter);
+    }
+
     @Override
     public void onItemClick(int position) {
-        // Handle item click here
-        HeavyEngine clickedItem = availableItems.get(position);
-//        Toast.makeText(getContext(), "Item clicked: " + clickedItem.getId(), Toast.LENGTH_SHORT).show();
+        HeavyEngine clickedItem = availableItems.get(position); // Pastikan availableItems tidak null
         // Show dialog or navigate to another fragment
         DetailHeavyEngineDialogFragment dialogFragment = DetailHeavyEngineDialogFragment.newInstance(
                 "Perawatan Alat",
                 clickedItem.getTitle(),
                 clickedItem.getHours(),
-                clickedItem.getImageResId()
+                clickedItem.getImageUrl()
         );
         dialogFragment.show(getChildFragmentManager(), "DetailHeavyEngineDialogFragment");
     }
 
     private List<HeavyEngine> filterAvailableItems(List<HeavyEngine> items) {
         return items.stream()
-                .filter(item -> "Tersedia".equals(item.getStatus()))
+                .filter(item -> "1".equals(item.getStatus()))
                 .collect(Collectors.toList());
     }
 }

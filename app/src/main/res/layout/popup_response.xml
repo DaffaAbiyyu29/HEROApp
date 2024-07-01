@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/ic_success"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/response_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_b"
+            android:gravity="center"
+            android:text="Berhasil !"
+            android:textColor="@color/red_primary"
+            android:textSize="45sp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+        <TextView
+            android:id="@+id/response_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:gravity="center"
+            android:text="Selamat peminjaman alat telah berhasil dilakukan"
+            android:textColor="#A2A4A5"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@+id/response_status" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:paddingBottom="30dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/response_message"  >
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_batal"
+                android:layout_width="150dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cornerRadius="40dp"
+                android:backgroundTint="@color/red_secondary"
+                app:rippleColor="@android:color/holo_red_dark"
+                android:fontFamily="@font/poppins_b"
+                android:text="Batal"
+                android:textSize="20sp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ok"
+                android:layout_width="150dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:cornerRadius="40dp"
+                android:backgroundTint="#038100"
+                app:rippleColor="@android:color/holo_green_dark"
+                android:fontFamily="@font/poppins_b"
+                android:text="OK"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

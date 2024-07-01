@@ -169,8 +169,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateDateTime() {
-        TextView textView = findViewById(R.id.text_date);
-        TextView textView2 = findViewById(R.id.text_time);
+//        TextView textView = findViewById(R.id.text_date);
+//        TextView textView2 = findViewById(R.id.text_time);
         SimpleDateFormat outputFormat = new SimpleDateFormat("EEEE, d MMMM yyyy", new Locale("id", "ID"));
         SimpleDateFormat outputFormat2 = new SimpleDateFormat("HH:mm 'WIB'", new Locale("id", "ID"));
 
@@ -178,8 +178,8 @@ public class MainActivity extends AppCompatActivity {
             Date dateNow = new Date();
             String formattedDate = outputFormat.format(dateNow);
             String formattedDate2 = outputFormat2.format(dateNow);
-            textView.setText(formattedDate);
-            textView2.setText(formattedDate2);
+//            textView.setText(formattedDate);
+//            textView2.setText(formattedDate2);
         } catch (Exception e) {
             e.printStackTrace();
         }

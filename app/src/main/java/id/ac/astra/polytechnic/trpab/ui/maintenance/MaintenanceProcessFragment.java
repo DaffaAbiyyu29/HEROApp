@@ -4,6 +4,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import android.widget.Button;
 
 import com.google.android.material.button.MaterialButton;
@@ -33,16 +35,16 @@ import id.ac.astra.polytechnic.trpab.MainActivity;
 import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
+import id.ac.astra.polytechnic.trpab.data.viewmodel.HeavyEngineViewModel;
 import id.ac.astra.polytechnic.trpab.ui.borrowing.BorrowingFragment;
 
-public class MaintenanceProcessFragment extends Fragment implements HeavyEngineAdapter.OnItemClickListener{
+public class MaintenanceProcessFragment extends Fragment implements HeavyEngineAdapter.OnItemClickListener {
 
-    private MaintenanceProcessViewModel mViewModel;
+    private HeavyEngineViewModel mViewModel;
     private View underlineOne, underlineTwo;
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
-    private List<HeavyEngine> dashboardItemList;
-//    private List<HeavyEngine> heavyEngineList;
+    private List<HeavyEngine> dashboardItemList = new ArrayList<>(); // Inisialisasi list kosong
     private List<HeavyEngine> servicelist;
     private List<HeavyEngine> perbaikanlist;
 
@@ -72,35 +74,30 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
 
         servicelist = new ArrayList<>();
         perbaikanlist = new ArrayList<>();
-//        heavyEngineList = new ArrayList<>();
 
         Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
 
-//        recyclerView = view.findViewById(R.id.recycler_view_maintenance_process);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mViewModel = new ViewModelProvider(this).get(HeavyEngineViewModel.class);
 
-        dashboardItemList = new ArrayList<>();
-        dashboardItemList.add(new HeavyEngine("1", "D85ESS-2", "5674", "Tersedia", R.drawable.beko1));
-        dashboardItemList.add(new HeavyEngine("2", "PC200-8", "4321", "Sedang Dalam Perawatan", R.drawable.avatar_1));
-        dashboardItemList.add(new HeavyEngine("3", "E/g SAA6D140-3", "4321", "Tersedia", R.drawable.avatar_2));
-        dashboardItemList.add(new HeavyEngine("4", "PC210LC-10MO", "7890", "Sedang Dalam Perawatan", R.drawable.avatar_3));
-        dashboardItemList.add(new HeavyEngine("5", "CAT320", "7890", "Sedang Digunakan", R.drawable.avatar_4));
-        dashboardItemList.add(new HeavyEngine("6", "PC500LC-10R", "7890", "Tersedia", R.drawable.avatar_5));
+        mViewModel.getHeavyEngineList().observe(getViewLifecycleOwner(), new Observer<List<HeavyEngine>>() {
+            @Override
+            public void onChanged(List<HeavyEngine> heavyEngines) {
+                if (heavyEngines != null) {
+                    dashboardItemList = new ArrayList<>(heavyEngines); // Isi dashboardItemList dengan data
+                    perbaikanlist = filterPerbaikanItems(dashboardItemList);
+                    servicelist = filterServiceItems(dashboardItemList);
 
-//        heavyEngineList = new ArrayList<>(dashboardItemList);
-        perbaikanlist = filterAvailableItems(dashboardItemList);
-        servicelist = filterAvailableItems(dashboardItemList);
+                    mHeavyEngineAdapter = new HeavyEngineAdapter(perbaikanlist, false);
+                    recyclerView.setAdapter(mHeavyEngineAdapter);
+                    mHeavyEngineAdapter.setOnItemClickListener(MaintenanceProcessFragment.this);
 
-        dashboardItemList.clear();
-        dashboardItemList = perbaikanlist;
-        underlineOne.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.VISIBLE);
-
-//        List<HeavyEngine> availableItems = filterAvailableItems(dashboardItemList);
-        mHeavyEngineAdapter = new HeavyEngineAdapter(perbaikanlist, false);
-        recyclerView.setAdapter(mHeavyEngineAdapter);
-
-        mHeavyEngineAdapter.setOnItemClickListener(MaintenanceProcessFragment.this);
+                    underlineOne.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                } else {
+                    Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         ((MainActivity) getActivity()).showBackButton();
 
@@ -109,12 +106,12 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
             public void onClick(View v) {
                 resetButtonStyles(btnOne, btnTwo, underlineOne, underlineTwo, inactiveBackgroundColor);
                 btnOne.setTextColor(activeBackgroundColor);
-                btnOne.setTextColor(activeBackgroundColor);
                 underlineOne.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 mHeavyEngineAdapter.updateData(perbaikanlist);
             }
         });
+
         btnTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,9 +126,15 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         return view;
     }
 
-    private List<HeavyEngine> filterAvailableItems(List<HeavyEngine> items) {
+    private List<HeavyEngine> filterPerbaikanItems(List<HeavyEngine> items) {
         return items.stream()
-                .filter(item -> "Sedang Dalam Perawatan".equals(item.getStatus()))
+                .filter(item -> "2".equals(item.getStatus()))
+                .collect(Collectors.toList());
+    }
+
+    private List<HeavyEngine> filterServiceItems(List<HeavyEngine> items) {
+        return items.stream()
+                .filter(item -> "3".equals(item.getStatus())) // Misal filter untuk status "3" (perbaikan)
                 .collect(Collectors.toList());
     }
 
@@ -151,11 +154,5 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         btnTwo.setTextColor(inactiveBackgroundColor);
         underlineOne.setVisibility(View.GONE);
         underlineTwo.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(MaintenanceProcessViewModel.class);
     }
 }

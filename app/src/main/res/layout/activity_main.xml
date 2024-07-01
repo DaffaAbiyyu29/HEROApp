@@ -57,50 +57,50 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                app:cardCornerRadius="10dp"
-                android:background="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+<!--            <com.google.android.material.card.MaterialCardView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                app:cardCornerRadius="10dp"-->
+<!--                android:background="@color/white"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent">-->
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:padding="10dp">-->
 
-                    <TextView
-                        android:id="@+id/text_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:textColor="@color/red_primary"
-                        android:layout_marginEnd="5dp"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:text="tanggal"
-                        android:fontFamily="@font/poppins"
-                        android:drawablePadding="12dp"
-                        android:gravity="center"
-                        app:drawableStartCompat="@drawable/ic_clock" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/text_date"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:textColor="@color/red_primary"-->
+<!--                        android:layout_marginEnd="5dp"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:text="tanggal"-->
+<!--                        android:fontFamily="@font/poppins"-->
+<!--                        android:drawablePadding="12dp"-->
+<!--                        android:gravity="center"-->
+<!--                        app:drawableStartCompat="@drawable/ic_clock" />-->
 
-                    <TextView
-                        android:id="@+id/text_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:textColor="@color/red_primary"
-                        android:layout_marginEnd="10dp"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:text="jam"
-                        android:fontFamily="@font/poppins_b"
-                        android:gravity="center|end" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:id="@+id/text_time"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:textColor="@color/red_primary"-->
+<!--                        android:layout_marginEnd="10dp"-->
+<!--                        android:textSize="14sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:text="jam"-->
+<!--                        android:fontFamily="@font/poppins_b"-->
+<!--                        android:gravity="center|end" />-->
+<!--                </LinearLayout>-->
 
-            </com.google.android.material.card.MaterialCardView>
+<!--            </com.google.android.material.card.MaterialCardView>-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

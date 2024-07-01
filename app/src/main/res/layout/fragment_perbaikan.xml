@@ -112,9 +112,10 @@
                     android:fontFamily="@font/poppins_b"
                     android:gravity="top"
                     android:padding="6dp"
-                    android:text="Masukkan catatan perbaikan praktikum yang dilakukan..."
+                    android:hint="Masukkan catatan perbaikan praktikum yang dilakukan..."
+                    android:textColorHint="@color/cream"
                     android:textColor="@color/cream"
-                    android:textSize="11sp"
+                    android:textSize="12sp"
                     app:layout_constraintTop_toBottomOf="@id/detail_catatan_text" />
 
             </com.google.android.material.card.MaterialCardView>

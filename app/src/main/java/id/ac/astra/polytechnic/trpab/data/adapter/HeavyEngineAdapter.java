@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import id.ac.astra.polytechnic.trpab.R;
@@ -20,7 +22,7 @@ import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.ViewHolder> {
 
     private List<HeavyEngine> mHeavyEngineList;
-    private boolean isMaintenanceProcessFragment;
+    private boolean isHideStatus;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -32,7 +34,6 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
         notifyDataSetChanged();
     }
 
-
     public HeavyEngine getItem(int position) {
         return mHeavyEngineList.get(position);
     }
@@ -41,9 +42,9 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
         mListener = listener;
     }
 
-    public HeavyEngineAdapter(List<HeavyEngine> heavyEngineList, boolean isMaintenanceProcessFragment) {
+    public HeavyEngineAdapter(List<HeavyEngine> heavyEngineList, boolean isHideStatus) {
         this.mHeavyEngineList = heavyEngineList;
-        this.isMaintenanceProcessFragment = isMaintenanceProcessFragment;
+        this.isHideStatus = isHideStatus;
     }
 
     @NonNull
@@ -60,24 +61,31 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
         holder.titleTextView.setText(item.getTitle());
         holder.hoursTextView.setText(item.getHours() + " Hours");
         holder.statusTextView.setText(item.getStatus());
-        holder.imageView.setImageResource(item.getImageResId());
+        Glide.with(holder.itemView.getContext()).load(item.getImageUrl()).into(holder.imageView);
 
-        if (item.getStatus().equals("Tersedia")) {
+        if (item.getStatus().equals("1")) {
             holder.statusBarView.setCardBackgroundColor(Color.parseColor("#038100"));
             holder.icoonStatus.setImageResource(R.drawable.ic_task);
+            holder.statusTextView.setText("Tersedia");
             holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#038100")));
-        } else if (item.getStatus().equals("Sedang Dalam Perawatan")) {
+        } else if (item.getStatus().equals("2")) {
             holder.statusBarView.setCardBackgroundColor(Color.parseColor("#CC9239"));
             holder.icoonStatus.setImageResource(R.drawable.ic_tool);
+            holder.statusTextView.setText("Sedang Dalam Perawatan");
             holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#CC9239")));
-        } else if (item.getStatus().equals("Sedang Digunakan")) {
+        } else if (item.getStatus().equals("3")) {
             holder.statusBarView.setCardBackgroundColor(Color.parseColor("#600D08"));
             holder.icoonStatus.setImageResource(R.drawable.ic_bag);
+            holder.statusTextView.setText("Sedang Digunakan");
             holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#600D08")));
+        } else if (item.getStatus().equals("4")) {
+            holder.statusBarView.setCardBackgroundColor(Color.parseColor("#CC9239"));
+            holder.icoonStatus.setImageResource(R.drawable.ic_tool);
+            holder.statusTextView.setText("Sedang Dalam Pengajuan");
+            holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#CC9239")));
         }
 
-        // Mengatur visibilitas statusBarView berdasarkan nilai isMaintenanceProcessFragment
-        if (isMaintenanceProcessFragment) {
+        if (isHideStatus) {
             holder.statusBarView.setVisibility(View.GONE);
             holder.icoonStatus.setVisibility(View.GONE);
         } else {
@@ -91,7 +99,12 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
         return mHeavyEngineList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public void setItems(List<HeavyEngine> items) {
+        mHeavyEngineList = items;
+        notifyDataSetChanged();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextView;
         public TextView hoursTextView;
         public TextView statusTextView;

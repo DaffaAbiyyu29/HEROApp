@@ -1,18 +1,33 @@
 package id.ac.astra.polytechnic.trpab.data.model;
 
-public class HeavyEngine {
-    private String id;
-    private String title;
-    private String hours;
-    private String status;
-    private int imageResId;
+import com.google.gson.annotations.SerializedName;
 
-    public HeavyEngine(String id, String title, String hours, String status, int imageResId) {
+public class HeavyEngine {
+    @SerializedName("unt_id")
+    private String id;
+
+    @SerializedName("unt_nama")
+    private String title;
+
+    @SerializedName("unt_hours_meter")
+    private String hours;
+
+    @SerializedName("unt_status")
+    private String status;
+
+    @SerializedName("unt_foto")
+    private String imageUrl;
+
+
+    public HeavyEngine() {
+    }
+
+    public HeavyEngine(String id, String title, String hours, String status, String imageUrl) {
         this.id = id;
         this.title = title;
         this.hours = hours;
         this.status = status;
-        this.imageResId = imageResId;
+        this.imageUrl = imageUrl;
     }
 
     public String getId() {
@@ -47,11 +62,11 @@ public class HeavyEngine {
         this.status = status;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageResId(int imageResId) {
-        this.imageResId = imageResId;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

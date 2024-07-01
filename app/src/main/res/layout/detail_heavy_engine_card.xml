@@ -489,9 +489,10 @@
                             android:padding="12dp"
                             android:autofillHints="Catatan"
                             android:background="@color/red_primary"
-                            android:fontFamily="@font/poppins_b"
+                            android:fontFamily="@font/poppins"
                             android:textSize="14sp"
-                            android:text="Masukkan catatan kegiatan praktikum yang dilakukan..."
+                            android:hint="Masukkan catatan kegiatan praktikum yang dilakukan..."
+                            android:textColorHint="@color/cream"
                             android:textColor="@color/cream" />
 
 
@@ -520,7 +521,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/note_card"/>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/login"
+                        android:id="@+id/detail_button_setuju"
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
                         android:layout_gravity="start"
