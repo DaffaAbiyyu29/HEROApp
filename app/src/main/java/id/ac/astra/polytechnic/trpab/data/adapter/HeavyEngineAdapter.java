@@ -83,6 +83,11 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
             holder.icoonStatus.setImageResource(R.drawable.ic_tool);
             holder.statusTextView.setText("Sedang Dalam Pengajuan");
             holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#CC9239")));
+        } else if (item.getStatus().equals("5")) {
+            holder.statusBarView.setCardBackgroundColor(Color.parseColor("#CC9239"));
+            holder.icoonStatus.setImageResource(R.drawable.ic_tool);
+            holder.statusTextView.setText("Sedang Dalam Perbaikan");
+            holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#CC9239")));
         }
 
         if (isHideStatus) {

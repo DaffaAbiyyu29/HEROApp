@@ -18,6 +18,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,8 +28,11 @@ import android.widget.Toast;
 import android.widget.Button;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,11 +49,15 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
     private View underlineOne, underlineTwo;
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
+    Button btnOne, btnTwo;
+
+    private List<HeavyEngine> heavyEngineList;
     private List<HeavyEngine> dashboardItemList = new ArrayList<>(); // Inisialisasi list kosong
     private List<HeavyEngine> servicelist;
     private List<HeavyEngine> perbaikanlist;
 
     private CardView statusBarView;
+    private int activeBackgroundColor, inactiveBackgroundColor;
 
     public static MaintenanceProcessFragment newInstance() {
         return new MaintenanceProcessFragment();
@@ -62,20 +71,21 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         underlineOne = view.findViewById(R.id.underline_one);
         underlineTwo = view.findViewById(R.id.underline_two);
 
-        Button btnOne = view.findViewById(R.id.btn_one);
-        Button btnTwo = view.findViewById(R.id.btn_two);
+        btnOne = view.findViewById(R.id.btn_one);
+        btnTwo = view.findViewById(R.id.btn_two);
 
         recyclerView = view.findViewById(R.id.recycler_view_maintenance_process);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setVisibility(View.VISIBLE);
 
-        int activeBackgroundColor = ContextCompat.getColor(requireContext(), R.color.red_primary);
-        int inactiveBackgroundColor = ContextCompat.getColor(requireContext(), R.color.abu2);
+        btnOne.setSelected(true);
+        underlineOne.setVisibility(View.VISIBLE);
 
-        servicelist = new ArrayList<>();
-        perbaikanlist = new ArrayList<>();
+        activeBackgroundColor = ContextCompat.getColor(requireContext(), R.color.red_primary);
+        inactiveBackgroundColor = ContextCompat.getColor(requireContext(), R.color.abu2);
 
-        Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
+//        servicelist = new ArrayList<>();
+//        perbaikanlist = new ArrayList<>();
 
         mViewModel = new ViewModelProvider(this).get(HeavyEngineViewModel.class);
 
@@ -83,32 +93,63 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
             @Override
             public void onChanged(List<HeavyEngine> heavyEngines) {
                 if (heavyEngines != null) {
-                    dashboardItemList = new ArrayList<>(heavyEngines); // Isi dashboardItemList dengan data
-                    perbaikanlist = filterPerbaikanItems(dashboardItemList);
-                    servicelist = filterServiceItems(dashboardItemList);
-
-                    mHeavyEngineAdapter = new HeavyEngineAdapter(perbaikanlist, false);
-                    recyclerView.setAdapter(mHeavyEngineAdapter);
-                    mHeavyEngineAdapter.setOnItemClickListener(MaintenanceProcessFragment.this);
-
-                    underlineOne.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                    heavyEngineList = heavyEngines;
+                    setupRecyclerView(heavyEngineList);
                 } else {
                     Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        ((MainActivity) getActivity()).showBackButton();
+        TextInputEditText search_view_dashboard = view.findViewById(R.id.search_view_dashboard);
+        TextWatcher searchTextWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Tidak perlu melakukan apa pun sebelum teks diubah
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Panggil fetchDataUnitByName dari ViewModel dengan status sesuai tombol yang aktif
+                if (btnOne.isSelected()) {
+                    mViewModel.fetchDataUnitByName(s.toString(), Collections.singletonList(2));
+                } else if (btnTwo.isSelected()) {
+                    mViewModel.fetchDataUnitByName(s.toString(), Collections.singletonList(5));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Tidak perlu melakukan apa pun setelah teks diubah
+            }
+        };
+
+        search_view_dashboard.setText("");
+        search_view_dashboard.removeTextChangedListener(searchTextWatcher);
+        search_view_dashboard.addTextChangedListener(searchTextWatcher);
+
+        // Set default filter to btnOne
+        btnOne.setSelected(true);
+        btnOne.setTextColor(activeBackgroundColor);
+        underlineOne.setVisibility(View.VISIBLE);
+        mViewModel.fetchDataUnitByName("", Collections.singletonList(2));
 
         btnOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resetButtonStyles(btnOne, btnTwo, underlineOne, underlineTwo, inactiveBackgroundColor);
                 btnOne.setTextColor(activeBackgroundColor);
+                btnOne.setSelected(true);
                 underlineOne.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
-                mHeavyEngineAdapter.updateData(perbaikanlist);
+//                mHeavyEngineAdapter.updateData(perbaikanlist);
+                heavyEngineList = mViewModel.getProcessMaintenancePerbaikan();
+                setupRecyclerView(heavyEngineList);
+
+                // Update search listener
+                search_view_dashboard.setText("");
+                search_view_dashboard.removeTextChangedListener(searchTextWatcher);
+                search_view_dashboard.addTextChangedListener(searchTextWatcher);
             }
         });
 
@@ -117,11 +158,29 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
             public void onClick(View v) {
                 resetButtonStyles(btnOne, btnTwo, underlineOne, underlineTwo, inactiveBackgroundColor);
                 btnTwo.setTextColor(activeBackgroundColor);
+                btnTwo.setSelected(true);
                 underlineTwo.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
-                mHeavyEngineAdapter.updateData(servicelist);
+//                mHeavyEngineAdapter.updateData(servicelist);
+                heavyEngineList = mViewModel.getProcessMaintenanceService();
+                setupRecyclerView(heavyEngineList);
+
+                // Update search listener
+                search_view_dashboard.setText("");
+                search_view_dashboard.removeTextChangedListener(searchTextWatcher);
+                search_view_dashboard.addTextChangedListener(searchTextWatcher);
             }
         });
+
+        MaterialButton delBtn = view.findViewById(R.id.btn_search_delete);
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_view_dashboard.setText("");
+            }
+        });
+
+        ((MainActivity) getActivity()).showBackButton();
 
         return view;
     }
@@ -134,8 +193,14 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
 
     private List<HeavyEngine> filterServiceItems(List<HeavyEngine> items) {
         return items.stream()
-                .filter(item -> "3".equals(item.getStatus())) // Misal filter untuk status "3" (perbaikan)
+                .filter(item -> "5".equals(item.getStatus()))
                 .collect(Collectors.toList());
+    }
+
+    private void setupRecyclerView(List<HeavyEngine> items) {
+        mHeavyEngineAdapter = new HeavyEngineAdapter(items, false);
+        mHeavyEngineAdapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(mHeavyEngineAdapter);
     }
 
     @Override
@@ -149,9 +214,24 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         navController.navigate(R.id.action_to_improvementFragment, bundle);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Atur kembali data default
+        btnOne.setSelected(true);
+        btnOne.setTextColor(activeBackgroundColor);
+        underlineOne.setVisibility(View.VISIBLE);
+        mViewModel.fetchDataUnitByName("", Collections.singletonList(2));
+        heavyEngineList = mViewModel.getAvailableList();
+        setupRecyclerView(heavyEngineList);
+    }
+
     private void resetButtonStyles(Button btnOne, Button btnTwo, View underlineOne, View underlineTwo, int inactiveBackgroundColor) {
         btnOne.setTextColor(inactiveBackgroundColor);
+        btnOne.setSelected(false);
         btnTwo.setTextColor(inactiveBackgroundColor);
+        btnTwo.setSelected(false);
         underlineOne.setVisibility(View.GONE);
         underlineTwo.setVisibility(View.GONE);
     }

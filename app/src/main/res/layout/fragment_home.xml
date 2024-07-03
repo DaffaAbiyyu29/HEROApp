@@ -185,15 +185,30 @@
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@color/white"
                         android:fontFamily="@font/poppins"
                         android:hint="Nama Alat..."
                         android:inputType="text" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_search_delete"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        app:icon="@drawable/ic_close"
+                        app:iconGravity="top"
+                        app:iconSize="20dp"
+                        app:iconTint="@color/red_primary" />
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

@@ -10,6 +10,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -93,6 +97,33 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
             }
         });
 
+        TextInputEditText search_view_dashboard = view.findViewById(R.id.search_view_dashboard);
+        search_view_dashboard.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Tidak perlu melakukan apa pun sebelum teks diubah
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Panggil searchUnitByName dari ViewModel
+                mViewModel.fetchDataUnitByName(s.toString(), Collections.singletonList(1));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Tidak perlu melakukan apa pun setelah teks diubah
+            }
+        });
+
+        MaterialButton delBtn = view.findViewById(R.id.btn_search_delete);
+        delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_view_dashboard.setText("");
+            }
+        });
+
         ((MainActivity) getActivity()).showLogoutButton();
 
         return view;
@@ -109,6 +140,7 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
         HeavyEngine clickedItem = availableItems.get(position); // Pastikan availableItems tidak null
         // Show dialog or navigate to another fragment
         DetailHeavyEngineDialogFragment dialogFragment = DetailHeavyEngineDialogFragment.newInstance(
+                clickedItem.getId(),
                 "Perawatan Alat",
                 clickedItem.getTitle(),
                 clickedItem.getHours(),

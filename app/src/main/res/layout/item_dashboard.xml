@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_card_dashboard"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="130dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     android:layout_marginStart="20dp"
@@ -15,98 +15,115 @@
     app:cardCornerRadius="15dp"
     tools:ignore="MissingConstraints">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_margin="10dp"
-        app:cardCornerRadius="10dp"
-        android:layout_gravity="center|start">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="105dp"
+            android:layout_height="105dp"
+            android:layout_gravity="center|start"
+            android:layout_margin="15dp"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/beko1" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toStartOf="@+id/icon_status"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="@+id/cardView">
+
+            <TextView
+                android:id="@+id/heavyname_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@color/white"
+                android:fontFamily="@font/poppins_b"
+                android:text="D85ESS-2"
+                android:textColor="@color/red_primary"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:fontFamily="@font/poppins_b"
+                android:text="Hours Meter     "
+                android:textColor="@color/red_primary"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toStartOf="@+id/heavyname_text"
+                app:layout_constraintTop_toBottomOf="@+id/heavyname_text" />
+
+            <TextView
+                android:id="@+id/hoursmeter_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:fontFamily="@font/poppins"
+                android:text="5674 Hours"
+                android:textColor="#7F7E7E"
+                android:textSize="13sp"
+                android:textStyle="italic|bold"
+                app:layout_constraintStart_toStartOf="@+id/heavyname_text"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/status_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_gravity="bottom"
+                android:background="@color/red_primary"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintStart_toStartOf="@+id/heavyname_text"
+                app:layout_constraintTop_toBottomOf="@+id/hoursmeter_text">
+
+                <TextView
+                    android:id="@+id/status_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="Sedang Digunakan"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/beko1" />
-    </androidx.cardview.widget.CardView>
+            android:id="@+id/icon_status"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_bag"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardView"
+            app:tint="@color/red_primary" />
 
-    <TextView
-        android:id="@+id/heavyname_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:fontFamily="@font/poppins_b"
-        android:text="D85ESS-2"
-        android:textColor="@color/red_primary"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="20dp"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:fontFamily="@font/poppins_b"
-        android:text="Hours Meter     "
-        android:textColor="@color/red_primary"
-        android:textSize="14sp"
-        android:textStyle="italic" />
-
-    <TextView
-        android:id="@+id/hoursmeter_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="20dp"
-        android:layout_weight="1"
-        android:background="@color/white"
-        android:fontFamily="@font/poppins"
-        android:text="5674 Hours"
-        android:textColor="#7F7E7E"
-        android:textSize="13sp"
-        android:textStyle="italic|bold" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/status_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="100dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/red_primary"
-        app:cardCornerRadius="8dp">
-
-        <TextView
-            android:id="@+id/status_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="@font/poppins"
-            android:text="Sedang Digunakan"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
-
-    </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:id="@+id/icon_status"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:src="@drawable/ic_bag"
-        app:tint="@color/red_primary"
-        android:layout_marginEnd="30dp"
-        android:layout_gravity="end|center"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

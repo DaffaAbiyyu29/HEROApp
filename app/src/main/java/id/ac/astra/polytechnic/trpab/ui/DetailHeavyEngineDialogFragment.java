@@ -4,6 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -22,17 +26,22 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import id.ac.astra.polytechnic.trpab.R;
+import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
+import id.ac.astra.polytechnic.trpab.data.viewmodel.HeavyEngineViewModel;
+import id.ac.astra.polytechnic.trpab.data.viewmodel.PenggunaanViewModel;
 
 public class DetailHeavyEngineDialogFragment extends DialogFragment {
 
+    private static final String ARG_ID = "id";
     private static final String ARG_TITLE = "title";
     private static final String ARG_NAME = "name";
     private static final String ARG_HM = "description";
     private static final String ARG_IMAGE_RES_ID = "image_res_id";
-
+    private PenggunaanViewModel mViewModel;
     private Calendar calendar;
     private Calendar calendar2;
     private EditText startDate;
@@ -49,13 +58,22 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     private TextView detail_catatan_text;
     private MaterialButton detail_button_setuju;
     TextInputEditText hm1, hm2, hm3, hm4, hm5, hm6, hm7, hm8, hm9, hm10, hm11;
+
+    Bundle args;
+    private OnPeminjamanAddedListener mListener;
+
+    public void setOnPeminjamanAddedListener(OnPeminjamanAddedListener listener) {
+        mListener = listener;
+    }
+
     public DetailHeavyEngineDialogFragment() {
         // Required empty public constructor
     }
 
-    public static DetailHeavyEngineDialogFragment newInstance(String title, String name, String description, String imageResId) {
+    public static DetailHeavyEngineDialogFragment newInstance(String id, String title, String name, String description, String imageResId) {
         DetailHeavyEngineDialogFragment fragment = new DetailHeavyEngineDialogFragment();
         Bundle args = new Bundle();
+        args.putString(ARG_ID, id);
         args.putString(ARG_TITLE, title);
         args.putString(ARG_NAME, name);
         args.putString(ARG_HM, description);
@@ -69,6 +87,8 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.detail_heavy_engine_card, container, false);
+
+        mViewModel = new ViewModelProvider(this).get(PenggunaanViewModel.class);
 
         spinner = view.findViewById(R.id.detail_jenis_perawatan_spinner);
 
@@ -114,7 +134,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         calendar2 = Calendar.getInstance();
 
         // Mengambil data dari argumen
-        Bundle args = getArguments();
+        args = getArguments();
         if (args != null) {
             String title = args.getString(ARG_TITLE);
             String name = args.getString(ARG_NAME);
@@ -135,17 +155,17 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             String[] hmArray = hoursMeter.split("");
 
             // Mengatur teks berdasarkan elemen array
-            if (hmArray.length > 0) hm1.setText(hmArray[0]);
-            if (hmArray.length > 1) hm2.setText(hmArray[1]);
-            if (hmArray.length > 2) hm3.setText(hmArray[2]);
-            if (hmArray.length > 3) hm4.setText(hmArray[3]);
-            if (hmArray.length > 4) hm5.setText(hmArray[4]);
-            if (hmArray.length > 5) hm6.setText(hmArray[5]);
-            if (hmArray.length > 6) hm7.setText(hmArray[6]);
-            if (hmArray.length > 7) hm8.setText(hmArray[7]);
-            if (hmArray.length > 8) hm9.setText(hmArray[8]);
-            if (hmArray.length > 9) hm10.setText(hmArray[9]);
-            if (hmArray.length > 10) hm11.setText(hmArray[10]);
+            if (hmArray.length > 1) hm1.setText(hmArray[1]);
+            if (hmArray.length > 2) hm2.setText(hmArray[2]);
+            if (hmArray.length > 3) hm3.setText(hmArray[3]);
+            if (hmArray.length > 4) hm4.setText(hmArray[4]);
+            if (hmArray.length > 5) hm5.setText(hmArray[5]);
+            if (hmArray.length > 6) hm6.setText(hmArray[6]);
+            if (hmArray.length > 7) hm7.setText(hmArray[7]);
+            if (hmArray.length > 8) hm8.setText(hmArray[8]);
+            if (hmArray.length > 9) hm9.setText(hmArray[9]);
+            if (hmArray.length > 10) hm10.setText(hmArray[10]);
+            if (hmArray.length > 11) hm11.setText(hmArray[11]);
 
             // Set data dari argumen ke dalam dialog
             detailTitle.setText(title);
@@ -255,16 +275,39 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         detail_button_setuju.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Menutup dialog saat ini
-                dismiss();
+                Penggunaan penggunaan = new Penggunaan();
+                penggunaan.setId(args.getString(ARG_ID));
+                penggunaan.setKeterangan(String.valueOf(detail_keterangan_value.getText()));
+                penggunaan.setCreaby("3");
 
-                // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
-                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
-                        "Berhasil !",
-                        "Selamat peminjaman alat telah berhasil dilakukan",
-                        R.drawable.ic_success
-                );
-                dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+                mViewModel.createPengajuan(penggunaan, new PenggunaanViewModel.PenggunaanCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+                        // Handle success
+                        Log.d("oooo", "Pengajuan created successfully: " + result);
+
+                        if (mListener != null) {
+                            mListener.onPeminjamanAdded();
+                        }
+
+                        // Menutup dialog saat ini
+                        dismiss();
+
+                        // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                        PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                                "Berhasil !",
+                                "Selamat peminjaman alat telah berhasil dilakukan",
+                                R.drawable.ic_success
+                        );
+                        dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        // Handle failure
+                        Log.e("oooo", "Failed to create pengajuan: " + t.getMessage());
+                    }
+                });
             }
         });
     }
@@ -440,5 +483,9 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             getDialog().getWindow().setLayout(width, height);
         }
+    }
+
+    public interface OnPeminjamanAddedListener {
+        void onPeminjamanAdded();
     }
 }

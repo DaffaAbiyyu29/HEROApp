@@ -5,15 +5,15 @@ import java.util.List;
 
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 
-public class DataResponse {
+public class DataResponse<T> {
     @SerializedName("result")
-    private List<HeavyEngine> result;
+    private List<T> result;
 
-    public List<HeavyEngine> getResult() {
+    public List<T> getResult() {
         return result;
     }
 
-    public void setResult(List<HeavyEngine> result) {
+    public void setResult(List<T> result) {
         this.result = result;
     }
 }

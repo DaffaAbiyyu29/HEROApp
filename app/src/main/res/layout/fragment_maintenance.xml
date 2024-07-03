@@ -197,11 +197,11 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@color/white"
-                app:cardCornerRadius="20dp"
                 app:cardElevation="15dp"
+                app:cardCornerRadius="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3">
+                app:layout_constraintTop_toBottomOf="@id/textView3">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -212,7 +212,7 @@
                     app:layout_constraintTop_toBottomOf="@id/material_card_view">
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_search_maintenance"
+                        android:id="@+id/btn_search_dashboard"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
@@ -224,16 +224,30 @@
                         app:iconTint="@color/red_primary" />
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/search_view_maintenance"
+                        android:id="@+id/search_view_dashboard"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:background="@color/white"
                         android:fontFamily="@font/poppins"
                         android:hint="Nama Alat..."
                         android:inputType="text" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_search_delete"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="10dp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        app:icon="@drawable/ic_close"
+                        app:iconGravity="top"
+                        app:iconSize="20dp"
+                        app:iconTint="@color/red_primary" />
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
