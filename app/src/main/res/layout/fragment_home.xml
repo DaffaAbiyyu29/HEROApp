@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/red_secondary"
-    tools:context=".ui.home.HomeFragment">
+    android:id="@+id/homefragment"
+    tools:context=".ui.fragment.home.HomeFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -130,7 +131,7 @@
                         app:layout_constraintTop_toTopOf="parent"/>
 
                     <TextView
-                        android:id="@+id/admin_text"
+                        android:id="@+id/role_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_b"

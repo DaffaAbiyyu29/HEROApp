@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_login"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.activity.LoginActivity">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/patern"
@@ -105,6 +105,7 @@
                 android:textColor="@color/cream"
                 android:textColorHighlight="@color/cream"
                 android:textColorHint="@color/cream"
+                android:text="randy.p"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -112,6 +113,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView4"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -153,13 +155,14 @@
                 android:autofillHints="@string/prompt_password"
                 android:backgroundTint="@color/cream"
                 android:hint="@string/prompt_password"
-                android:textColor="@color/cream"
-                android:textColorHighlight="@color/cream"
-                android:textColorHint="@color/cream"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:selectAllOnFocus="true"
+                android:textColor="@color/cream"
+                android:textColorHighlight="@color/cream"
+                android:textColorHint="@color/cream"
+                android:text="randy"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -234,11 +237,11 @@
         app:layout_constraintVertical_bias="0.2"/>
 
     <TextView
+        android:id="@+id/textView8"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center|bottom"
-        android:layout_marginBottom="10dp"
         android:fontFamily="@font/poppins"
+        android:gravity="center|bottom"
         android:text="Copyright © 2024 HeroAppDeveloper | All Rights Reserved"
         android:textColor="@color/cream"
         android:textSize="9sp"
@@ -247,15 +250,13 @@
 
     <ProgressBar
         android:id="@+id/loading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_gravity="center"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="64dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package id.ac.astra.polytechnic.trpab.data.api;
 
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
+import id.ac.astra.polytechnic.trpab.data.model.User;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -17,4 +18,7 @@ public interface ApiService {
 
     @POST("HEROApp_BE/CreatePengajuan.php")
     Call<StringResponse> createPengajuan(@Body RequestBody body);
+
+    @POST("HEROApp_BE/Login.php")
+    Call<DataResponse<User>> login(@Body RequestBody body);
 }

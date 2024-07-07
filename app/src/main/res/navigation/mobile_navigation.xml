@@ -5,51 +5,33 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/nav_home">
 
-<!--    <fragment-->
-<!--        android:id="@+id/nav_transform"-->
-<!--        android:name="id.ac.astra.polytechnic.trpab.ui.transform.TransformFragment"-->
-<!--        android:label="@string/menu_transform"-->
-<!--        tools:layout="@layout/fragment_transform" />-->
-
-<!--    <fragment-->
-<!--        android:id="@+id/nav_reflow"-->
-<!--        android:name="id.ac.astra.polytechnic.trpab.ui.reflow.ReflowFragment"-->
-<!--        android:label="@string/menu_reflow"-->
-<!--        tools:layout="@layout/fragment_reflow" />-->
-
-<!--    <fragment-->
-<!--        android:id="@+id/nav_slideshow"-->
-<!--        android:name="id.ac.astra.polytechnic.trpab.ui.slideshow.SlideshowFragment"-->
-<!--        android:label="@string/menu_slideshow"-->
-<!--        tools:layout="@layout/fragment_slideshow" />-->
-
     <fragment
         android:id="@+id/nav_settings"
-        android:name="id.ac.astra.polytechnic.trpab.ui.settings.SettingsFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="id.ac.astra.polytechnic.trpab.ui.home.HomeFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_borrowing"
-        android:name="id.ac.astra.polytechnic.trpab.ui.borrowing.BorrowingFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.borrowing.BorrowingFragment"
         android:label="@string/menu_borrowing"
         tools:layout="@layout/fragment_borrowing" />
 
     <fragment
         android:id="@+id/nav_maintenance"
-        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.MaintenanceFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.maintenance.MaintenanceFragment"
         android:label="@string/menu_maintenance"
         tools:layout="@layout/fragment_maintenance"/>
 
     <fragment
         android:id="@+id/nav_maintenance_process"
-        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.MaintenanceProcessFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.maintenance.MaintenanceProcessFragment"
         android:label="@string/menu_maintenance"
         tools:layout="@layout/fragment_maintenance_process" >
         <action
@@ -62,18 +44,18 @@
 
     <fragment
         android:id="@+id/improvementFragment"
-        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.ImprovementFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.maintenance.ImprovementFragment"
         tools:layout="@layout/fragment_perbaikan" />
 
     <fragment
         android:id="@+id/nav_maintenance_history"
-        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.MaintenanceHistoryFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.maintenance.MaintenanceHistoryFragment"
         android:label="@string/menu_maintenance"
         tools:layout="@layout/fragment_maintenance_history" />
 
     <fragment
         android:id="@+id/schadulefragment"
-        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.SchaduleListFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.maintenance.ScheduleListFragment"
         tools:layout="@layout/fragment_schedulelist" >
         <action
             android:id="@+id/action_to_actionlistfragment"
@@ -82,7 +64,7 @@
 
     <fragment
         android:id="@+id/actionlistfragment"
-        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.ActionSchaduleFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.maintenance.ActionScheduleFragment"
         tools:layout="@layout/fragment_actionlist" >
         <action
             android:id="@+id/action_to_workmanshipDetailsFragment"
@@ -91,7 +73,7 @@
 
     <fragment
         android:id="@+id/workmanshipDetailsFragment"
-        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.WorkmanshipDetailsFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.maintenance.WorkmanshipDetailsFragment"
         tools:layout="@layout/fragment_workmanshipdetails" />
 
 </navigation>

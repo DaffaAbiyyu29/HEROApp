@@ -8,6 +8,8 @@ import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 public class DataResponse<T> {
     @SerializedName("result")
     private List<T> result;
+    @SerializedName("message")
+    private String message;
 
     public List<T> getResult() {
         return result;
@@ -15,5 +17,13 @@ public class DataResponse<T> {
 
     public void setResult(List<T> result) {
         this.result = result;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
