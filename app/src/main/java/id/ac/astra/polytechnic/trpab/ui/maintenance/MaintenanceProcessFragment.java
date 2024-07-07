@@ -209,9 +209,16 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
 
         Bundle bundle = new Bundle();
         bundle.putString("title", clickedItem.getTitle());
+        bundle.putString("status", clickedItem.getStatus());
 
         NavController navController = NavHostFragment.findNavController(this);
-        navController.navigate(R.id.action_to_improvementFragment, bundle);
+        if ("5".equals(clickedItem.getStatus())) {
+            Log.d("MaintenanceProcessFragment", "Navigating to SchaduleListFragment");
+            navController.navigate(R.id.action_to_schadulefragment, bundle);
+        } else {
+            Log.d("MaintenanceProcessFragment", "Navigating to ImprovementFragment");
+            navController.navigate(R.id.action_to_improvementFragment, bundle);
+        }
     }
 
     @Override
@@ -226,6 +233,7 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         heavyEngineList = mViewModel.getAvailableList();
         setupRecyclerView(heavyEngineList);
     }
+
 
     private void resetButtonStyles(Button btnOne, Button btnTwo, View underlineOne, View underlineTwo, int inactiveBackgroundColor) {
         btnOne.setTextColor(inactiveBackgroundColor);

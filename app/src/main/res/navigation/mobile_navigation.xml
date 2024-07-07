@@ -55,6 +55,9 @@
         <action
             android:id="@+id/action_to_improvementFragment"
             app:destination="@id/improvementFragment" />
+        <action
+            android:id="@+id/action_to_schadulefragment"
+            app:destination="@id/schadulefragment" />
     </fragment>
 
     <fragment
@@ -67,4 +70,28 @@
         android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.MaintenanceHistoryFragment"
         android:label="@string/menu_maintenance"
         tools:layout="@layout/fragment_maintenance_history" />
+
+    <fragment
+        android:id="@+id/schadulefragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.SchaduleListFragment"
+        tools:layout="@layout/fragment_schedulelist" >
+        <action
+            android:id="@+id/action_to_actionlistfragment"
+            app:destination="@+id/actionlistfragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/actionlistfragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.ActionSchaduleFragment"
+        tools:layout="@layout/fragment_actionlist" >
+        <action
+            android:id="@+id/action_to_workmanshipDetailsFragment"
+            app:destination="@id/workmanshipDetailsFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/workmanshipDetailsFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.maintenance.WorkmanshipDetailsFragment"
+        tools:layout="@layout/fragment_workmanshipdetails" />
+
 </navigation>

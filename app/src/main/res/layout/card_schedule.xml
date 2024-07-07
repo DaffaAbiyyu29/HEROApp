@@ -1,0 +1,48 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_schedule"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="15dp"
+    android:backgroundTint="@color/white"
+    app:strokeWidth="3dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/sideLine"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/red_primary" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/schName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="Action Schedule"
+            android:textSize="15sp"
+            android:paddingTop="26dp"
+            tools:layout_editor_absoluteX="42dp"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/schDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="8dp"
+            android:text="When Required"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            app:layout_constraintTop_toBottomOf="@+id/schName"
+            tools:layout_editor_absoluteX="20dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
