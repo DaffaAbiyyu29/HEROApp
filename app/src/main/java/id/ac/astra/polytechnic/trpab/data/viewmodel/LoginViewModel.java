@@ -52,6 +52,7 @@ public class LoginViewModel extends ViewModel {
             call.enqueue(new Callback<DataResponse<User>>() {
                 @Override
                 public void onResponse(Call<DataResponse<User>> call, Response<DataResponse<User>> response) {
+                    Log.d("ppp", String.valueOf(response));
                     if (response.isSuccessful() && response.body() != null) {
                         DataResponse<User> dataResponse = response.body();
                         if (dataResponse.getResult() != null) {
