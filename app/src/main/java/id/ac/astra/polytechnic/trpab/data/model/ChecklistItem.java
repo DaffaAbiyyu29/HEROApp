@@ -9,23 +9,29 @@ public class ChecklistItem {
     @SerializedName("act_nama")
     private String name;
 
+    @SerializedName("act_foto")
+    private String Foto;
+
+    @SerializedName("act_keterangan")
+    private String keterangan;
+
     @SerializedName("act_status")
     private String status;
 
     @SerializedName("sch_id")
     private String schid;
 
-    private boolean isChecked;
 
     public ChecklistItem() {
     }
 
-    public ChecklistItem(String id, String name, String status, String schid, boolean isChecked) {
+    public ChecklistItem(String id, String name, String foto, String keterangan, String status, String schid) {
         this.id = id;
         this.name = name;
+        Foto = foto;
+        this.keterangan = keterangan;
         this.status = status;
         this.schid = schid;
-        this.isChecked = isChecked;
     }
 
     public String getId() {
@@ -44,6 +50,22 @@ public class ChecklistItem {
         this.name = name;
     }
 
+    public String getFoto() {
+        return Foto;
+    }
+
+    public void setFoto(String foto) {
+        Foto = foto;
+    }
+
+    public String getKeterangan() {
+        return keterangan;
+    }
+
+    public void setKeterangan(String keterangan) {
+        this.keterangan = keterangan;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -52,19 +74,12 @@ public class ChecklistItem {
         this.status = status;
     }
 
-    public String getUntid() {
+    public String getSchid() {
         return schid;
     }
 
-    public void setUntid(String untid) {
-        this.schid = untid;
+    public void setSchid(String schid) {
+        this.schid = schid;
     }
 
-    public boolean isChecked() {
-        return isChecked;
-    }
-
-    public void setChecked(boolean checked) {
-        isChecked = checked;
-    }
 }

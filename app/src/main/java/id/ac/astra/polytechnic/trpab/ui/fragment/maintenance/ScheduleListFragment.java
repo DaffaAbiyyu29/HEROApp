@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,17 +18,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import id.ac.astra.polytechnic.trpab.data.api.ApiClient;
+import id.ac.astra.polytechnic.trpab.data.api.ApiService;
+import id.ac.astra.polytechnic.trpab.data.api.DataResponse;
 import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
 import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.SchaduleAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.Schadule;
 import id.ac.astra.polytechnic.trpab.databinding.FragmentSchedulelistBinding;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ScheduleListFragment extends Fragment implements SchaduleAdapter.OnItemClickListener {
     private FragmentSchedulelistBinding binding;
     private RecyclerView recyclerView;
     private SchaduleAdapter schaduleAdapter;
     private List<Schadule> serviceItemList;
+    private String untid;
 
     @Nullable
     @Override
@@ -48,7 +58,7 @@ public class ScheduleListFragment extends Fragment implements SchaduleAdapter.On
         if (args != null) {
             String title = args.getString("title", "Default Title");
             String status = args.getString("status");
-
+            untid = args.getString("id"); // Perubahan dari getInt ke getString
             titleTextView.setText(title);
 
             // Populate the RecyclerView based on the status
@@ -64,12 +74,30 @@ public class ScheduleListFragment extends Fragment implements SchaduleAdapter.On
     }
 
     private void loadServiceItems() {
-        // Add some dummy data to the list for testing
-        serviceItemList.add(new Schadule("1", "Every 50 Hours Service", "50", "3", "1"));
-        serviceItemList.add(new Schadule("2", "Every 150 Hours Service", "150", "3", "1"));
+        // Create JSON body
+        String json = "{\"unt_id\": \"" + untid + "\"}";
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
 
-        schaduleAdapter = new SchaduleAdapter(serviceItemList, this);
-        recyclerView.setAdapter(schaduleAdapter);
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<DataResponse<Schadule>> call = apiService.getDataSchedule(body);
+
+        call.enqueue(new Callback<DataResponse<Schadule>>() {
+            @Override
+            public void onResponse(Call<DataResponse<Schadule>> call, Response<DataResponse<Schadule>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    serviceItemList = response.body().getResult();
+                    schaduleAdapter = new SchaduleAdapter(serviceItemList, ScheduleListFragment.this);
+                    recyclerView.setAdapter(schaduleAdapter);
+                } else {
+                    Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DataResponse<Schadule>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -79,6 +107,7 @@ public class ScheduleListFragment extends Fragment implements SchaduleAdapter.On
 
         Bundle args = new Bundle();
         args.putString("title", clickedItem.getName());
+        args.putString("id", clickedItem.getId());
 
         navController.navigate(R.id.action_to_actionlistfragment, args);
     }

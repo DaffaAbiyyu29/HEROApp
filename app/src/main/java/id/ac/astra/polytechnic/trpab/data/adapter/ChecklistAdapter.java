@@ -39,7 +39,6 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChecklistItem item = checklistItemList.get(position);
         holder.nameTextView.setText(item.getName());
-        holder.checkBox.setChecked(item.isChecked());
     }
 
     @Override

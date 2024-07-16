@@ -203,6 +203,7 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         Bundle bundle = new Bundle();
         bundle.putString("title", clickedItem.getTitle());
         bundle.putString("status", clickedItem.getStatus());
+        bundle.putString("id", clickedItem.getId());
 
         NavController navController = NavHostFragment.findNavController(this);
         if ("5".equals(clickedItem.getStatus())) {
