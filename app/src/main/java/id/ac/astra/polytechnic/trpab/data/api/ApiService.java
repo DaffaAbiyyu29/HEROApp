@@ -2,7 +2,7 @@ package id.ac.astra.polytechnic.trpab.data.api;
 
 import id.ac.astra.polytechnic.trpab.data.model.ChecklistItem;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
-import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
+import id.ac.astra.polytechnic.trpab.data.model.MaintenanceReport;
 import id.ac.astra.polytechnic.trpab.data.model.Schadule;
 import id.ac.astra.polytechnic.trpab.data.model.User;
 import okhttp3.RequestBody;
@@ -29,4 +29,6 @@ public interface ApiService {
 
     @POST("HEROApp_BE/Login.php")
     Call<DataResponse<User>> login(@Body RequestBody body);
+    @POST("HEROApp_BE/GetActionServiceByScheduleForPDF.php")
+    Call<DataResponse<MaintenanceReport>> getDataActionForReport(@Body RequestBody body);
 }

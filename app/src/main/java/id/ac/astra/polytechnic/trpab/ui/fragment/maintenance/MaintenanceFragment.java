@@ -43,6 +43,7 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
     private List<HeavyEngine> dashboardItemList;
     private List<HeavyEngine> availableItems = new ArrayList<>(); // Inisialisasi list kosong
     private List<HeavyEngine> heavyEngineList;
+    String id, nama, role, npk, nim;
 
     public static MaintenanceFragment newInstance() {
         return new MaintenanceFragment();
@@ -53,7 +54,16 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
                              Bundle savedInstanceState) {
         binding = FragmentMaintenanceBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
+
+        Bundle bundle = getArguments();
+        Log.d("oooo9", String.valueOf(bundle));
+        if (bundle != null) {
+            id = bundle.getString("ID_USER");
+            nama = bundle.getString("NAMA_USER");
+            role = bundle.getString("ROLE_USER");
+            npk = bundle.getString("NPK");
+            nim = bundle.getString("NIM");
+        }
 
         MaterialButton maintenanceProcessBtn = view.findViewById(R.id.maintenance_process_btn);
         MaterialButton maintenanceHistoryBtn = view.findViewById(R.id.maintenance_history_btn);
@@ -62,7 +72,7 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
             public void onClick(View v) {
                 // Gunakan NavController untuk navigasi ke fragment lain
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-                navController.navigate(R.id.nav_maintenance_process);
+                navController.navigate(R.id.nav_maintenance_process, bundle);
             }
         });
 
@@ -71,7 +81,7 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
             public void onClick(View v) {
                 // Gunakan NavController untuk navigasi ke fragment lain
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
-                navController.navigate(R.id.nav_maintenance_history);
+                navController.navigate(R.id.nav_maintenance_history, bundle);
             }
         });
 

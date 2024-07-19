@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                         // Handle success
                         String message = String.valueOf(result.getMessage());
                         Gson gson = new Gson();
-                        Log.d("oooo", gson.toJson(result.getResult()));
+                        Log.d("oooologin", gson.toJson(result.getResult()));
                         String jsonResponse = gson.toJson(result.getResult());
 
                         User[] users = gson.fromJson(jsonResponse, User[].class);
