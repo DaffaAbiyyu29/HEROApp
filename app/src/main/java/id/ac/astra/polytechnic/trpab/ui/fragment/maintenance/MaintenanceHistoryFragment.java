@@ -43,12 +43,14 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
+import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 
 import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.element.Text;
+import com.itextpdf.layout.property.AreaBreakType;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
@@ -65,6 +67,7 @@ import java.util.stream.Collectors;
 
 import id.ac.astra.polytechnic.trpab.data.api.ApiClient;
 import id.ac.astra.polytechnic.trpab.data.api.ApiService;
+import id.ac.astra.polytechnic.trpab.data.model.ActionForMaintananceReport;
 import id.ac.astra.polytechnic.trpab.data.model.MaintenanceReport;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.MaintananceReportViewModel;
 import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
@@ -195,6 +198,8 @@ public class MaintenanceHistoryFragment extends Fragment {
 
     private void createPdf() throws IOException {
         MaintenanceReport report = maintenanceReports.get(0);
+        List<ActionForMaintananceReport> actions = report.getActions();
+
         String unitName = report.getUnt_nama();
         String Hoursmeter = report.getPbk_hours_meter();
         String BeginDate = report.getPbk_tanggal_awal();
@@ -203,6 +208,7 @@ public class MaintenanceHistoryFragment extends Fragment {
         String EndTime = report.getPbk_jam_akhir();
 
         String technicianName = report.getNama_pelaksana();
+        String schedulereport = report.getSch_nama();
 
         String pdfPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
         File file = new File(pdfPath, "Reporting_TRPAB.pdf");
@@ -248,111 +254,26 @@ public class MaintenanceHistoryFragment extends Fragment {
         Paragraph periodicParagraph = new Paragraph(periodicText);
         periodicParagraph.setHorizontalAlignment(HorizontalAlignment.CENTER);
 
-        // nama unit
-        Text namaUnitText = new Text(unitName).setFont(font).setFontSize(12);
-        Paragraph namaUnitParagraph = new Paragraph(namaUnitText);
-
-        // lokasi
-        Text lokasiText = new Text("AstraTech").setFont(font).setFontSize(12);
-        Paragraph lokasiParagraph = new Paragraph(lokasiText);
-
-        // hours meter
-        Text hoursMeterText = new Text(Hoursmeter).setFont(font).setFontSize(12);
-        Paragraph hoursMeterParagraph = new Paragraph(hoursMeterText);
-
-        // tanggal start
-        Text begindateText = new Text(BeginDate).setFont(font).setFontSize(12);
-        Paragraph begindateParagraph = new Paragraph(begindateText);
-
-        // jam start
-        Text begintimeText = new Text(BeginTime).setFont(font).setFontSize(12);
-        Paragraph begintimeParagraph = new Paragraph(begintimeText);
-
-        // tanggal finish
-        Text enddateText = new Text(EndDate).setFont(font).setFontSize(12);
-        Paragraph enddateParagraph = new Paragraph(enddateText);
-
-        // jam finish
-        Text endtimeText = new Text(EndTime).setFont(font).setFontSize(12);
-        Paragraph endtimeParagraph = new Paragraph(endtimeText);
-
-        // pelaksana
-        Text pelaksanaText = new Text(technicianName).setFont(font).setFontSize(12);
-        Paragraph pelaksanaParagraph = new Paragraph(pelaksanaText);
-
-        // diperiksa
-        Text checkerText = new Text(nama).setFont(font).setFontSize(12);
-        Paragraph checkerParagraph = new Paragraph(checkerText);
-
-        // diketahui
-        Text asesorText = new Text(nama).setFont(font).setFontSize(12);
-        Paragraph asesorParagraph = new Paragraph(asesorText);
-
         // Get the checkmark
-        Drawable checkmarkDrawable = ContextCompat.getDrawable(getContext(), R.drawable.checklist_green);  // assuming checkmark.png is the image of the check mark
+        Drawable checkmarkDrawable = ContextCompat.getDrawable(getContext(), R.drawable.checklist_green);
         Bitmap checkmarkBitmap = ((BitmapDrawable) checkmarkDrawable).getBitmap();
         ByteArrayOutputStream checkmarkStream = new ByteArrayOutputStream();
         checkmarkBitmap.compress(Bitmap.CompressFormat.PNG, 100, checkmarkStream);
         byte[] checkmarkBitmapData = checkmarkStream.toByteArray();
         ImageData checkmarkImageData = ImageDataFactory.create(checkmarkBitmapData);
+        Image checkmarkImage = new Image(checkmarkImageData);
+        checkmarkImage.setHeight(12f);
+        checkmarkImage.setWidth(12f);
 
-        // Get the work1 drawable
-        Drawable work1Drawable = ContextCompat.getDrawable(getContext(), R.drawable.astratech_long);
-        Bitmap work1Bitmap = ((BitmapDrawable) work1Drawable).getBitmap();
-        ByteArrayOutputStream work1Stream = new ByteArrayOutputStream();
-        work1Bitmap.compress(Bitmap.CompressFormat.PNG, 100, work1Stream);
-        byte[] work1BitmapData = work1Stream.toByteArray();
-        ImageData work1ImageData = ImageDataFactory.create(work1BitmapData);
-        Image work1Image = new Image(work1ImageData);
-        work1Image.setHeight(79.2f);
-        work1Image.setWidth(160.7f);
-
-        Text dowork1Text = new Text("1.Mengganti oli samping").setFont(font).setFontSize(12);
-        Paragraph dowork1Paragraph = new Paragraph(dowork1Text);
-        Text conditionwork1Text = new Text("harus tidak ada kebocoran oli").setFont(font).setFontSize(12);
-        Paragraph conditionwork1Paragraph = new Paragraph(conditionwork1Text);
-        Image checkmarkImage1 = new Image(checkmarkImageData);
-        checkmarkImage1.setHeight(12f);
-        checkmarkImage1.setWidth(12f);
-
-        // Get the work2 drawable
-        Drawable work2Drawable = ContextCompat.getDrawable(getContext(), R.drawable.astratech_long);
-        Bitmap work2Bitmap = ((BitmapDrawable) work2Drawable).getBitmap();
-        ByteArrayOutputStream work2Stream = new ByteArrayOutputStream();
-        work2Bitmap.compress(Bitmap.CompressFormat.PNG, 100, work2Stream);
-        byte[] work2BitmapData = work2Stream.toByteArray();
-        ImageData work2ImageData = ImageDataFactory.create(work1BitmapData);
-        Image work2Image = new Image(work1ImageData);
-        work2Image.setHeight(79.2f);
-        work2Image.setWidth(160.7f);
-
-        Text dowork2Text = new Text("2.Mengganti Handle Rem").setFont(font).setFontSize(12);
-        Paragraph dowork2Paragraph = new Paragraph(dowork2Text);
-        Text conditionwork2Text = new Text("pastikan melepas pengunci terlebih dulu").setFont(font).setFontSize(12);
-        Paragraph conditionwork2Paragraph = new Paragraph(conditionwork2Text);
-        Image checkmarkImage2 = new Image(checkmarkImageData);
-        checkmarkImage2.setHeight(12f);
-        checkmarkImage2.setWidth(12f);
-
-
-        // Get the work3 drawable
-        Drawable work3Drawable = ContextCompat.getDrawable(getContext(), R.drawable.astratech_long);
-        Bitmap work3Bitmap = ((BitmapDrawable) work3Drawable).getBitmap();
-        ByteArrayOutputStream work3Stream = new ByteArrayOutputStream();
-        work3Bitmap.compress(Bitmap.CompressFormat.PNG, 100, work3Stream);
-        byte[] work3BitmapData = work3Stream.toByteArray();
-        ImageData work3ImageData = ImageDataFactory.create(work3BitmapData);
-        Image work3Image = new Image(work3ImageData);
-        work3Image.setHeight(79.2f);
-        work3Image.setWidth(160.7f);
-
-        Text dowork3Text = new Text("3.Mengganti Paddle Gas").setFont(font).setFontSize(12);
-        Paragraph dowork3Paragraph = new Paragraph(dowork3Text);
-        Text conditionwork3Text = new Text("perbaiki posisi paddle gas").setFont(font).setFontSize(12);
-        Paragraph conditionwork3Paragraph = new Paragraph(conditionwork3Text);
-        Image checkmarkImage3 = new Image(checkmarkImageData);
-        checkmarkImage3.setHeight(12f);
-        checkmarkImage3.setWidth(12f);
+        Drawable uncheckDrawable = ContextCompat.getDrawable(getContext(), R.drawable.uncheck);
+        Bitmap uncheckBitmap = ((BitmapDrawable) uncheckDrawable).getBitmap();
+        ByteArrayOutputStream uncheckStream = new ByteArrayOutputStream();
+        uncheckBitmap.compress(Bitmap.CompressFormat.PNG, 100, uncheckStream);
+        byte[] uncheckBitmapData = uncheckStream.toByteArray();
+        ImageData uncheckImageData = ImageDataFactory.create(uncheckBitmapData);
+        Image uncheckImage = new Image(uncheckImageData);
+        uncheckImage.setHeight(12f);
+        uncheckImage.setWidth(12f);
 
         // Define column widths for the table
         float[] columnWidths = {130f, 100f, 160f, 90f, 90f, 90f, 100f, 100f, 100f, 100f}; // tambahkan lebar kolom
@@ -403,7 +324,7 @@ public class MaintenanceHistoryFragment extends Fragment {
         table.addCell(new Cell(1, 1).add(new Paragraph("OK")).setVerticalAlignment(VerticalAlignment.MIDDLE).setTextAlignment(TextAlignment.CENTER));
         table.addCell(new Cell(1, 1).add(new Paragraph("NOK")).setVerticalAlignment(VerticalAlignment.MIDDLE).setTextAlignment(TextAlignment.CENTER));
         // Baris 6
-        table.addCell(new Cell(1, 10).add(new Paragraph(new Text("INSPECTION AND MAINTENANCE")).setFont(boldFont).setVerticalAlignment(VerticalAlignment.MIDDLE).setTextAlignment(TextAlignment.CENTER)));
+        table.addCell(new Cell(1, 10).add(new Paragraph(new Text(schedulereport)).setFont(boldFont).setVerticalAlignment(VerticalAlignment.MIDDLE).setTextAlignment(TextAlignment.CENTER)));
 
         // Baris 7 large
         table.addCell(new Cell(4, 2).add(new Paragraph(" ")).setBorder(Border.NO_BORDER).setBorderLeft(new SolidBorder(BLACK, 1)).setBorderRight(new SolidBorder(BLACK, 1)));
@@ -882,39 +803,43 @@ public class MaintenanceHistoryFragment extends Fragment {
         periodicParagraph.setFixedPosition(427, 522, 200);
         table.setFixedPosition(25,10,795);
 
-        namaUnitParagraph.setFixedPosition(211, 497, 100);
-        lokasiParagraph.setFixedPosition(211, 475, 100);
-        hoursMeterParagraph.setFixedPosition(211, 454, 100);
-
-        begindateParagraph.setFixedPosition(394, 457, 100);
-        begintimeParagraph.setFixedPosition(473, 457, 100);
-        enddateParagraph.setFixedPosition(394, 432, 100);
-        endtimeParagraph.setFixedPosition(473, 432, 100);
-
-        pelaksanaParagraph.setFixedPosition(625, 497, 150);
-        checkerParagraph.setFixedPosition(625, 475, 150);
-        asesorParagraph.setFixedPosition(625, 454, 150);
-
-        work1Image.setFixedPosition(35, 285);
-        dowork1Paragraph.setFixedPosition(212, 365, 150);
-        conditionwork1Paragraph.setFixedPosition(390, 365, 300);
-        checkmarkImage1.setFixedPosition(1, 707,315);
-
-        work2Image.setFixedPosition(35, 158);
-        dowork2Paragraph.setFixedPosition(212, 240, 150);
-        conditionwork2Paragraph.setFixedPosition(390, 240, 300);
-        checkmarkImage2.setFixedPosition(1, 707, 195);
-
-        work3Image.setFixedPosition(35, 40);
-        dowork3Paragraph.setFixedPosition(212, 113, 150);
-        conditionwork3Paragraph.setFixedPosition(390, 113, 300);
-        checkmarkImage3.setFixedPosition(1, 707, 75);
-
         document.add(astratechImage);
         document.add(trpabImage);
         document.add(teknikParagraph);
         document.add(periodicParagraph);
         document.add(table);
+
+        // Add unit info on the page
+        // Nama UNit
+        Text namaUnitText = new Text(unitName).setFont(font).setFontSize(12);
+        Paragraph namaUnitParagraph = new Paragraph(namaUnitText).setFixedPosition(211, 497, 100);
+        // Lokasi
+        Text lokasiText = new Text("AstraTech").setFont(font).setFontSize(12);
+        Paragraph lokasiParagraph = new Paragraph(lokasiText).setFixedPosition(211, 475, 100);
+        // Hours Meter
+        Text hoursMeterText = new Text(Hoursmeter).setFont(font).setFontSize(12);
+        Paragraph hoursMeterParagraph = new Paragraph(hoursMeterText).setFixedPosition(211, 454, 100);
+        // Begin Date
+        Text begindateText = new Text(BeginDate).setFont(font).setFontSize(12);
+        Paragraph begindateParagraph = new Paragraph(begindateText).setFixedPosition(394, 457, 100);
+        // Begin Time
+        Text begintimeText = new Text(BeginTime).setFont(font).setFontSize(12);
+        Paragraph begintimeParagraph = new Paragraph(begintimeText).setFixedPosition(473, 457, 100);
+        // End Date
+        Text enddateText = new Text(EndDate).setFont(font).setFontSize(12);
+        Paragraph enddateParagraph = new Paragraph(enddateText).setFixedPosition(394, 432, 100);
+        // End Time
+        Text endtimeText = new Text(EndTime).setFont(font).setFontSize(12);
+        Paragraph endtimeParagraph = new Paragraph(endtimeText).setFixedPosition(473, 432, 100);
+        // Pelaksana
+        Text pelaksanaText = new Text(technicianName).setFont(font).setFontSize(12);
+        Paragraph pelaksanaParagraph = new Paragraph(pelaksanaText).setFixedPosition(625, 497, 150);
+        // Pemeriksa
+        Text checkerText = new Text(nama).setFont(font).setFontSize(12);
+        Paragraph checkerParagraph = new Paragraph(checkerText).setFixedPosition(625, 475, 150);
+        // Diketahui
+        Text asesorText = new Text(nama).setFont(font).setFontSize(12);
+        Paragraph asesorParagraph = new Paragraph(asesorText).setFixedPosition(625, 454, 150);
 
         document.add(namaUnitParagraph);
         document.add(lokasiParagraph);
@@ -927,23 +852,98 @@ public class MaintenanceHistoryFragment extends Fragment {
         document.add(checkerParagraph);
         document.add(asesorParagraph);
 
-        document.add(work1Image);
-        document.add(dowork1Paragraph);
-        document.add(conditionwork1Paragraph);
-        document.add(checkmarkImage1);
+        // Track the index of the first element on a new page
+        int actionsPerPage = 3;
 
-        document.add(work2Image);
-        document.add(dowork2Paragraph);
-        document.add(conditionwork2Paragraph);
-        document.add(checkmarkImage2);
+        for (int i = 0; i < actions.size(); i++) {
+            if (i > 0 && i % actionsPerPage == 0) {
+                // Start a new page after every 3 actions
+                document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
-        document.add(work3Image);
-        document.add(dowork3Paragraph);
-        document.add(conditionwork3Paragraph);
-        document.add(checkmarkImage3);
+                document.add(astratechImage);
+                document.add(trpabImage);
+                document.add(teknikParagraph);
+                document.add(periodicParagraph);
+                document.add(table);
+
+                document.add(namaUnitParagraph);
+                document.add(lokasiParagraph);
+                document.add(hoursMeterParagraph);
+                document.add(begindateParagraph);
+                document.add(begintimeParagraph);
+                document.add(enddateParagraph);
+                document.add(endtimeParagraph);
+                document.add(pelaksanaParagraph);
+                document.add(checkerParagraph);
+                document.add(asesorParagraph);
+            }
+
+            ActionForMaintananceReport action = actions.get(i);
+
+            // Get the work drawable
+            Drawable workDrawable = ContextCompat.getDrawable(getContext(), R.drawable.gambarkerja);
+            Bitmap workBitmap = ((BitmapDrawable) workDrawable).getBitmap();
+            ByteArrayOutputStream workStream = new ByteArrayOutputStream();
+            workBitmap.compress(Bitmap.CompressFormat.PNG, 100, workStream);
+            byte[] workBitmapData = workStream.toByteArray();
+            ImageData workImageData = ImageDataFactory.create(workBitmapData);
+            Image workImage = new Image(workImageData);
+            workImage.setHeight(79.2f);
+            workImage.setWidth(160.7f);
+
+            // Action description and condition
+            Text doworkText = new Text((i + 1) + ". " + action.getAct_nama()).setFont(font).setFontSize(12);
+            Paragraph doworkParagraph = new Paragraph(doworkText);
+            Text conditionworkText = new Text(action.getAct_keterangan()).setFont(font).setFontSize(12);
+            Paragraph conditionworkParagraph = new Paragraph(conditionworkText);
+
+            Image resultImage;
+            if ("check".equals(action.getResult_check())) {
+                resultImage = checkmarkImage;
+            } else {
+                resultImage = uncheckImage;
+            }
+
+            switch (i % actionsPerPage) {
+                case 0:
+                    workImage.setFixedPosition(35, 285);
+                    doworkParagraph.setFixedPosition(212, 345, 120);
+                    conditionworkParagraph.setFixedPosition(390, 365, 300);
+                    if ("uncheck".equals(action.getResult_check())) {
+                        resultImage.setFixedPosition(780, 315);
+                    } else {
+                        resultImage.setFixedPosition(707, 315);
+                    }
+                    break;
+                case 1:
+                    workImage.setFixedPosition(35, 158);
+                    doworkParagraph.setFixedPosition(212, 220, 120);
+                    conditionworkParagraph.setFixedPosition(390, 240, 300);
+                    if ("uncheck".equals(action.getResult_check())) {
+                        resultImage.setFixedPosition(780, 195);
+                    } else {
+                        resultImage.setFixedPosition(707, 195);
+                    }
+                    break;
+                case 2:
+                    workImage.setFixedPosition(35, 40);
+                    doworkParagraph.setFixedPosition(212, 93, 120);
+                    conditionworkParagraph.setFixedPosition(390, 113, 300);
+                    if ("uncheck".equals(action.getResult_check())) {
+                        resultImage.setFixedPosition(780, 75);
+                    } else {
+                        resultImage.setFixedPosition(707, 75);
+                    }
+                    break;
+            }
+
+            document.add(workImage);
+            document.add(doworkParagraph);
+            document.add(conditionworkParagraph);
+            document.add(resultImage);
+        }
 
         document.close();
         Toast.makeText(getContext(), "PDF successfully created", Toast.LENGTH_LONG).show();
-
     }
 }
