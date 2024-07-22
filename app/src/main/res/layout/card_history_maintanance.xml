@@ -43,7 +43,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="260dp"
                 android:fontFamily="@font/poppins_b"
-                android:text="4 Juni 2024 12:00"
+                android:text="4 Juni 2024"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/cc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="323dp"
+                android:fontFamily="@font/poppins_b"
+                android:text="12:00"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 android:textStyle="bold"
@@ -86,17 +97,17 @@
             app:layout_constraintStart_toEndOf="@+id/cardView"
             app:layout_constraintTop_toTopOf="@+id/cardView">
 
-            <TextView
-                android:id="@+id/heavyname_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:background="@color/white"
-                android:fontFamily="@font/poppins_b"
-                android:text="D85ESS-2"
-                android:textColor="@color/red_primary"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/heavyname_text"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:background="@color/white"-->
+<!--                android:fontFamily="@font/poppins_b"-->
+<!--                android:text="D85ESS-2"-->
+<!--                android:textColor="@color/red_primary"-->
+<!--                android:textSize="15sp"-->
+<!--                android:textStyle="bold" />-->
 
             <TextView
                 android:id="@+id/textView7"
@@ -119,11 +130,26 @@
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:fontFamily="@font/poppins"
-                android:text="5674 Hours"
+                android:text="5674"
                 android:textColor="#7F7E7E"
                 android:textSize="10sp"
                 android:textStyle="italic|bold"
                 app:layout_constraintStart_toStartOf="@+id/heavyname_text"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <TextView
+                android:id="@+id/hoursmeter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:fontFamily="@font/poppins"
+                android:text="Hours"
+                android:textColor="#7F7E7E"
+                android:textSize="10sp"
+                android:textStyle="italic|bold"
+                app:layout_constraintStart_toStartOf="@+id/hoursmeter_text"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
             <TextView
@@ -133,11 +159,26 @@
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:fontFamily="@font/poppins"
-                android:text="Oleh Salsa"
+                android:text="Oleh"
                 android:textColor="#7F7E7E"
                 android:textSize="10sp"
                 android:textStyle="italic|bold"
                 app:layout_constraintStart_toStartOf="@+id/heavyname_text"
+                app:layout_constraintTop_toBottomOf="@+id/hoursmeter_text" />
+
+            <TextView
+                android:id="@+id/user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="28dp"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:fontFamily="@font/poppins"
+                android:text="Salsa"
+                android:textColor="#7F7E7E"
+                android:textSize="10sp"
+                android:textStyle="italic|bold"
+                app:layout_constraintStart_toStartOf="@+id/user_text"
                 app:layout_constraintTop_toBottomOf="@+id/hoursmeter_text" />
 
             <androidx.cardview.widget.CardView

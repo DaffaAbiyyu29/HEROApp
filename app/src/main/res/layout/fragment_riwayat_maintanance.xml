@@ -89,7 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/riwayat_perbaikan"
             android:layout_marginTop="30dp"/>
 
-
+<!--
         <Button
             android:id="@+id/button_filter"
             android:layout_width="wrap_content"
@@ -109,6 +109,7 @@
             app:iconTint="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/perbaikan" />
+-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_riwayat_maintenance_history"

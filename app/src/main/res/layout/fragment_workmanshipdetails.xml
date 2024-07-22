@@ -89,7 +89,7 @@
                 android:layout_height="245dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="Selected Image"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@drawable/img" />
 
         </com.google.android.material.card.MaterialCardView>

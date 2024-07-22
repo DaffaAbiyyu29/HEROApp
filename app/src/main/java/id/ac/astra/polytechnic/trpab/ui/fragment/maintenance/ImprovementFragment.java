@@ -42,13 +42,13 @@ public class ImprovementFragment extends Fragment {
         return view;
     }
 
-    public static ImprovementFragment newInstance(String title, String name) {
-        ImprovementFragment improvementFragment = new ImprovementFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_TITLE, title);
-        args.putString(ARG_NAME, name);
-
-        improvementFragment.setArguments(args);
-        return improvementFragment;
-    }
+//    public static ImprovementFragment newInstance(String title, String name) {
+//        ImprovementFragment improvementFragment = new ImprovementFragment();
+//        Bundle args = new Bundle();
+//        args.putString(ARG_TITLE, title);
+//        args.putString(ARG_NAME, name);
+//
+//        improvementFragment.setArguments(args);
+//        return improvementFragment;
+//    }
 }

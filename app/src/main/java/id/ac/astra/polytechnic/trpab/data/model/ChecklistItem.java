@@ -21,17 +21,19 @@ public class ChecklistItem {
     @SerializedName("sch_id")
     private String schid;
 
+    private boolean isChecked; // Add this field to track if the item is checked
 
     public ChecklistItem() {
     }
 
-    public ChecklistItem(String id, String name, String foto, String keterangan, String status, String schid) {
+    public ChecklistItem(String id, String name, String foto, String keterangan, String status, String schid, boolean isChecked) {
         this.id = id;
         this.name = name;
         this.Foto = foto;
         this.keterangan = keterangan;
         this.status = status;
         this.schid = schid;
+        this.isChecked = isChecked;
     }
 
     public String getId() {
@@ -82,4 +84,11 @@ public class ChecklistItem {
         this.schid = schid;
     }
 
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
 }
