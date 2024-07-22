@@ -21,6 +21,7 @@ import java.util.List;
 import id.ac.astra.polytechnic.trpab.data.api.ApiClient;
 import id.ac.astra.polytechnic.trpab.data.api.ApiService;
 import id.ac.astra.polytechnic.trpab.data.api.DataResponse;
+import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
 import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.SchaduleAdapter;
@@ -105,10 +106,32 @@ public class ScheduleListFragment extends Fragment implements SchaduleAdapter.On
         Schadule clickedItem = serviceItemList.get(position);
         NavController navController = NavHostFragment.findNavController(this);
 
-        Bundle args = new Bundle();
-        args.putString("title", clickedItem.getName());
-        args.putString("id", clickedItem.getId());
+        // Fetch HeavyEngine data using the unt_id from the clicked Schadule item
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<DataResponse<HeavyEngine>> call = apiService.getDataUnit();
 
-        navController.navigate(R.id.action_to_actionlistfragment, args);
+        call.enqueue(new Callback<DataResponse<HeavyEngine>>() {
+            @Override
+            public void onResponse(Call<DataResponse<HeavyEngine>> call, Response<DataResponse<HeavyEngine>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    HeavyEngine heavyEngine = response.body().getResult().get(0); // Assuming there's only one item returned
+
+                    Bundle args = new Bundle();
+                    args.putString("title", heavyEngine.getTitle());
+                    args.putString("id", clickedItem.getId());
+
+                    navController.navigate(R.id.action_to_actionlistfragment, args);
+                } else {
+                    Toast.makeText(getContext(), "Failed to load HeavyEngine data", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DataResponse<HeavyEngine>> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
 }

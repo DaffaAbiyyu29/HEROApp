@@ -16,6 +16,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -76,7 +78,7 @@ import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.HeavyEngineViewModel;
 
-public class MaintenanceHistoryFragment extends Fragment {
+public class MaintenanceHistoryFragment extends Fragment implements HeavyEngineAdapter.OnItemClickListener{
 
     private HeavyEngineViewModel mViewModel;
     private MaintananceReportViewModel mReportViewModel;
@@ -103,7 +105,7 @@ public class MaintenanceHistoryFragment extends Fragment {
             npk = bundle.getString("NPK");
             nim = bundle.getString("NIM");
         }
-        Log.d("oooo99", nama);
+//        Log.d("oooo99", nama);
 
         recyclerView = view.findViewById(R.id.recycler_view_maintenance_history);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -122,6 +124,7 @@ public class MaintenanceHistoryFragment extends Fragment {
             public void onChanged(List<HeavyEngine> heavyEngineList) {
                 if (heavyEngineList != null) {
                     mHeavyEngineAdapter = new HeavyEngineAdapter(heavyEngineList, true);
+                    mHeavyEngineAdapter.setOnItemClickListener(MaintenanceHistoryFragment.this);
                     recyclerView.setAdapter(mHeavyEngineAdapter);
                 } else {
                     Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
@@ -188,6 +191,19 @@ public class MaintenanceHistoryFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        HeavyEngine clickedItem = mHeavyEngineAdapter.getItem(position);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("id", clickedItem.getId());
+        bundle.putString("title", clickedItem.getTitle());
+        NavController navController = NavHostFragment.findNavController(this);
+
+        navController.navigate(R.id.action_to_riwayatmaintanance, bundle);
+
     }
 
     private List<HeavyEngine> filterAvailableItems(List<HeavyEngine> items) {

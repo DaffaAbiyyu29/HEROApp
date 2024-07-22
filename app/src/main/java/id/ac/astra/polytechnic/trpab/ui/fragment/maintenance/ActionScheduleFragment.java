@@ -108,7 +108,10 @@ public class ActionScheduleFragment extends Fragment implements ChecklistAdapter
         NavController navController = NavHostFragment.findNavController(this);
 
         Bundle args = new Bundle();
+        args.putString("id", clickedItem.getId());
         args.putString("title", clickedItem.getName());
+        args.putString("foto", clickedItem.getFoto());
+        args.putString("keterangan", clickedItem.getKeterangan());
 
         navController.navigate(R.id.action_to_workmanshipDetailsFragment, args);
     }

@@ -15,6 +15,9 @@ public interface ApiService {
     @GET("HEROApp_BE/GetDataUnit.php")
     Call<DataResponse<HeavyEngine>> getDataUnit();
 
+    @POST("HEROApp_BE/LoadActionImage.php")
+    Call<DataResponse<ChecklistItem>> getImage(@Body RequestBody body);
+
     @POST("HEROApp_BE/GetDataSchedule.php")
     Call<DataResponse<Schadule>> getDataSchedule(@Body RequestBody body);
 

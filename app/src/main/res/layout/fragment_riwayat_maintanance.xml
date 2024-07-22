@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/red_secondary"
-    tools:context=".ui.fragment.maintenance.MaintenanceFragment">
+    tools:context=".ui.fragment.maintenance.MaintananceDetailHistoryFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/top_card"
@@ -111,7 +111,7 @@
             app:layout_constraintTop_toBottomOf="@id/perbaikan" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_maintenance_history"
+            android:id="@+id/recycler_riwayat_maintenance_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="20dp"

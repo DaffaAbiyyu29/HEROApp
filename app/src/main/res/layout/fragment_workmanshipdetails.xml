@@ -94,18 +94,6 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-<!--        <com.google.android.material.divider.MaterialDivider-->
-<!--            android:id="@+id/divider"-->
-<!--            android:layout_width="185dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="28dp"-->
-<!--            android:gravity="bottom|center"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/card_image">-->
-
-<!--        </com.google.android.material.divider.MaterialDivider>-->
-
         <TextView
             android:id="@+id/standarisasi_text"
             android:layout_width="match_parent"
@@ -128,6 +116,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/detail_keterangan_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1.Oli menyentuh plug F "

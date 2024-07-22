@@ -1,5 +1,6 @@
 package id.ac.astra.polytechnic.trpab.ui.fragment.maintenance;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
@@ -25,6 +27,8 @@ import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.HeavyEngineViewModel;
+import id.ac.astra.polytechnic.trpab.databinding.FragmentRiwayatMaintananceBinding;
+import id.ac.astra.polytechnic.trpab.databinding.FragmentWorkmanshipdetailsBinding;
 import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
 
 public class MaintananceDetailHistoryFragment extends Fragment {
@@ -33,34 +37,43 @@ public class MaintananceDetailHistoryFragment extends Fragment {
     private HeavyEngineAdapter mHeavyEngineAdapter;
     private List<HeavyEngine> dashboardItemList;
     private CardView statusBarView;
+    private String schid;
+    private FragmentRiwayatMaintananceBinding binding;
 
-    public static MaintenanceHistoryFragment newInstance() {
-        return new MaintenanceHistoryFragment();
-    }
-
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_riwayat_maintanance, container, false);
+        binding = FragmentRiwayatMaintananceBinding.inflate(inflater,container, false);
+        View view = binding.getRoot();
 
-        Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
+//        Log.d("MaintenanceFragment", "onCreateView: Fragment created successfully");
+        TextView titleTextView = binding.perbaikan;
 
-        recyclerView = view.findViewById(R.id.recycler_view_maintenance_history);
+        Bundle args = getArguments();
+        if (args != null) {
+            String schaduleId = args.getString("title", "Default Title");
+            schid = args.getString("id");
+
+            titleTextView.setText(schaduleId);
+        }
+
+        recyclerView = view.findViewById(R.id.recycler_riwayat_maintenance_history);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        mViewModel = new ViewModelProvider(this).get(HeavyEngineViewModel.class);
-
-        mViewModel.getHeavyEngineList().observe(getViewLifecycleOwner(), new Observer<List<HeavyEngine>>() {
-            @Override
-            public void onChanged(List<HeavyEngine> heavyEngineList) {
-                if (heavyEngineList != null) {
-                    mHeavyEngineAdapter = new HeavyEngineAdapter(heavyEngineList, true);
-                    recyclerView.setAdapter(mHeavyEngineAdapter);
-                } else {
-                    Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+//
+//        mViewModel = new ViewModelProvider(this).get(HeavyEngineViewModel.class);
+//
+//        mViewModel.getHeavyEngineList().observe(getViewLifecycleOwner(), new Observer<List<HeavyEngine>>() {
+//            @Override
+//            public void onChanged(List<HeavyEngine> heavyEngineList) {
+//                if (heavyEngineList != null) {
+//                    mHeavyEngineAdapter = new HeavyEngineAdapter(heavyEngineList, true);
+//                    recyclerView.setAdapter(mHeavyEngineAdapter);
+//                } else {
+//                    Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
 
         ((MainActivity) getActivity()).showBackButton();
 

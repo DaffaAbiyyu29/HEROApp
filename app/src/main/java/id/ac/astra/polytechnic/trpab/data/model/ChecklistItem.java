@@ -28,7 +28,7 @@ public class ChecklistItem {
     public ChecklistItem(String id, String name, String foto, String keterangan, String status, String schid) {
         this.id = id;
         this.name = name;
-        Foto = foto;
+        this.Foto = foto;
         this.keterangan = keterangan;
         this.status = status;
         this.schid = schid;

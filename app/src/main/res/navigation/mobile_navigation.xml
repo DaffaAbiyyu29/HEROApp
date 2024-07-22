@@ -51,7 +51,16 @@
         android:id="@+id/nav_maintenance_history"
         android:name="id.ac.astra.polytechnic.trpab.ui.fragment.maintenance.MaintenanceHistoryFragment"
         android:label="@string/menu_maintenance"
-        tools:layout="@layout/fragment_maintenance_history" />
+        tools:layout="@layout/fragment_maintenance_history" >
+        <action
+            android:id="@+id/action_to_riwayatmaintanance"
+            app:destination="@id/riwayatmaintananceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/riwayatmaintananceFragment"
+        android:name="id.ac.astra.polytechnic.trpab.ui.fragment.maintenance.MaintananceDetailHistoryFragment"
+        tools:layout="@layout/fragment_riwayat_maintanance" />
 
     <fragment
         android:id="@+id/schadulefragment"
