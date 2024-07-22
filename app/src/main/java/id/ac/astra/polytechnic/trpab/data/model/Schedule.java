@@ -2,7 +2,7 @@ package id.ac.astra.polytechnic.trpab.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Schadule {
+public class Schedule {
     @SerializedName("sch_id")
     private String id;
 
@@ -18,10 +18,10 @@ public class Schadule {
     @SerializedName("sch_status")
     private String status;
 
-    public Schadule() {
+    public Schedule() {
     }
 
-    public Schadule(String id, String name, String hours, String untid, String status) {
+    public Schedule(String id, String name, String hours, String untid, String status) {
         this.id = id;
         this.name = name;
         this.hours = hours;

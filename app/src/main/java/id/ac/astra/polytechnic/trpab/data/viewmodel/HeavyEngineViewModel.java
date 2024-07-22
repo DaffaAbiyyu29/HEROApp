@@ -31,6 +31,7 @@ public class HeavyEngineViewModel extends ViewModel {
 
     public HeavyEngineViewModel() {
         heavyEngineList = new MutableLiveData<>();
+        GetDataUnitDalamPengajuan();
         loadDataFromServer();
     }
 
@@ -41,6 +42,30 @@ public class HeavyEngineViewModel extends ViewModel {
     private void loadDataFromServer() {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<DataResponse<HeavyEngine>> call = apiService.getDataUnit();
+
+        call.enqueue(new Callback<DataResponse<HeavyEngine>>() {
+            @Override
+            public void onResponse(Call<DataResponse<HeavyEngine>> call, Response<DataResponse<HeavyEngine>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    heavyEngineList.setValue(response.body().getResult());
+                } else {
+                    // Handle unsuccessful response
+                    heavyEngineList.setValue(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DataResponse<HeavyEngine>> call, Throwable t) {
+                // Handle network failure or other exceptions
+                heavyEngineList.setValue(null);
+                Log.e("HeavyEngineViewModel", "Failed to fetch data from server: " + t.getMessage());
+            }
+        });
+    }
+
+    public void GetDataUnitDalamPengajuan() {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<DataResponse<HeavyEngine>> call = apiService.getDataUnitDalamPengajuan();
 
         call.enqueue(new Callback<DataResponse<HeavyEngine>>() {
             @Override
@@ -131,7 +156,7 @@ public class HeavyEngineViewModel extends ViewModel {
         if (data == null) {
             return new ArrayList<>();
         }
-        return filterByStatus(data, "4");
+        return filterByStatus(data, "2");
     }
 
     public List<HeavyEngine> getUnavailableList() {
@@ -139,7 +164,7 @@ public class HeavyEngineViewModel extends ViewModel {
         if (data == null) {
             return new ArrayList<>();
         }
-        return filterByStatus(data, "3", "2");
+        return filterByStatus(data, "3", "5");
     }
 
     public List<HeavyEngine> getProcessMaintenancePerbaikan() {
@@ -147,7 +172,7 @@ public class HeavyEngineViewModel extends ViewModel {
         if (data == null) {
             return new ArrayList<>();
         }
-        return filterByStatus(data, "2");
+        return filterByStatus(data, "4");
     }
 
     public List<HeavyEngine> getProcessMaintenanceService() {

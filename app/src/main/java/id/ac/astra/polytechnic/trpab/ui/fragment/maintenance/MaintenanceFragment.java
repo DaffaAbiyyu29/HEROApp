@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -26,6 +27,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import id.ac.astra.polytechnic.trpab.data.viewmodel.PenggunaanViewModel;
 import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
 import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
@@ -33,10 +35,12 @@ import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.HeavyEngineViewModel;
 import id.ac.astra.polytechnic.trpab.databinding.FragmentMaintenanceBinding;
 import id.ac.astra.polytechnic.trpab.ui.fragment.others.DetailHeavyEngineDialogFragment;
+import id.ac.astra.polytechnic.trpab.ui.fragment.others.PopupResponseDialog;
 
 public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.OnItemClickListener {
 
     private HeavyEngineViewModel mViewModel;
+    private PenggunaanViewModel mPenggunaanViewModel;
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
     private FragmentMaintenanceBinding binding;
@@ -44,6 +48,7 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
     private List<HeavyEngine> availableItems = new ArrayList<>(); // Inisialisasi list kosong
     private List<HeavyEngine> heavyEngineList;
     String id, nama, role, npk, nim;
+    private TextView total_perawatan_bulanan;
 
     public static MaintenanceFragment newInstance() {
         return new MaintenanceFragment();
@@ -64,6 +69,21 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
             npk = bundle.getString("NPK");
             nim = bundle.getString("NIM");
         }
+
+        total_perawatan_bulanan = view.findViewById(R.id.total_perawatan_bulanan);
+        mPenggunaanViewModel = new ViewModelProvider(this).get(PenggunaanViewModel.class);
+        mPenggunaanViewModel.getTotalMaintenance(new PenggunaanViewModel.PenggunaanCallback() {
+            @Override
+            public void onSuccess(String result) {
+                total_perawatan_bulanan.setText(result);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                // Handle failure
+                Log.e("oooo", "Failed to create pengajuan: " + t.getMessage());
+            }
+        });
 
         MaterialButton maintenanceProcessBtn = view.findViewById(R.id.maintenance_process_btn);
         MaterialButton maintenanceHistoryBtn = view.findViewById(R.id.maintenance_history_btn);
@@ -153,7 +173,8 @@ public class MaintenanceFragment extends Fragment implements HeavyEngineAdapter.
                 "Perawatan Alat",
                 clickedItem.getTitle(),
                 clickedItem.getHours(),
-                clickedItem.getImageUrl()
+                clickedItem.getImageUrl(),
+                id
         );
         dialogFragment.show(getChildFragmentManager(), "DetailHeavyEngineDialogFragment");
     }

@@ -29,10 +29,10 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
         void onItemClick(int position);
     }
 
-//    public void updateData(List<HeavyEngine> newItems) {
-//        this.mHeavyEngineList = newItems;
-//        notifyDataSetChanged();
-//    }
+    public void updateData(List<HeavyEngine> newItems) {
+        this.mHeavyEngineList = newItems;
+        notifyDataSetChanged();
+    }
 
     public HeavyEngine getItem(int position) {
         return mHeavyEngineList.get(position);
@@ -68,7 +68,7 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
             holder.icoonStatus.setImageResource(R.drawable.ic_task);
             holder.statusTextView.setText("Tersedia");
             holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#038100")));
-        } else if (item.getStatus().equals("2")) {
+        } else if (item.getStatus().equals("5")) {
             holder.statusBarView.setCardBackgroundColor(Color.parseColor("#CC9239"));
             holder.icoonStatus.setImageResource(R.drawable.ic_tool);
             holder.statusTextView.setText("Sedang Dalam Perawatan");
@@ -78,12 +78,12 @@ public class HeavyEngineAdapter extends RecyclerView.Adapter<HeavyEngineAdapter.
             holder.icoonStatus.setImageResource(R.drawable.ic_bag);
             holder.statusTextView.setText("Sedang Digunakan");
             holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#600D08")));
-        } else if (item.getStatus().equals("4")) {
+        } else if (item.getStatus().equals("2")) {
             holder.statusBarView.setCardBackgroundColor(Color.parseColor("#CC9239"));
-            holder.icoonStatus.setImageResource(R.drawable.ic_tool);
+            holder.icoonStatus.setImageResource(R.drawable.ic_task);
             holder.statusTextView.setText("Sedang Dalam Pengajuan");
             holder.icoonStatus.setImageTintList(ColorStateList.valueOf(Color.parseColor("#CC9239")));
-        } else if (item.getStatus().equals("5")) {
+        } else if (item.getStatus().equals("4")) {
             holder.statusBarView.setCardBackgroundColor(Color.parseColor("#CC9239"));
             holder.icoonStatus.setImageResource(R.drawable.ic_tool);
             holder.statusTextView.setText("Sedang Dalam Perbaikan");

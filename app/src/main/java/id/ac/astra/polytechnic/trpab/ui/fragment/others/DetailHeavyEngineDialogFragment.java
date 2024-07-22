@@ -2,11 +2,14 @@ package id.ac.astra.polytechnic.trpab.ui.fragment.others;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,17 +22,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
 import id.ac.astra.polytechnic.trpab.R;
+import id.ac.astra.polytechnic.trpab.data.api.DataResponse;
 import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
+import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
+import id.ac.astra.polytechnic.trpab.data.viewmodel.LoginViewModel;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.PenggunaanViewModel;
+import id.ac.astra.polytechnic.trpab.ui.activity.LoginActivity;
+import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
 
 public class DetailHeavyEngineDialogFragment extends DialogFragment {
 
@@ -38,6 +49,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     private static final String ARG_NAME = "name";
     private static final String ARG_HM = "description";
     private static final String ARG_IMAGE_RES_ID = "image_res_id";
+    private static final String ARG_ID_USER = "id_pgn";
     private PenggunaanViewModel mViewModel;
     private Calendar calendar;
     private Calendar calendar2;
@@ -55,6 +67,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     private TextView detail_catatan_text;
     private MaterialButton detail_button_setuju;
     TextInputEditText hm1, hm2, hm3, hm4, hm5, hm6, hm7, hm8, hm9, hm10, hm11;
+    static String idUnt;
 
     Bundle args;
     private OnPeminjamanAddedListener mListener;
@@ -67,15 +80,17 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static DetailHeavyEngineDialogFragment newInstance(String id, String title, String name, String description, String imageResId) {
+    public static DetailHeavyEngineDialogFragment newInstance(String id, String title, String name, String hm, String imageResId, String idPenggunaan) {
         DetailHeavyEngineDialogFragment fragment = new DetailHeavyEngineDialogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ID, id);
         args.putString(ARG_TITLE, title);
         args.putString(ARG_NAME, name);
-        args.putString(ARG_HM, description);
+        args.putString(ARG_HM, hm);
         args.putString(ARG_IMAGE_RES_ID, imageResId);
+        args.putString(ARG_ID_USER, idPenggunaan);
         fragment.setArguments(args);
+        idUnt = id;
         return fragment;
     }
 
@@ -136,7 +151,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             String title = args.getString(ARG_TITLE);
             String name = args.getString(ARG_NAME);
             String hoursMeter = args.getString(ARG_HM);
-            int imageResId = args.getInt(ARG_IMAGE_RES_ID);
+            String imageResId = args.getString(ARG_IMAGE_RES_ID);
 
             if (title.equals("Perawatan Alat")){
                 perawatanAlatDialog();
@@ -167,7 +182,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             // Set data dari argumen ke dalam dialog
             detailTitle.setText(title);
             detailHeavyName.setText(name); // Menampilkan name
-            detailImage.setImageResource(imageResId);
+            Glide.with(detailImage.getContext()).load(imageResId).into(detailImage);
         }
 
         // Mendapatkan tanggal dan waktu saat ini
@@ -200,6 +215,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             }
         });
 
+        getDataPenggunaan(idUnt);
 
         return view;
     }
@@ -275,14 +291,11 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
                 Penggunaan penggunaan = new Penggunaan();
                 penggunaan.setId(args.getString(ARG_ID));
                 penggunaan.setKeterangan(String.valueOf(detail_keterangan_value.getText()));
-                penggunaan.setCreaby("3");
+                penggunaan.setCreaby(args.getString(ARG_ID_USER));
 
                 mViewModel.createPengajuan(penggunaan, new PenggunaanViewModel.PenggunaanCallback() {
                     @Override
                     public void onSuccess(String result) {
-                        // Handle success
-                        Log.d("oooo", "Pengajuan created successfully: " + result);
-
                         if (mListener != null) {
                             mListener.onPeminjamanAdded();
                         }
@@ -336,16 +349,35 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         detail_button_setuju.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Menutup dialog saat ini
-                dismiss();
+                Penggunaan penggunaan = new Penggunaan();
+                penggunaan.setId(args.getString(ARG_ID));
+                penggunaan.setModiby(args.getString(ARG_ID_USER));
 
-                // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
-                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
-                        "Berhasil !",
-                        "Peminjaman alat berhasil disetujui",
-                        R.drawable.ic_success
-                );
-                dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+                mViewModel.CreatePersetujuan(penggunaan, new PenggunaanViewModel.PenggunaanCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if (mListener != null) {
+                            mListener.onPeminjamanAdded();
+                        }
+
+                        // Menutup dialog saat ini
+                        dismiss();
+
+                        // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                        PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                                "Berhasil !",
+                                "Pengajuan telah disetujui.",
+                                R.drawable.ic_success
+                        );
+                        dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        // Handle failure
+                        Log.e("oooo", "Failed to create pengajuan: " + t.getMessage());
+                    }
+                });
             }
         });
     }
@@ -375,16 +407,52 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         detail_button_setuju.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Menutup dialog saat ini
-                dismiss();
+                StringBuilder hmStringBuilder = new StringBuilder();
 
-                // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
-                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
-                        "Berhasil !",
-                        "Alat telah berhasil dikembalikan",
-                        R.drawable.ic_success
-                );
-                dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+                hmStringBuilder.append(hm1.getText().toString());
+                hmStringBuilder.append(hm2.getText().toString());
+                hmStringBuilder.append(hm3.getText().toString());
+                hmStringBuilder.append(hm4.getText().toString());
+                hmStringBuilder.append(hm5.getText().toString());
+                hmStringBuilder.append(hm6.getText().toString());
+                hmStringBuilder.append(hm7.getText().toString());
+                hmStringBuilder.append(hm8.getText().toString());
+                hmStringBuilder.append(hm9.getText().toString());
+                hmStringBuilder.append(hm10.getText().toString());
+                hmStringBuilder.append(hm11.getText().toString());
+
+                String hm = hmStringBuilder.toString();
+
+                Penggunaan penggunaan = new Penggunaan();
+                penggunaan.setId(args.getString(ARG_ID));
+                penggunaan.setHoursMeterAkhir(hm);
+                penggunaan.setModiby(args.getString(ARG_ID_USER));
+
+                mViewModel.createPengembalian(penggunaan, new PenggunaanViewModel.PenggunaanCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if (mListener != null) {
+                            mListener.onPeminjamanAdded();
+                        }
+
+                        // Menutup dialog saat ini
+                        dismiss();
+
+                        // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                        PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                                "Berhasil !",
+                                "Unit berhasil dikembalikan",
+                                R.drawable.ic_success
+                        );
+                        dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        // Handle failure
+                        Log.e("oooo", "Failed to create pengajuan: " + t.getMessage());
+                    }
+                });
             }
         });
     }
@@ -476,10 +544,42 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         super.onStart();
         // Mengatur lebar dan tinggi dialog (misalnya 80% dari lebar layar)
         if (getDialog() != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            getDialog().getWindow().setLayout(width, height);
+            // Mendapatkan lebar layar
+            int width = getResources().getDisplayMetrics().widthPixels;
+            int margin = (int) (40 * getResources().getDisplayMetrics().density);
+            getDialog().getWindow().setLayout(width - 2 * margin, ViewGroup.LayoutParams.WRAP_CONTENT);
+            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bottom_nav_background);
         }
+    }
+
+    private void getDataPenggunaan(String untId){
+        mViewModel.getDataPenggunaan(untId, new PenggunaanViewModel.PenggunaanCallback2() {
+            @Override
+            public void onSuccess(DataResponse<Penggunaan> result) {
+                // Handle success
+                String message = String.valueOf(result.getMessage());
+                Gson gson = new Gson();
+                Log.d("oooologin", gson.toJson(result));
+                String jsonResponse = gson.toJson(result.getResult());
+
+                Penggunaan[] pgns = gson.fromJson(jsonResponse, Penggunaan[].class);
+                detail_keterangan_value.setText(pgns[0].getKeterangan());
+//                detail_pj_value.setText(pgns[0].getCreaby());
+                Log.d("ooo44", jsonResponse);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+//                loadingProgressBar.setVisibility(View.GONE);
+//                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+//                        "Gagal !",
+//                        t.getMessage(),
+//                        R.drawable.ic_warning
+//                );
+//                dialogFragment.show(getSupportFragmentManager(), "PopupResponseDialog");
+                Log.e("ooo44", "Failed to create : " +t.getMessage());
+            }
+        });
     }
 
     public interface OnPeminjamanAddedListener {

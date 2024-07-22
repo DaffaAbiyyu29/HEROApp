@@ -14,10 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
@@ -45,9 +47,14 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
     private List<HeavyEngine> heavyEngineList;
+    private List<HeavyEngine> avaibleData;
+    private List<HeavyEngine> pendingData;
+    private List<HeavyEngine> unavaibleData;
     private String title = "Peminjaman Alat";
     private String currentDataType = "available";
     private int activeBackgroundColor, inactiveBackgroundColor;
+    String id, role;
+    Boolean isHideSatus = false;
 
     public static BorrowingFragment newInstance() {
         return new BorrowingFragment();
@@ -71,9 +78,6 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setVisibility(View.VISIBLE);
 
-        btnOne.setSelected(true);
-        underlineOne.setVisibility(View.VISIBLE);
-
         activeBackgroundColor = ContextCompat.getColor(requireContext(), R.color.red_primary);
         inactiveBackgroundColor = ContextCompat.getColor(requireContext(), R.color.abu2);
 
@@ -85,12 +89,32 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
             public void onChanged(List<HeavyEngine> heavyEngines) {
                 if (heavyEngines != null) {
                     heavyEngineList = heavyEngines;
-                    setupRecyclerView(heavyEngineList);
+                    if (btnOne.isSelected()) {
+                        avaibleData = mViewModel.getAvailableList();
+                        setupRecyclerView(avaibleData, isHideSatus);
+                    } else if (btnTwo.isSelected()){
+                        pendingData = mViewModel.getPendingList();
+                        setupRecyclerView(pendingData, isHideSatus);
+                    } else if (btnThree.isSelected()) {
+                        unavaibleData = mViewModel.getUnavailableList();
+                        setupRecyclerView(unavaibleData, isHideSatus);
+                    }
                 } else {
                     Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            id = bundle.getString("ID_USER");
+            role = bundle.getString("ROLE_USER");
+        }
+
+        if (role.equals("Mahasiswa") || role.equals("Karyawan")) {
+            LinearLayout linearTwo = view.findViewById(R.id.linearTwo);
+            linearTwo.setVisibility(View.GONE);
+        }
 
         TextInputEditText search_view_dashboard = view.findViewById(R.id.search_view_dashboard);
         TextWatcher searchTextWatcher = new TextWatcher() {
@@ -105,9 +129,9 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
                 if (btnOne.isSelected()) {
                     mViewModel.fetchDataUnitByName(s.toString(), Collections.singletonList(1));
                 } else if (btnTwo.isSelected()) {
-                    mViewModel.fetchDataUnitByName(s.toString(), Collections.singletonList(4));
+                    mViewModel.fetchDataUnitByName(s.toString(), Collections.singletonList(2));
                 } else if (btnThree.isSelected()) {
-                    mViewModel.fetchDataUnitByName(s.toString(), Arrays.asList(2, 3));
+                    mViewModel.fetchDataUnitByName(s.toString(), Arrays.asList(3, 5));
                 }
             }
 
@@ -136,7 +160,8 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
                 underlineOne.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 heavyEngineList = mViewModel.getAvailableList();
-                setupRecyclerView(heavyEngineList);
+                isHideSatus = false;
+                setupRecyclerView(heavyEngineList, false);
                 title = "Peminjaman Alat";
 
                 // Update search listener
@@ -155,7 +180,8 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
                 underlineTwo.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 heavyEngineList = mViewModel.getPendingList();
-                setupRecyclerView2(heavyEngineList);
+                isHideSatus = true;
+                setupRecyclerView(heavyEngineList, true);
                 title = "Persetujuan Alat";
 
                 // Update search listener
@@ -174,7 +200,8 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
                 underlineThree.setVisibility(View.VISIBLE);
                 recyclerView.setVisibility(View.VISIBLE);
                 heavyEngineList = mViewModel.getUnavailableList();
-                setupRecyclerView(heavyEngineList);
+                isHideSatus = false;
+                setupRecyclerView(heavyEngineList, false);
                 title = "Pengembalian Alat";
 
                 // Update search listener
@@ -197,14 +224,8 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         return view;
     }
 
-    private void setupRecyclerView(List<HeavyEngine> items) {
-        mHeavyEngineAdapter = new HeavyEngineAdapter(items, false);
-        mHeavyEngineAdapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(mHeavyEngineAdapter);
-    }
-
-    private void setupRecyclerView2(List<HeavyEngine> items) {
-        mHeavyEngineAdapter = new HeavyEngineAdapter(items, true);
+    private void setupRecyclerView(List<HeavyEngine> items, Boolean status) {
+        mHeavyEngineAdapter = new HeavyEngineAdapter(items, status);
         mHeavyEngineAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(mHeavyEngineAdapter);
     }
@@ -231,7 +252,7 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         underlineOne.setVisibility(View.VISIBLE);
         mViewModel.fetchDataUnitByName("", Collections.singletonList(1));
         heavyEngineList = mViewModel.getAvailableList();
-        setupRecyclerView(heavyEngineList);
+        setupRecyclerView(heavyEngineList, isHideSatus);
     }
 
 
@@ -243,7 +264,8 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
                 title,
                 clickedItem.getTitle(),
                 clickedItem.getHours(),
-                clickedItem.getImageUrl()
+                clickedItem.getImageUrl(),
+                id
         );
         dialogFragment.setOnPeminjamanAddedListener(this);
 
@@ -257,9 +279,9 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         if (btnOne.isSelected()) {
             mViewModel.fetchDataUnitByName("", Collections.singletonList(1));
         } else if (btnTwo.isSelected()) {
-            mViewModel.fetchDataUnitByName("", Collections.singletonList(4));
+            mViewModel.fetchDataUnitByName("", Collections.singletonList(2));
         } else if (btnThree.isSelected()) {
-            mViewModel.fetchDataUnitByName("", Arrays.asList(2, 3));
+            mViewModel.fetchDataUnitByName("", Arrays.asList(5, 3));
         }
     }
 }

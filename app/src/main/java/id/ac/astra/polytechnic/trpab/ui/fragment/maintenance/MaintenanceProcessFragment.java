@@ -19,11 +19,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.Button;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,11 +47,10 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
     Button btnOne, btnTwo;
 
     private List<HeavyEngine> heavyEngineList;
-    private List<HeavyEngine> dashboardItemList = new ArrayList<>(); // Inisialisasi list kosong
     private List<HeavyEngine> servicelist;
     private List<HeavyEngine> perbaikanlist;
 
-    private CardView statusBarView;
+    String id, role;
     private int activeBackgroundColor, inactiveBackgroundColor;
 
     public static MaintenanceProcessFragment newInstance() {
@@ -64,21 +65,34 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         underlineOne = view.findViewById(R.id.underline_one);
         underlineTwo = view.findViewById(R.id.underline_two);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            id = bundle.getString("ID_USER");
+            role = bundle.getString("ROLE_USER");
+        }
+
         btnOne = view.findViewById(R.id.btn_one);
         btnTwo = view.findViewById(R.id.btn_two);
+
+        if (role.equals("Mahasiswa")) {
+            LinearLayout linear1 = view.findViewById(R.id.linear1);
+            linear1.setVisibility(View.GONE);
+            btnOne.setSelected(false);
+            btnTwo.setSelected(true);
+            btnTwo.setTextColor(activeBackgroundColor);
+            underlineTwo.setVisibility(View.VISIBLE);
+        } else {
+            btnOne.setSelected(true);
+            btnTwo.setSelected(false);
+            underlineOne.setVisibility(View.VISIBLE);
+        }
 
         recyclerView = view.findViewById(R.id.recycler_view_maintenance_process);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setVisibility(View.VISIBLE);
 
-        btnOne.setSelected(true);
-        underlineOne.setVisibility(View.VISIBLE);
-
         activeBackgroundColor = ContextCompat.getColor(requireContext(), R.color.red_primary);
         inactiveBackgroundColor = ContextCompat.getColor(requireContext(), R.color.abu2);
-
-//        servicelist = new ArrayList<>();
-//        perbaikanlist = new ArrayList<>();
 
         mViewModel = new ViewModelProvider(this).get(HeavyEngineViewModel.class);
 
@@ -86,8 +100,14 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
             @Override
             public void onChanged(List<HeavyEngine> heavyEngines) {
                 if (heavyEngines != null) {
-                    heavyEngineList = heavyEngines;
-                    setupRecyclerView(heavyEngineList);
+//                    heavyEngineList = heavyEngines;
+                    if (btnOne.isSelected()) {
+                        perbaikanlist = mViewModel.getProcessMaintenancePerbaikan();
+                        setupRecyclerView(perbaikanlist);
+                    } else {
+                        servicelist = mViewModel.getProcessMaintenanceService();
+                        setupRecyclerView(servicelist);
+                    }
                 } else {
                     Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
                 }
@@ -105,7 +125,7 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // Panggil fetchDataUnitByName dari ViewModel dengan status sesuai tombol yang aktif
                 if (btnOne.isSelected()) {
-                    mViewModel.fetchDataUnitByName(s.toString(), Collections.singletonList(2));
+                    mViewModel.fetchDataUnitByName(s.toString(), Collections.singletonList(4));
                 } else if (btnTwo.isSelected()) {
                     mViewModel.fetchDataUnitByName(s.toString(), Collections.singletonList(5));
                 }
@@ -122,10 +142,9 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         search_view_dashboard.addTextChangedListener(searchTextWatcher);
 
         // Set default filter to btnOne
-        btnOne.setSelected(true);
-        btnOne.setTextColor(activeBackgroundColor);
-        underlineOne.setVisibility(View.VISIBLE);
-        mViewModel.fetchDataUnitByName("", Collections.singletonList(2));
+//        btnOne.setSelected(true);
+//        btnOne.setTextColor(activeBackgroundColor);
+//        underlineOne.setVisibility(View.VISIBLE);
 
         btnOne.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,18 +197,6 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         return view;
     }
 
-    private List<HeavyEngine> filterPerbaikanItems(List<HeavyEngine> items) {
-        return items.stream()
-                .filter(item -> "2".equals(item.getStatus()))
-                .collect(Collectors.toList());
-    }
-
-    private List<HeavyEngine> filterServiceItems(List<HeavyEngine> items) {
-        return items.stream()
-                .filter(item -> "5".equals(item.getStatus()))
-                .collect(Collectors.toList());
-    }
-
     private void setupRecyclerView(List<HeavyEngine> items) {
         mHeavyEngineAdapter = new HeavyEngineAdapter(items, false);
         mHeavyEngineAdapter.setOnItemClickListener(this);
@@ -220,12 +227,35 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
         super.onResume();
 
         // Atur kembali data default
-        btnOne.setSelected(true);
-        btnOne.setTextColor(activeBackgroundColor);
-        underlineOne.setVisibility(View.VISIBLE);
-        mViewModel.fetchDataUnitByName("", Collections.singletonList(2));
-        heavyEngineList = mViewModel.getAvailableList();
-        setupRecyclerView(heavyEngineList);
+//        btnOne.setSelected(true);
+//        btnOne.setTextColor(activeBackgroundColor);
+//        underlineOne.setVisibility(View.VISIBLE);
+//        mViewModel.fetchDataUnitByName("", Collections.singletonList(4));
+//        heavyEngineList = mViewModel.getAvailableList();
+//        setupRecyclerView(heavyEngineList);
+
+        if (role.equals("Mahasiswa")) {
+            btnOne.setSelected(false);
+            btnTwo.setSelected(true);
+            btnTwo.setTextColor(activeBackgroundColor);
+            underlineTwo.setVisibility(View.VISIBLE);
+            servicelist = mViewModel.getProcessMaintenanceService();
+            setupRecyclerView(servicelist);
+        } else {
+            btnOne.setSelected(true);
+            btnTwo.setSelected(false);
+            underlineOne.setVisibility(View.VISIBLE);
+            perbaikanlist = mViewModel.getProcessMaintenancePerbaikan();
+            setupRecyclerView(perbaikanlist);
+        }
+
+//        if (!role.equals("Mahasiswa")) {
+//            perbaikanlist = mViewModel.getProcessMaintenancePerbaikan();
+//            setupRecyclerView(perbaikanlist);
+//        } else {
+//            servicelist = mViewModel.getProcessMaintenanceService();
+//            setupRecyclerView(servicelist);
+//        }
     }
 
 

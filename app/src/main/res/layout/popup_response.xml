@@ -59,6 +59,7 @@
                 app:rippleColor="@android:color/holo_red_dark"
                 android:fontFamily="@font/poppins_b"
                 android:text="Batal"
+                android:textColor="@color/white"
                 android:textSize="20sp"/>
 
             <com.google.android.material.button.MaterialButton
@@ -72,6 +73,7 @@
                 app:rippleColor="@android:color/holo_green_dark"
                 android:fontFamily="@font/poppins_b"
                 android:text="OK"
+                android:textColor="@color/white"
                 android:textSize="20sp"/>
 
         </LinearLayout>

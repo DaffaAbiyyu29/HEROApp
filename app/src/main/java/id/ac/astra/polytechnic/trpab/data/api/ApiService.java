@@ -5,9 +5,11 @@ import com.google.gson.JsonObject;
 import id.ac.astra.polytechnic.trpab.data.model.ChecklistItem;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 import id.ac.astra.polytechnic.trpab.data.model.MaintenanceReport;
+
+import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
+import id.ac.astra.polytechnic.trpab.data.model.Schedule;
 import id.ac.astra.polytechnic.trpab.data.model.RiwayatMaintenance;
 import id.ac.astra.polytechnic.trpab.data.model.SaveAction;
-import id.ac.astra.polytechnic.trpab.data.model.Schadule;
 import id.ac.astra.polytechnic.trpab.data.model.User;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -24,11 +26,20 @@ public interface ApiService {
     @POST("HEROApp_BE/GetRiwayatMaintanance.php")
     Call<ResponseBody> getRiwayatMaintanance(@Body RequestBody body);
 
+    @GET("HEROApp_BE/GetDataMaintenanceTotal.php")
+    Call<StringResponse> getTotalMaintenance();
+
+    @POST("HEROApp_BE/LoadActionImage.php")
+    Call<DataResponse<ChecklistItem>> getImage(@Body RequestBody body);
+
     @POST("HEROApp_BE/GetDataSchedule.php")
-    Call<DataResponse<Schadule>> getDataSchedule(@Body RequestBody body);
+    Call<DataResponse<Schedule>> getDataSchedule(@Body RequestBody body);
 
     @POST("HEROApp_BE/GetDataAction.php")
     Call<DataResponse<ChecklistItem>> getDataAction(@Body RequestBody body);
+
+    @GET("HEROApp_BE/GetDataUnitDalamPengajuan.php")
+    Call<DataResponse<HeavyEngine>> getDataUnitDalamPengajuan();
 
     @POST("HEROApp_BE/GetDataUnitBySearch.php")
     Call<DataResponse<HeavyEngine>> getDataUnitByName(@Body RequestBody body);
@@ -36,8 +47,18 @@ public interface ApiService {
     @POST("HEROApp_BE/CreatePengajuan.php")
     Call<StringResponse> createPengajuan(@Body RequestBody body);
 
+    @POST("HEROApp_BE/CreatePersetujuan.php")
+    Call<StringResponse> CreatePersetujuan(@Body RequestBody body);
+
+    @POST("HEROApp_BE/CreatePengembalian.php")
+    Call<StringResponse> createPengembalian(@Body RequestBody body);
+
     @POST("HEROApp_BE/Login.php")
     Call<DataResponse<User>> login(@Body RequestBody body);
+
+    @POST("HEROApp_BE/GetDataPenggunaanByUnit.php")
+    Call<DataResponse<Penggunaan>> getDataPenggunaan(@Body RequestBody body);
+
     @POST("HEROApp_BE/GetActionServiceByScheduleForPDF.php")
     Call<DataResponse<MaintenanceReport>> getDataActionForReport(@Body RequestBody body);
 }

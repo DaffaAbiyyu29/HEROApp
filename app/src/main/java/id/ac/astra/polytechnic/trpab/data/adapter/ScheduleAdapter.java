@@ -11,17 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import id.ac.astra.polytechnic.trpab.R;
-import id.ac.astra.polytechnic.trpab.data.model.Schadule;
+import id.ac.astra.polytechnic.trpab.data.model.Schedule;
 
-public class SchaduleAdapter extends RecyclerView.Adapter<SchaduleAdapter.ViewHolder> {
-    private List<Schadule> serviceItemList;
+public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
+    private List<Schedule> serviceItemList;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public SchaduleAdapter(List<Schadule> serviceItemList, OnItemClickListener listener) {
+    public ScheduleAdapter(List<Schedule> serviceItemList, OnItemClickListener listener) {
         this.serviceItemList = serviceItemList;
         this.listener = listener;
     }
@@ -35,8 +35,8 @@ public class SchaduleAdapter extends RecyclerView.Adapter<SchaduleAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Schadule schadule = serviceItemList.get(position);
-        holder.nameTextView.setText(schadule.getName());
+        Schedule schedule = serviceItemList.get(position);
+        holder.nameTextView.setText(schedule.getName());
     }
 
     @Override

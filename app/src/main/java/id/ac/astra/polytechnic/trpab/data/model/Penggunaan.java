@@ -9,6 +9,10 @@ public class Penggunaan {
     private String keterangan;
     @SerializedName("pgn_creaby")
     private String creaby;
+    @SerializedName("pgn_hours_meter_akhir")
+    private String hoursMeterAkhir;
+    @SerializedName("pgn_modiby")
+    private String modiby;
 
     public Penggunaan() {
     }
@@ -41,6 +45,22 @@ public class Penggunaan {
 
     public void setCreaby(String creaby) {
         this.creaby = creaby;
+    }
+
+    public String getHoursMeterAkhir() {
+        return hoursMeterAkhir;
+    }
+
+    public void setHoursMeterAkhir(String hoursMeterAkhir) {
+        this.hoursMeterAkhir = hoursMeterAkhir;
+    }
+
+    public String getModiby() {
+        return modiby;
+    }
+
+    public void setModiby(String modiby) {
+        this.modiby = modiby;
     }
 }
 

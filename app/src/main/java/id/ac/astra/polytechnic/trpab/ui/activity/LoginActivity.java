@@ -16,10 +16,12 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 import com.google.gson.Gson;
 
+import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.api.DataResponse;
 import id.ac.astra.polytechnic.trpab.data.model.User;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.LoginViewModel;
 import id.ac.astra.polytechnic.trpab.databinding.ActivityLoginBinding;
+import id.ac.astra.polytechnic.trpab.ui.fragment.others.PopupResponseDialog;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -94,23 +96,34 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 }, 1500);
                             } else {
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        loadingProgressBar.setVisibility(View.GONE);
-                                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-                                    }
-                                }, 1500);
+                                loadingProgressBar.setVisibility(View.GONE);
+                                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                                        "Gagal !",
+                                        message,
+                                        R.drawable.ic_warning
+                                );
+                                dialogFragment.show(getSupportFragmentManager(), "PopupResponseDialog");
                             }
                         } else {
-                            Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                            loadingProgressBar.setVisibility(View.GONE);
+                            PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                                    "Gagal !",
+                                    message,
+                                    R.drawable.ic_warning
+                            );
+                            dialogFragment.show(getSupportFragmentManager(), "PopupResponseDialog");
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable t) {
-                        // Handle failure
-                        Log.e("oooo", "Failed to Login: " + t.getMessage());
+                        loadingProgressBar.setVisibility(View.GONE);
+                        PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                                "Gagal !",
+                                t.getMessage(),
+                                R.drawable.ic_warning
+                        );
+                        dialogFragment.show(getSupportFragmentManager(), "PopupResponseDialog");
                     }
                 });
             }

@@ -30,6 +30,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
@@ -85,6 +93,7 @@ public class MaintenanceHistoryFragment extends Fragment implements HeavyEngineA
     private RecyclerView recyclerView;
     private HeavyEngineAdapter mHeavyEngineAdapter;
     private List<HeavyEngine> dashboardItemList;
+    private CardView statusBarView;
     private List<MaintenanceReport> maintenanceReports;
     String id, nama, role, npk, nim;
 
@@ -961,5 +970,6 @@ public class MaintenanceHistoryFragment extends Fragment implements HeavyEngineA
 
         document.close();
         Toast.makeText(getContext(), "PDF successfully created", Toast.LENGTH_LONG).show();
+
     }
 }

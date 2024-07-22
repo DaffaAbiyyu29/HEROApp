@@ -24,8 +24,8 @@ import id.ac.astra.polytechnic.trpab.data.api.DataResponse;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
 import id.ac.astra.polytechnic.trpab.R;
-import id.ac.astra.polytechnic.trpab.data.adapter.SchaduleAdapter;
-import id.ac.astra.polytechnic.trpab.data.model.Schadule;
+import id.ac.astra.polytechnic.trpab.data.adapter.ScheduleAdapter;
+import id.ac.astra.polytechnic.trpab.data.model.Schedule;
 import id.ac.astra.polytechnic.trpab.databinding.FragmentSchedulelistBinding;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -33,11 +33,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ScheduleListFragment extends Fragment implements SchaduleAdapter.OnItemClickListener {
+public class ScheduleListFragment extends Fragment implements ScheduleAdapter.OnItemClickListener {
     private FragmentSchedulelistBinding binding;
     private RecyclerView recyclerView;
-    private SchaduleAdapter schaduleAdapter;
-    private List<Schadule> serviceItemList;
+    private ScheduleAdapter schaduleAdapter;
+    private List<Schedule> serviceItemList;
     private String untid;
 
     @Nullable
@@ -80,14 +80,14 @@ public class ScheduleListFragment extends Fragment implements SchaduleAdapter.On
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
 
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<DataResponse<Schadule>> call = apiService.getDataSchedule(body);
+        Call<DataResponse<Schedule>> call = apiService.getDataSchedule(body);
 
-        call.enqueue(new Callback<DataResponse<Schadule>>() {
+        call.enqueue(new Callback<DataResponse<Schedule>>() {
             @Override
-            public void onResponse(Call<DataResponse<Schadule>> call, Response<DataResponse<Schadule>> response) {
+            public void onResponse(Call<DataResponse<Schedule>> call, Response<DataResponse<Schedule>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     serviceItemList = response.body().getResult();
-                    schaduleAdapter = new SchaduleAdapter(serviceItemList, ScheduleListFragment.this);
+                    schaduleAdapter = new ScheduleAdapter(serviceItemList, ScheduleListFragment.this);
                     recyclerView.setAdapter(schaduleAdapter);
                 } else {
                     Toast.makeText(getContext(), "Failed to load data", Toast.LENGTH_SHORT).show();
@@ -95,7 +95,7 @@ public class ScheduleListFragment extends Fragment implements SchaduleAdapter.On
             }
 
             @Override
-            public void onFailure(Call<DataResponse<Schadule>> call, Throwable t) {
+            public void onFailure(Call<DataResponse<Schedule>> call, Throwable t) {
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -103,7 +103,7 @@ public class ScheduleListFragment extends Fragment implements SchaduleAdapter.On
 
     @Override
     public void onItemClick(int position) {
-        Schadule clickedItem = serviceItemList.get(position);
+        Schedule clickedItem = serviceItemList.get(position);
         NavController navController = NavHostFragment.findNavController(this);
 
         // Fetch HeavyEngine data using the unt_id from the clicked Schadule item

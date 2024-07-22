@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Wrap the DrawerLayout with FrameLayout to use the same View type for the same view ID across the layout configurations -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_container"
@@ -57,50 +57,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginEnd="10dp"-->
-<!--                app:cardCornerRadius="10dp"-->
-<!--                android:background="@color/white"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintBottom_toBottomOf="parent">-->
-
-<!--                <LinearLayout-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="horizontal"-->
-<!--                    android:padding="10dp">-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/text_date"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:textColor="@color/red_primary"-->
-<!--                        android:layout_marginEnd="5dp"-->
-<!--                        android:textSize="14sp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:text="tanggal"-->
-<!--                        android:fontFamily="@font/poppins"-->
-<!--                        android:drawablePadding="12dp"-->
-<!--                        android:gravity="center"-->
-<!--                        app:drawableStartCompat="@drawable/ic_clock" />-->
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/text_time"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:textColor="@color/red_primary"-->
-<!--                        android:layout_marginEnd="10dp"-->
-<!--                        android:textSize="14sp"-->
-<!--                        android:textStyle="bold"-->
-<!--                        android:text="jam"-->
-<!--                        android:fontFamily="@font/poppins_b"-->
-<!--                        android:gravity="center|end" />-->
-<!--                </LinearLayout>-->
-
-<!--            </com.google.android.material.card.MaterialCardView>-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                app:icon="@drawable/ic_bell"
+                app:iconGravity="textTop"
+                app:iconSize="30dp"
+                app:iconTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -190,4 +158,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

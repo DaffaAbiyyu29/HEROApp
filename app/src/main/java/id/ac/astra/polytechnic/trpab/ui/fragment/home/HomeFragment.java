@@ -60,7 +60,6 @@ public class HomeFragment extends Fragment {
         TextView namaUser = view.findViewById(R.id.name_text);
         TextView roleUser = view.findViewById(R.id.role_text);
         Bundle bundle = getArguments();
-        Log.d("oooo2", String.valueOf(bundle));
         if (bundle != null) {
             id = bundle.getString("ID_USER");
             nama = bundle.getString("NAMA_USER");

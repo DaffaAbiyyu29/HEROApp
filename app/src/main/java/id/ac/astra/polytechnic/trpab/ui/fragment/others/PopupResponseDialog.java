@@ -1,6 +1,7 @@
 package id.ac.astra.polytechnic.trpab.ui.fragment.others;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,11 @@ public class PopupResponseDialog extends DialogFragment {
                 response_status.setText(status);
                 response_message.setText(desc);
                 response_icon.setImageResource(icon);
+            } else if (status.equals("Gagal !")){
+                response_status.setText(status);
+                response_message.setText(desc);
+                response_icon.setImageResource(icon);
+                cancelButton.setVisibility(View.GONE);
             }
         }
 
@@ -85,9 +91,11 @@ public class PopupResponseDialog extends DialogFragment {
         super.onStart();
         // Mengatur lebar dan tinggi dialog (misalnya 80% dari lebar layar)
         if (getDialog() != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
-            int height = ViewGroup.LayoutParams.WRAP_CONTENT;
-            getDialog().getWindow().setLayout(width, height);
+            // Mendapatkan lebar layar
+            int width = getResources().getDisplayMetrics().widthPixels;
+            int margin = (int) (40 * getResources().getDisplayMetrics().density);
+            getDialog().getWindow().setLayout(width - 2 * margin, ViewGroup.LayoutParams.WRAP_CONTENT);
+            getDialog().getWindow().setBackgroundDrawableResource(R.drawable.bottom_nav_background);
         }
     }
 }
