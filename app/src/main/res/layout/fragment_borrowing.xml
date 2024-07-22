@@ -21,13 +21,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/poppins_b"
             android:gravity="bottom|center"
             android:text="Cari Nama Alat Berat"
             android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textSize="27dp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"/>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -139,13 +140,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dapat Digunakan"
-                    android:textSize="15sp"
+                    android:textSize="13dp"
                     android:textColor="@color/red_primary"
                     android:background="@android:color/transparent"
                     android:padding="0dp"
                     android:fontFamily="@font/poppins_b"
                     android:layout_margin="0dp"
                     android:clickable="true"
+                    android:textAllCaps="false"
                     app:iconGravity="textStart" />
 
                 <View
@@ -169,13 +171,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dalam Pengajuan"
-                    android:textSize="15sp"
+                    android:textSize="13dp"
                     android:textColor="@color/abu2"
                     android:background="@android:color/transparent"
                     android:padding="0dp"
                     android:fontFamily="@font/poppins_b"
                     android:layout_margin="0dp"
                     android:clickable="true"
+                    android:textAllCaps="false"
                     app:iconGravity="textStart" />
 
                 <View
@@ -199,7 +202,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tidak Dapat Digunakan"
-                    android:textSize="15sp"
+                    android:textSize="13dp"
                     android:textColor="@color/abu2"
                     android:background="@android:color/transparent"
                     android:padding="0dp"
@@ -208,6 +211,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
+                    android:textAllCaps="false"
                     app:iconGravity="textStart" />
 
                 <View
@@ -220,21 +224,21 @@
             </LinearLayout>
         </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_borrowing"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="true"
-                android:focusable="false"
-                android:layout_marginTop="85dp"
-                android:focusableInTouchMode="false"
-                android:scrollIndicators="end"
-                android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:scrollbarSize="5dp"
-                android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
-                android:scrollbarTrackVertical="@drawable/scrollbar_track"
-                android:scrollbars="vertical"
-                tools:listitem="@layout/item_dashboard" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_borrowing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="true"
+            android:focusable="false"
+            android:layout_marginTop="85dp"
+            android:focusableInTouchMode="false"
+            android:scrollIndicators="end"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
+            android:scrollbarTrackVertical="@drawable/scrollbar_track"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/item_dashboard" />
 
     </com.google.android.material.card.MaterialCardView>
 

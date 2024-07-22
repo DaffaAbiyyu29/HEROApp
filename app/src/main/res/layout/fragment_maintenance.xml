@@ -182,7 +182,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/poppins_b"
                 android:gravity="bottom|center"
                 android:text="Cari Nama Alat Berat"

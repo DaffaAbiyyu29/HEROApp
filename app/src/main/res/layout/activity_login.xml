@@ -234,7 +234,8 @@
         app:cornerRadius="20dp"
         app:rippleColor="@color/red_secondary"
         android:textSelectHandle="@color/cream"
-        app:layout_constraintVertical_bias="0.2"/>
+        app:layout_constraintVertical_bias="0.2"
+        android:textAllCaps="false" />
 
     <TextView
         android:id="@+id/textView8"
