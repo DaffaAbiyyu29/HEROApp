@@ -11,13 +11,14 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/top_card"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="140dp"
+        android:backgroundTint="@color/red_secondary"
         app:cardCornerRadius="20dp"
         app:cardElevation="0dp"
-        android:backgroundTint="@color/red_secondary"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="match_parent"
@@ -27,19 +28,19 @@
             android:gravity="bottom|center"
             android:text="Info Detail"
             android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textSize="35dp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/poppins_b"
+            android:layout_marginTop="65dp"
+            android:fontFamily="@font/poppins_semibold"
             android:gravity="bottom|center"
             android:text="Riwayat Maintanance"
             android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textSize="30dp"
+            android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -69,10 +70,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:fontFamily="@font/poppins_b"
+            android:fontFamily="@font/poppins_semibold"
             android:text="Riwayat Maintanance"
-            android:textColor="@android:color/black"
-            android:textSize="10sp"
+            android:textColor="@color/grey"
+            android:textSize="20dp"
             android:layout_marginTop="16dp"/>
 
         <TextView
@@ -83,11 +84,11 @@
             android:fontFamily="@font/poppins_b"
             android:text="PC210LC-10MO"
             android:textColor="@color/red_primary"
-            android:textSize="20sp"
+            android:textSize="25dp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/riwayat_perbaikan"
             app:layout_constraintTop_toBottomOf="@+id/riwayat_perbaikan"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="45dp"/>
 
 <!--
         <Button

@@ -23,7 +23,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/aa"
@@ -33,7 +33,7 @@
                 android:fontFamily="@font/poppins_b"
                 android:text="Update terakhir"
                 android:textColor="@color/white"
-                android:textSize="10sp"
+                android:textSize="13dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -41,18 +41,18 @@
                 android:id="@+id/bb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="260dp"
+                android:layout_marginStart="250dp"
                 android:fontFamily="@font/poppins_b"
                 android:text="4 Juni 2024"
                 android:textColor="@color/white"
-                android:textSize="10sp"
+                android:textSize="10dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent" />
             <TextView
                 android:id="@+id/cc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="323dp"
+                android:layout_marginStart="315dp"
                 android:fontFamily="@font/poppins_b"
                 android:text="12:00"
                 android:textColor="@color/white"
@@ -118,7 +118,7 @@
                 android:fontFamily="@font/poppins_b"
                 android:text="Hours Meter     "
                 android:textColor="@color/red_primary"
-                android:textSize="12sp"
+                android:textSize="16dp"
                 android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="@+id/heavyname_text"
                 app:layout_constraintTop_toBottomOf="@+id/heavyname_text" />
@@ -129,11 +129,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/white"
-                android:fontFamily="@font/poppins"
+                android:fontFamily="@font/poppins_bold"
                 android:text="5674"
                 android:textColor="#7F7E7E"
-                android:textSize="10sp"
-                android:textStyle="italic|bold"
+                android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="@+id/heavyname_text"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -141,14 +140,13 @@
                 android:id="@+id/hoursmeter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="28dp"
+                android:layout_marginLeft="35dp"
                 android:layout_weight="1"
                 android:background="@color/white"
                 android:fontFamily="@font/poppins"
                 android:text="Hours"
                 android:textColor="#7F7E7E"
-                android:textSize="10sp"
-                android:textStyle="italic|bold"
+                android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="@+id/hoursmeter_text"
                 app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
@@ -161,8 +159,7 @@
                 android:fontFamily="@font/poppins"
                 android:text="Oleh"
                 android:textColor="#7F7E7E"
-                android:textSize="10sp"
-                android:textStyle="italic|bold"
+                android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="@+id/heavyname_text"
                 app:layout_constraintTop_toBottomOf="@+id/hoursmeter_text" />
 
@@ -170,14 +167,13 @@
                 android:id="@+id/user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="28dp"
+                android:layout_marginLeft="35dp"
                 android:layout_weight="1"
                 android:background="@color/white"
-                android:fontFamily="@font/poppins"
+                android:fontFamily="@font/poppins_bold"
                 android:text="Salsa"
                 android:textColor="#7F7E7E"
-                android:textSize="10sp"
-                android:textStyle="italic|bold"
+                android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="@+id/user_text"
                 app:layout_constraintTop_toBottomOf="@+id/hoursmeter_text" />
 

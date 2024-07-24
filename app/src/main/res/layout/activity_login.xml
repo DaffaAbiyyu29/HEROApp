@@ -159,6 +159,7 @@
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:selectAllOnFocus="true"
+                android:fontFamily="@font/poppins"
                 android:textColor="@color/cream"
                 android:textColorHighlight="@color/cream"
                 android:textColorHint="@color/cream"

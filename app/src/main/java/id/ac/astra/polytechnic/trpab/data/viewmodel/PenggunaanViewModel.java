@@ -150,8 +150,6 @@ public class PenggunaanViewModel extends ViewModel {
             jsonObject.put("pgn_hours_meter_akhir", penggunaan.getHoursMeterAkhir());
             jsonObject.put("pgn_modiby", penggunaan.getModiby());
 
-            Log.d("oooo", "ppp : " + jsonObject);
-
             RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
 
             ApiService apiService = ApiClient.getClient().create(ApiService.class);

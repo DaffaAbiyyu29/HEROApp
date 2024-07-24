@@ -22,24 +22,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             android:fontFamily="@font/poppins_b"
             android:gravity="bottom|center"
             android:text="Data Action"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="30dp"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/poppins_b"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/poppins_semibold"
             android:gravity="bottom|center"
             android:text="PC210LC-10MO"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="25dp"
             android:textStyle="bold"/>
 
         <com.google.android.material.card.MaterialCardView
@@ -121,6 +121,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:scrollIndicators="end"
+            android:fontFamily="@font/poppins"
             android:scrollbarTrackVertical="@drawable/scrollbar_track"
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@drawable/scrollbar_thumb"

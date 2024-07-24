@@ -55,7 +55,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
                         android:layout_marginTop="6dp"
-                        android:fontFamily="@font/poppins_b"
+                        android:fontFamily="@font/poppins_semibold"
                         android:text="Perawatan Alat"
                         android:textColor="@color/white"
                         android:gravity="center"
@@ -392,7 +392,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:fontFamily="@font/poppins_b"
+                        android:fontFamily="@font/poppins_semibold"
                         android:textSize="16sp"
                         android:popupTheme="@style/SpinnerPopupStyle"
                         app:layout_constraintTop_toBottomOf="@id/detail_jenis_perawatan_text" />

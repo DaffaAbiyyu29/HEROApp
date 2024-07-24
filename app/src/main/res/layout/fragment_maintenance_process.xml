@@ -27,7 +27,7 @@
             android:gravity="bottom|center"
             android:text="Dalam Proses Maintanance"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="23dp"
             android:textStyle="bold"
             android:letterSpacing="0.05"/>
 
@@ -35,11 +35,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
-            android:fontFamily="@font/poppins_b"
+            android:fontFamily="@font/poppins_semibold"
             android:gravity="bottom|center"
             android:text="Cari Nama Alat Berat"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:textStyle="bold"
             android:letterSpacing="0.05"/>
 

@@ -22,24 +22,24 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             android:fontFamily="@font/poppins_b"
             android:gravity="bottom|center"
             android:text="Detail Pengerjaan"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="25dp"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/textview1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:fontFamily="@font/poppins_b"
+            android:layout_marginTop="35dp"
+            android:fontFamily="@font/poppins_semibold"
             android:gravity="bottom|center"
             android:text="PC210LC-10MO"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="20dp"
             android:textStyle="bold"/>
 
     </com.google.android.material.card.MaterialCardView>
@@ -71,7 +71,7 @@
             android:fontFamily="@font/poppins_b"
             android:gravity="bottom|center"
             android:text="Gambar Pengerjaan"
-            android:textColor="@color/white"
+            android:textColor="@color/red_primary"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -120,8 +120,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1.Oli menyentuh plug F "
+                android:fontFamily="@font/poppins"
                 android:textColor="#7F7E7E"
-                android:textSize="20sp" />
+                android:textSize="12dp" />
 
             <!-- Add your views inside the LinearLayout here -->
         </LinearLayout>

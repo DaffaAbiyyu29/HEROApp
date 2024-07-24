@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
@@ -37,8 +39,10 @@ import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.api.DataResponse;
 import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
 import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
+import id.ac.astra.polytechnic.trpab.data.model.Perbaikan;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.LoginViewModel;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.PenggunaanViewModel;
+import id.ac.astra.polytechnic.trpab.data.viewmodel.PerbaikanViewModel;
 import id.ac.astra.polytechnic.trpab.ui.activity.LoginActivity;
 import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
 
@@ -51,6 +55,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     private static final String ARG_IMAGE_RES_ID = "image_res_id";
     private static final String ARG_ID_USER = "id_pgn";
     private PenggunaanViewModel mViewModel;
+    private PerbaikanViewModel mViewModel2;
     private Calendar calendar;
     private Calendar calendar2;
     private EditText startDate;
@@ -68,6 +73,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     private MaterialButton detail_button_setuju;
     TextInputEditText hm1, hm2, hm3, hm4, hm5, hm6, hm7, hm8, hm9, hm10, hm11;
     static String idUnt;
+    String selectedItemText;
 
     Bundle args;
     private OnPeminjamanAddedListener mListener;
@@ -101,6 +107,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.detail_heavy_engine_card, container, false);
 
         mViewModel = new ViewModelProvider(this).get(PenggunaanViewModel.class);
+        mViewModel2 = new ViewModelProvider(this).get(PerbaikanViewModel.class);
 
         spinner = view.findViewById(R.id.detail_jenis_perawatan_spinner);
 
@@ -112,6 +119,20 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item text
+                selectedItemText = (String) parent.getItemAtPosition(position);
+                Log.d("oooo3", selectedItemText);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
 
         // Mendapatkan referensi ke elemen di dalam dialog
         TextView detailTitle = view.findViewById(R.id.detail_title);
@@ -215,7 +236,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             }
         });
 
-        getDataPenggunaan(idUnt);
+//        getDataPenggunaan(idUnt);
 
         return view;
     }
@@ -243,16 +264,42 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         detail_button_setuju.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Menutup dialog saat ini
-                dismiss();
+                int jns = 0;
+                if (selectedItemText.equals("Perbaikan")){
+                    jns = 1;
+                } else if (selectedItemText.equals("Service")){
+                    jns = 2;
+                }
+                Perbaikan perbaikan = new Perbaikan();
+                perbaikan.setUntId(Integer.valueOf(args.getString(ARG_ID)));
+                perbaikan.setJenis(jns);
+                perbaikan.setCreatedBy(Integer.valueOf(args.getString(ARG_ID_USER)));
 
-                // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
-                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
-                        "Berhasil !",
-                        "Perawatan alat dapat anda mulai sekarang",
-                        R.drawable.ic_success
-                );
-                dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+                mViewModel2.createPerbaikan(perbaikan, new PerbaikanViewModel.PerbaikanCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+                        if (mListener != null) {
+                            mListener.onPeminjamanAdded();
+                        }
+
+                        // Menutup dialog saat ini
+                        dismiss();
+
+                        // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                        PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                                "Berhasil !",
+                                "Selamat perbaikan alat telah berhasil dilakukan",
+                                R.drawable.ic_success
+                        );
+                        dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        // Handle failure
+                        Log.e("oooo", "Failed to create pengajuan: " + t.getMessage());
+                    }
+                });
             }
         });
     }
