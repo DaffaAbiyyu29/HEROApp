@@ -3,6 +3,7 @@ package id.ac.astra.polytechnic.trpab.data.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,9 +18,11 @@ import id.ac.astra.polytechnic.trpab.data.model.RiwayatMaintenance;
 
 public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.ViewHolder> {
     private List<RiwayatMaintenance> mRiwayatMaintenances;
+    private OnPrintPdfClickListener onPrintPdfClickListener;
 
-    public RiwayatAdapter(List<RiwayatMaintenance> riwayatMaintenances) {
+    public RiwayatAdapter(List<RiwayatMaintenance> riwayatMaintenances, OnPrintPdfClickListener listener) {
         this.mRiwayatMaintenances = riwayatMaintenances;
+        this.onPrintPdfClickListener = listener;
     }
 
     @NonNull
@@ -34,7 +37,6 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.ViewHold
         RiwayatMaintenance maintenance = mRiwayatMaintenances.get(position);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-
         String formattedDate = dateFormat.format(maintenance.getPbkTanggalAkhir());
 
         holder.namaPembuatTextView.setText(maintenance.getNamaPembuat());
@@ -42,10 +44,15 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.ViewHold
         holder.pbkJamAkhirTextView.setText(maintenance.getPbkJamAkhir());
         holder.untHoursMeterTextView.setText(String.valueOf(maintenance.getUntHoursMeter()));
 
-        // Load image using Glide or any other image loading library if required
-        // Glide.with(holder.itemView.getContext())
-        //        .load(maintenance.getFotoPembuat())
-        //        .into(holder.fotoPembuatImageView);
+        holder.buttonPrint.setOnClickListener(v -> {
+            if (onPrintPdfClickListener != null) {
+                onPrintPdfClickListener.onPrintPdfClick(
+                        position,
+                        String.valueOf(maintenance.getUntId()),
+                        String.valueOf(maintenance.getPbkId())
+                );
+            }
+        });
     }
 
     @Override
@@ -59,11 +66,16 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public interface OnPrintPdfClickListener {
+        void onPrintPdfClick(int position, String untId, String pbkId); // Ensure parameters match here
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView namaPembuatTextView;
         TextView pbkTanggalAkhirTextView;
         TextView pbkJamAkhirTextView;
         TextView untHoursMeterTextView;
+        Button buttonPrint;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +83,8 @@ public class RiwayatAdapter extends RecyclerView.Adapter<RiwayatAdapter.ViewHold
             pbkTanggalAkhirTextView = itemView.findViewById(R.id.bb);
             pbkJamAkhirTextView = itemView.findViewById(R.id.cc);
             untHoursMeterTextView = itemView.findViewById(R.id.hoursmeter_text);
+            buttonPrint = itemView.findViewById(R.id.button_cetak_pdf);
         }
     }
 }
+
