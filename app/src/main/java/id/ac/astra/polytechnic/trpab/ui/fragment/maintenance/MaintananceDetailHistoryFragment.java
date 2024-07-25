@@ -931,14 +931,28 @@ public class MaintananceDetailHistoryFragment extends Fragment {
 
             ActionForMaintananceReport action = actions.get(i);
 
-            // Get the work drawable
-            Drawable workDrawable = ContextCompat.getDrawable(getContext(), R.drawable.gambarkerja);
-            Bitmap workBitmap = ((BitmapDrawable) workDrawable).getBitmap();
-            ByteArrayOutputStream workStream = new ByteArrayOutputStream();
-            workBitmap.compress(Bitmap.CompressFormat.PNG, 100, workStream);
-            byte[] workBitmapData = workStream.toByteArray();
-            ImageData workImageData = ImageDataFactory.create(workBitmapData);
-            Image workImage = new Image(workImageData);
+            Image workImage;
+            try {
+                // Decode base64 image data
+                String base64Image = action.getAct_foto();
+                if (base64Image != null && !base64Image.isEmpty()) {
+                    byte[] imageBytes = android.util.Base64.decode(base64Image.split(",")[1], android.util.Base64.DEFAULT);
+                    ImageData imageData = ImageDataFactory.create(imageBytes);
+                    workImage = new Image(imageData);
+                } else {
+                    throw new Exception("No image data provided");
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error decoding base64 image data or no image data provided", e);
+                Drawable defaultDrawable = ContextCompat.getDrawable(getContext(), R.drawable.gambarkerja);
+                Bitmap defaultBitmap = ((BitmapDrawable) defaultDrawable).getBitmap();
+                ByteArrayOutputStream defaultStream = new ByteArrayOutputStream();
+                defaultBitmap.compress(Bitmap.CompressFormat.PNG, 100, defaultStream);
+                byte[] defaultImageData = defaultStream.toByteArray();
+                ImageData defaultImageDataObj = ImageDataFactory.create(defaultImageData);
+                workImage = new Image(defaultImageDataObj);
+            }
+
             workImage.setHeight(79.2f);
             workImage.setWidth(160.7f);
 

@@ -8,27 +8,27 @@
     android:background="@color/red_secondary"
     tools:context=".ui.fragment.maintenance.MaintenanceFragment">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_print_pdf"
-        android:layout_width="170dp"
-        android:layout_height="60dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="10dp"
-        android:enabled="true"
-        android:text="Print PDF"
-        android:textStyle="bold"
-        android:fontFamily="@font/poppins_b"
-        android:textSize="20sp"
-        android:textColor="@color/cream"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="@color/red_secondary"
-        app:cornerRadius="20dp"
-        app:rippleColor="@color/cream"
-        android:textSelectHandle="@color/red_secondary"
-        app:layout_constraintVertical_bias="0.2"/>
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/btn_print_pdf"-->
+<!--        android:layout_width="170dp"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:enabled="true"-->
+<!--        android:text="Print PDF"-->
+<!--        android:textStyle="bold"-->
+<!--        android:fontFamily="@font/poppins_b"-->
+<!--        android:textSize="20sp"-->
+<!--        android:textColor="@color/cream"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:backgroundTint="@color/red_secondary"-->
+<!--        app:cornerRadius="20dp"-->
+<!--        app:rippleColor="@color/cream"-->
+<!--        android:textSelectHandle="@color/red_secondary"-->
+<!--        app:layout_constraintVertical_bias="0.2"/>-->
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/top_card"
