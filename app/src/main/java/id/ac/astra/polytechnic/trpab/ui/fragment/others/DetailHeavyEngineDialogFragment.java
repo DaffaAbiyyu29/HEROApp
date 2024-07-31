@@ -30,9 +30,11 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import id.ac.astra.polytechnic.trpab.R;
@@ -40,6 +42,7 @@ import id.ac.astra.polytechnic.trpab.data.api.DataResponse;
 import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
 import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
 import id.ac.astra.polytechnic.trpab.data.model.Perbaikan;
+import id.ac.astra.polytechnic.trpab.data.model.User;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.LoginViewModel;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.PenggunaanViewModel;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.PerbaikanViewModel;
@@ -56,6 +59,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     private static final String ARG_ID_USER = "id_pgn";
     private PenggunaanViewModel mViewModel;
     private PerbaikanViewModel mViewModel2;
+    private LoginViewModel mViewModel3;
     private Calendar calendar;
     private Calendar calendar2;
     private EditText startDate;
@@ -66,13 +70,13 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     private TextView detail_pj_text;
     private TextView detail_jenis_perawatan_text;
     private EditText detail_keterangan_value;
-    private EditText detail_pj_value;
+    private EditText detail_pj_value, detail_diajukan_date_start, detail_diajukan_date_end;
     private MaterialCardView note_card;
     private TextView detail_diajukan_date_end_text;
     private TextView detail_catatan_text;
     private MaterialButton detail_button_setuju;
     TextInputEditText hm1, hm2, hm3, hm4, hm5, hm6, hm7, hm8, hm9, hm10, hm11;
-    static String idUnt;
+    static String idUnt, idUser;
     String selectedItemText;
 
     Bundle args;
@@ -97,6 +101,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         args.putString(ARG_ID_USER, idPenggunaan);
         fragment.setArguments(args);
         idUnt = id;
+        idUser = idPenggunaan;
         return fragment;
     }
 
@@ -108,6 +113,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
 
         mViewModel = new ViewModelProvider(this).get(PenggunaanViewModel.class);
         mViewModel2 = new ViewModelProvider(this).get(PerbaikanViewModel.class);
+        mViewModel3 = new ViewModelProvider(this).get(LoginViewModel.class);
 
         spinner = view.findViewById(R.id.detail_jenis_perawatan_spinner);
 
@@ -146,6 +152,8 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
         detail_keterangan_value = view.findViewById(R.id.detail_keterangan_value);
         detail_diajukan_date_end_text = view.findViewById(R.id.detail_diajukan_date_end_text);
         detail_catatan_text = view.findViewById(R.id.detail_catatan_text);
+        detail_diajukan_date_start = view.findViewById(R.id.detail_diajukan_date_start);
+        detail_diajukan_date_end = view.findViewById(R.id.detail_diajukan_date_end);
         note_card = view.findViewById(R.id.note_card);
         hm1 = view.findViewById(R.id.hm1);
         hm2 = view.findViewById(R.id.hm2);
@@ -236,12 +244,12 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             }
         });
 
-//        getDataPenggunaan(idUnt);
-
         return view;
     }
 
     private void perawatanAlatDialog() {
+        getDataPenggunaan(idUnt);
+
         detail_keterangan_text.setVisibility(View.GONE);
         detail_keterangan_value.setVisibility(View.GONE);
         detail_diajukan_date_end_text.setVisibility(View.GONE);
@@ -370,6 +378,8 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     }
 
     private void persetujuanAlatDialog() {
+        getDataPenggunaan(idUnt);
+
         hm1.setBackgroundResource(R.color.cream);
         hm2.setBackgroundResource(R.color.cream);
         hm3.setBackgroundResource(R.color.cream);
@@ -430,6 +440,8 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     }
 
     private void pengembalianAlatDialog() {
+        getDataPenggunaan(idUnt);
+
         detail_jenis_perawatan_text.setVisibility(View.GONE);
         hm1.setEnabled(true);
         hm2.setEnabled(true);
@@ -610,20 +622,53 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
                 String jsonResponse = gson.toJson(result.getResult());
 
                 Penggunaan[] pgns = gson.fromJson(jsonResponse, Penggunaan[].class);
+                // Buat objek SimpleDateFormat untuk input dan output
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.forLanguageTag("id-ID"));
+                SimpleDateFormat outputFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy", Locale.forLanguageTag("id-ID"));
+
+                // Parse tanggal dari string ke objek Date
+                Date dateStart = null;
+                Date dateEnd = new Date();
+                try {
+                    dateStart = inputFormat.parse(pgns[0].getCreadate());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Format objek Date ke string dalam format yang diinginkan
+                String outputDateStart = outputFormat.format(dateStart);
+                String outputDate = outputFormat.format(dateEnd);
+
                 detail_keterangan_value.setText(pgns[0].getKeterangan());
-//                detail_pj_value.setText(pgns[0].getCreaby());
-                Log.d("ooo44", jsonResponse);
+                detail_diajukan_date_start.setText(outputDateStart);
+                detail_diajukan_date_end.setText(outputDate);
+
+                getUserById(pgns[0].getCreaby());
             }
 
             @Override
             public void onFailure(Throwable t) {
-//                loadingProgressBar.setVisibility(View.GONE);
-//                PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
-//                        "Gagal !",
-//                        t.getMessage(),
-//                        R.drawable.ic_warning
-//                );
-//                dialogFragment.show(getSupportFragmentManager(), "PopupResponseDialog");
+                Log.e("ooo44", "Failed to create : " +t.getMessage());
+            }
+        });
+    }
+
+    private void getUserById(String idUsr){
+        mViewModel3.getUserById(idUsr, new LoginViewModel.UserCallback() {
+            @Override
+            public void onSuccess(DataResponse<User> result) {
+                // Handle success
+                String message = String.valueOf(result.getMessage());
+                Gson gson = new Gson();
+                Log.d("oooologin", gson.toJson(result));
+                String jsonResponse = gson.toJson(result.getResult());
+
+                User[] users = gson.fromJson(jsonResponse, User[].class);
+                detail_pj_value.setText(users[0].getNama());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
                 Log.e("ooo44", "Failed to create : " +t.getMessage());
             }
         });

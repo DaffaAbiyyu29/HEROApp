@@ -87,6 +87,56 @@ public class LoginViewModel extends ViewModel {
         }
     }
 
+    public void getUserById(String id, UserCallback callback) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("usr_id", id);
+
+            Gson gson = new Gson();
+            Log.i("oooo", gson.toJson(jsonObject));
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+
+            ApiService apiService = ApiClient.getClient().create(ApiService.class);
+            Call<DataResponse<User>> call = apiService.getUserById(requestBody);
+            call.enqueue(new Callback<DataResponse<User>>() {
+                @Override
+                public void onResponse(Call<DataResponse<User>> call, Response<DataResponse<User>> response) {
+                    Log.d("ppp", String.valueOf(response));
+                    if (response.isSuccessful() && response.body() != null) {
+                        DataResponse<User> dataResponse = response.body();
+                        if (dataResponse.getResult() != null) {
+                            if (callback != null) {
+                                callback.onSuccess(dataResponse);
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFailure(new Exception("Result is null"));
+                            }
+                        }
+                    } else {
+                        if (callback != null) {
+                            callback.onFailure(new Exception("Response unsuccessful or body is null"));
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DataResponse<User>> call, Throwable t) {
+                    if (callback != null) {
+                        callback.onFailure(t);
+                    }
+                    Log.e("UserViewModel", "Failed to fetch data from server: " + t.getMessage());
+                }
+            });
+        } catch (JSONException e) {
+            if (callback != null) {
+                callback.onFailure(e);
+            }
+            Log.e("UserViewModel", "Failed to create JSON object: " + e.getMessage());
+        }
+    }
+
     public interface UserCallback {
         void onSuccess(DataResponse<User> result);
         void onFailure(Throwable t);

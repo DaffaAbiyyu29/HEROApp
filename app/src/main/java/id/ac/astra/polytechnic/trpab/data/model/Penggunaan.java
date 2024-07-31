@@ -9,10 +9,14 @@ public class Penggunaan {
     private String keterangan;
     @SerializedName("pgn_creaby")
     private String creaby;
+    @SerializedName("pgn_creadate")
+    private String creadate;
     @SerializedName("pgn_hours_meter_akhir")
     private String hoursMeterAkhir;
     @SerializedName("pgn_modiby")
     private String modiby;
+    @SerializedName("pgn_modidate")
+    private String modidate;
 
     public Penggunaan() {
     }
@@ -61,6 +65,22 @@ public class Penggunaan {
 
     public void setModiby(String modiby) {
         this.modiby = modiby;
+    }
+
+    public String getCreadate() {
+        return creadate;
+    }
+
+    public void setCreadate(String creadate) {
+        this.creadate = creadate;
+    }
+
+    public String getModidate() {
+        return modidate;
+    }
+
+    public void setModidate(String modidate) {
+        this.modidate = modidate;
     }
 }
 

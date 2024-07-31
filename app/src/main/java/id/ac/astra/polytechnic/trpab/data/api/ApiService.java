@@ -71,6 +71,9 @@ public interface ApiService {
     @POST("HEROApp_BE/Login.php")
     Call<DataResponse<User>> login(@Body RequestBody body);
 
+    @POST("HEROApp_BE/GetDataUserByUserId.php")
+    Call<DataResponse<User>> getUserById(@Body RequestBody body);
+
     @POST("HEROApp_BE/GetDataPenggunaanByUnit.php")
     Call<DataResponse<Penggunaan>> getDataPenggunaan(@Body RequestBody body);
 
