@@ -2,11 +2,14 @@ package id.ac.astra.polytechnic.trpab.data.api;
 
 import com.google.gson.JsonObject;
 
+import java.util.List;
+
 import id.ac.astra.polytechnic.trpab.data.model.ChecklistItem;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 import id.ac.astra.polytechnic.trpab.data.model.MaintenanceReport;
 
 import id.ac.astra.polytechnic.trpab.data.model.Penggunaan;
+import id.ac.astra.polytechnic.trpab.data.model.Perbaikan;
 import id.ac.astra.polytechnic.trpab.data.model.Schedule;
 import id.ac.astra.polytechnic.trpab.data.model.RiwayatMaintenance;
 import id.ac.astra.polytechnic.trpab.data.model.SaveAction;
@@ -17,12 +20,21 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @GET("HEROApp_BE/GetDataUnit.php")
     Call<DataResponse<HeavyEngine>> getDataUnit();
+
     @POST("HEROApp_BE/SaveActionServiceBySchedule.php")
     Call<JsonObject> saveAction(@Body RequestBody body);
+
+    @POST("HEROApp_BE/SaveActionPerbaikan.php")
+    Call<JsonObject> savePerbaikan(@Body RequestBody body);
+
+    @GET("HEROApp_BE/GetPerbaikanList.php")
+    Call<DataResponse<Perbaikan>> getPerbaikanList(@Query("unt_id") String untId);
+
     @POST("HEROApp_BE/GetRiwayatMaintanance.php")
     Call<ResponseBody> getRiwayatMaintanance(@Body RequestBody body);
 

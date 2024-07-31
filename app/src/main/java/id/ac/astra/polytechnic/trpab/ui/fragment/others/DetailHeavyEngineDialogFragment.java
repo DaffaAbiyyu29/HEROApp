@@ -271,7 +271,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
                     jns = 2;
                 }
                 Perbaikan perbaikan = new Perbaikan();
-                perbaikan.setUntId(Integer.valueOf(args.getString(ARG_ID)));
+                perbaikan.setUntId(args.getString(ARG_ID));
                 perbaikan.setJenis(jns);
                 perbaikan.setCreatedBy(Integer.valueOf(args.getString(ARG_ID_USER)));
 

@@ -18,7 +18,6 @@ public class HeavyEngine {
     @SerializedName("unt_foto")
     private String imageUrl;
 
-
     public HeavyEngine() {
     }
 

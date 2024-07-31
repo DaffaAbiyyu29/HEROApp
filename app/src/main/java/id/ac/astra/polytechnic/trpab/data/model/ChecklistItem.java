@@ -21,7 +21,7 @@ public class ChecklistItem {
     @SerializedName("sch_id")
     private String schid;
 
-    private boolean isChecked; // Add this field to track if the item is checked
+    private boolean isChecked;
 
     public ChecklistItem() {
     }

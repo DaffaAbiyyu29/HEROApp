@@ -115,18 +115,18 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_schadulelist"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="20dp"
-            android:scrollbars="vertical"
+            android:layout_height="492dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:scrollIndicators="end"
+            android:clipToPadding="true"
             android:fontFamily="@font/poppins"
-            android:scrollbarTrackVertical="@drawable/scrollbar_track"
+            android:paddingTop="20dp"
+            android:scrollIndicators="end"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
-            android:clipToPadding="true"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarTrackVertical="@drawable/scrollbar_track"
+            android:scrollbars="vertical"
             tools:listitem="@layout/card_action" />
 
     </com.google.android.material.card.MaterialCardView>

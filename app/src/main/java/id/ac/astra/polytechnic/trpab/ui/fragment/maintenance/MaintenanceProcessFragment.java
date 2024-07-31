@@ -1,6 +1,5 @@
 package id.ac.astra.polytechnic.trpab.ui.fragment.maintenance;
 
-import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -27,16 +26,21 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import id.ac.astra.polytechnic.trpab.data.api.ApiClient;
+import id.ac.astra.polytechnic.trpab.data.api.ApiService;
+import id.ac.astra.polytechnic.trpab.data.api.DataResponse;
+import id.ac.astra.polytechnic.trpab.data.model.Perbaikan;
 import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
 import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.data.adapter.HeavyEngineAdapter;
 import id.ac.astra.polytechnic.trpab.data.model.HeavyEngine;
 import id.ac.astra.polytechnic.trpab.data.viewmodel.HeavyEngineViewModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MaintenanceProcessFragment extends Fragment implements HeavyEngineAdapter.OnItemClickListener {
 
@@ -207,19 +211,63 @@ public class MaintenanceProcessFragment extends Fragment implements HeavyEngineA
     public void onItemClick(int position) {
         HeavyEngine clickedItem = mHeavyEngineAdapter.getItem(position);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("title", clickedItem.getTitle());
-        bundle.putString("status", clickedItem.getStatus());
-        bundle.putString("id", clickedItem.getId());
-
-        NavController navController = NavHostFragment.findNavController(this);
         if ("5".equals(clickedItem.getStatus())) {
             Log.d("MaintenanceProcessFragment", "Navigating to SchaduleListFragment");
+            Bundle bundle = new Bundle();
+            bundle.putString("title", clickedItem.getTitle());
+            bundle.putString("status", clickedItem.getStatus());
+            bundle.putString("id", clickedItem.getId());
+            NavController navController = NavHostFragment.findNavController(this);
             navController.navigate(R.id.action_to_schadulefragment, bundle);
         } else {
-            Log.d("MaintenanceProcessFragment", "Navigating to ImprovementFragment");
-            navController.navigate(R.id.action_to_improvementFragment, bundle);
+            Log.d("MaintenanceProcessFragment", "Fetching pbk_id and navigating to ImprovementFragment");
+            fetchPbkIdAndNavigate(clickedItem.getId(), clickedItem.getTitle());
         }
+    }
+
+    private void fetchPbkIdAndNavigate(String untId, String title) {
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
+        Call<DataResponse<Perbaikan>> call = apiService.getPerbaikanList(untId);
+
+        Log.d("MaintenanceProcessFragment", "Requesting Perbaikan data for unt_id: " + untId);
+
+        call.enqueue(new Callback<DataResponse<Perbaikan>>() {
+            @Override
+            public void onResponse(Call<DataResponse<Perbaikan>> call, Response<DataResponse<Perbaikan>> response) {
+                Log.d("MaintenanceProcessFragment", "Response: " + response);
+                Log.d("MaintenanceProcessFragment", "Response code: " + response.code());
+                Gson gson = new Gson();
+                Log.d("ppp", gson.toJson(response.body()));
+                if (response.isSuccessful() && response.body() != null) {
+                    DataResponse<Perbaikan> dataResponse = response.body();
+                    Log.d("MaintenanceProcessFragment", "Response body: " + new Gson().toJson(dataResponse));
+
+                    List<Perbaikan> perbaikanList = dataResponse.getResult();
+                    if (perbaikanList != null && !perbaikanList.isEmpty()) {
+                        Perbaikan perbaikan = perbaikanList.get(0);
+                        String pbkId = perbaikan.getPbkId(); // Adjust method as needed
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("pbk_id", pbkId);
+                        bundle.putString("unt_id", untId);
+                        bundle.putString("title", title); // Add title to the bundle
+
+                        NavController navController = NavHostFragment.findNavController(MaintenanceProcessFragment.this);
+                        navController.navigate(R.id.action_to_improvementFragment, bundle);
+                    } else {
+                        Log.e("MaintenanceProcessFragment", "No Perbaikan found for unt_id: " + untId);
+                    }
+                } else {
+                    Log.e("MaintenanceProcessFragment", "Failed to fetch Perbaikan data");
+                    Log.d("MaintenanceProcessFragment", "Response: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DataResponse<Perbaikan>> call, Throwable t) {
+                Log.e("MaintenanceProcessFragment", "Error: " + t.getMessage());
+            }
+        });
     }
 
     @Override

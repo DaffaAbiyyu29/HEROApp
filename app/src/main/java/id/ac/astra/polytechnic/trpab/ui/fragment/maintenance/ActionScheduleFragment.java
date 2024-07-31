@@ -1,5 +1,6 @@
 package id.ac.astra.polytechnic.trpab.ui.fragment.maintenance;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import id.ac.astra.polytechnic.trpab.data.model.SaveAction;
 import id.ac.astra.polytechnic.trpab.ui.activity.MainActivity;
 import id.ac.astra.polytechnic.trpab.R;
 import id.ac.astra.polytechnic.trpab.databinding.FragmentActionlistBinding;
+import id.ac.astra.polytechnic.trpab.ui.fragment.others.PopupResponseDialog;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -120,7 +122,7 @@ public class ActionScheduleFragment extends Fragment implements ChecklistAdapter
         boolean isAnyItemChecked = false;
 
         for (ChecklistItem item : schaduleItemList) {
-            Log.d(TAG, "Item ID: " + item.getId() + " isChecked: " + item.isChecked()); // Debug log
+//            Log.d(TAG, "Item ID: " + item.getId() + " isChecked: " + item.isChecked()); // Debug log
             SaveAction saveAction = new SaveAction();
             saveAction.setActid(item.getId());
             saveAction.setResultcheck(item.isChecked() ? "1" : "0");
@@ -163,10 +165,16 @@ public class ActionScheduleFragment extends Fragment implements ChecklistAdapter
                     Log.d(TAG, "Response JSON: " + response.body().toString());
                     Toast.makeText(getContext(), "Data saved successfully", Toast.LENGTH_SHORT).show();
 
-                    // Navigate to MaintenanceFragment
+                    // Menampilkan PopupResponseDialog setelah data berhasil disimpan
+                    PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                            "Berhasil !",
+                            "Unit berhasil dikembalikan",
+                            R.drawable.ic_success
+                    );
+                    dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+
                     NavController navController = NavHostFragment.findNavController(ActionScheduleFragment.this);
                     navController.navigate(R.id.nav_maintenance);
-
                 } else {
                     Log.e(TAG, "Failed to save data: " + response.errorBody());
                     Toast.makeText(getContext(), "Failed to save data", Toast.LENGTH_SHORT).show();
@@ -195,4 +203,3 @@ public class ActionScheduleFragment extends Fragment implements ChecklistAdapter
         navController.navigate(R.id.action_to_workmanshipDetailsFragment, args);
     }
 }
-

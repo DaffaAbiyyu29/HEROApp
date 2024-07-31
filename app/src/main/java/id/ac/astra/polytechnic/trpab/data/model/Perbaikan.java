@@ -6,10 +6,10 @@ import java.util.Date;
 public class Perbaikan {
 
     @SerializedName("pbk_id")
-    private int id;
+    private String pbkId;
 
     @SerializedName("unt_id")
-    private Integer untId;
+    private String untId;
 
     @SerializedName("pbk_jenis")
     private Integer jenis;
@@ -41,21 +41,19 @@ public class Perbaikan {
     @SerializedName("pbk_modidate")
     private Date modifyDate;
 
-    // Getters and Setters
-
-    public int getId() {
-        return id;
+    public String getPbkId() {
+        return pbkId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPbkId(String pbkId) {
+        this.pbkId = pbkId;
     }
 
-    public Integer getUntId() {
+    public String getUntId() {
         return untId;
     }
 
-    public void setUntId(Integer untId) {
+    public void setUntId(String untId) {
         this.untId = untId;
     }
 

@@ -53,7 +53,6 @@ public class WorkmanshipDetailsFragment extends Fragment {
             binding.detailKeteranganText.setText(keterangan);
 
             if (foto != null && !foto.isEmpty()) {
-                // Assuming "foto" is a part of the image URL
                 String host = ApiClient.BASE_URL;
                 String imageUrl = host + "HEROAPP_BE/LoadActionImage.php/" + actid;
                 Glide.with(this)
@@ -62,7 +61,7 @@ public class WorkmanshipDetailsFragment extends Fragment {
                         .error(R.drawable.image1) // Set an error image if needed
                         .into(binding.selectedImageView);
             } else {
-                binding.selectedImageView.setImageResource(R.drawable.image1); // Set a placeholder image if needed
+                binding.selectedImageView.setImageResource(R.drawable.image1);
             }
 
 
