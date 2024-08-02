@@ -146,23 +146,15 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         search_view_dashboard.addTextChangedListener(searchTextWatcher);
 
         // Set default filter to btnOne
-        btnOne.setSelected(true);
-        btnOne.setTextColor(activeBackgroundColor);
-        underlineOne.setVisibility(View.VISIBLE);
+        setActiveButton(btnOne, underlineOne);
         mViewModel.fetchDataUnitByName("", Collections.singletonList(1));
 
         btnOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetButtonStyles(btnOne, btnTwo, btnThree, underlineOne, underlineTwo, underlineThree, inactiveBackgroundColor);
-                btnOne.setTextColor(activeBackgroundColor);
-                btnOne.setSelected(true);
-                underlineOne.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.VISIBLE);
-                heavyEngineList = mViewModel.getAvailableList();
-                isHideSatus = false;
-                setupRecyclerView(heavyEngineList, false);
-                title = "Peminjaman Alat";
+                setActiveButton(btnOne, underlineOne);
+                mViewModel.fetchDataUnitByName("", Collections.singletonList(1));
+                setupRecyclerView(mViewModel.getAvailableList(), false);
 
                 // Update search listener
                 search_view_dashboard.setText("");
@@ -174,15 +166,9 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         btnTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetButtonStyles(btnOne, btnTwo, btnThree, underlineOne, underlineTwo, underlineThree, inactiveBackgroundColor);
-                btnTwo.setTextColor(activeBackgroundColor);
-                btnTwo.setSelected(true);
-                underlineTwo.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.VISIBLE);
-                heavyEngineList = mViewModel.getPendingList();
-                isHideSatus = true;
-                setupRecyclerView(heavyEngineList, true);
-                title = "Persetujuan Alat";
+                setActiveButton(btnTwo, underlineTwo);
+                mViewModel.fetchDataUnitByName("", Collections.singletonList(2));
+                setupRecyclerView(mViewModel.getPendingList(), true);
 
                 // Update search listener
                 search_view_dashboard.setText("");
@@ -194,15 +180,9 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         btnThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetButtonStyles(btnOne, btnTwo, btnThree, underlineOne, underlineTwo, underlineThree, inactiveBackgroundColor);
-                btnThree.setTextColor(activeBackgroundColor);
-                btnThree.setSelected(true);
-                underlineThree.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.VISIBLE);
-                heavyEngineList = mViewModel.getUnavailableList();
-                isHideSatus = false;
-                setupRecyclerView(heavyEngineList, false);
-                title = "Pengembalian Alat";
+                setActiveButton(btnThree, underlineThree);
+                mViewModel.fetchDataUnitByName("", Arrays.asList(3, 5));
+                setupRecyclerView(mViewModel.getUnavailableList(), false);
 
                 // Update search listener
                 search_view_dashboard.setText("");
@@ -222,6 +202,13 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         ((MainActivity) requireActivity()).showLogoutButton();
 
         return view;
+    }
+
+    private void setActiveButton(Button activeButton, View underline) {
+        resetButtonStyles(btnOne, btnTwo, btnThree, underlineOne, underlineTwo, underlineThree, inactiveBackgroundColor);
+        activeButton.setTextColor(activeBackgroundColor);
+        activeButton.setSelected(true);
+        underline.setVisibility(View.VISIBLE);
     }
 
     private void setupRecyclerView(List<HeavyEngine> items, Boolean status) {
@@ -245,16 +232,10 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
     @Override
     public void onResume() {
         super.onResume();
-
-        // Atur kembali data default
-        btnOne.setSelected(true);
-        btnOne.setTextColor(activeBackgroundColor);
-        underlineOne.setVisibility(View.VISIBLE);
+        setActiveButton(btnOne, underlineOne);
         mViewModel.fetchDataUnitByName("", Collections.singletonList(1));
-        heavyEngineList = mViewModel.getAvailableList();
-        setupRecyclerView(heavyEngineList, isHideSatus);
+        setupRecyclerView(mViewModel.getAvailableList(), false);
     }
-
 
     @Override
     public void onItemClick(int position) {
@@ -268,14 +249,12 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
                 id
         );
         dialogFragment.setOnPeminjamanAddedListener(this);
-
         dialogFragment.show(getChildFragmentManager(), "DetailHeavyEngineDialogFragment");
     }
 
     @Override
     public void onPeminjamanAdded() {
         // Refresh data saat peminjaman berhasil ditambahkan
-        // Contoh: Memuat ulang data dari ViewModel
         if (btnOne.isSelected()) {
             mViewModel.fetchDataUnitByName("", Collections.singletonList(1));
         } else if (btnTwo.isSelected()) {
