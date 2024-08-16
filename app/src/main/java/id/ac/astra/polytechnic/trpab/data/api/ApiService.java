@@ -59,6 +59,9 @@ public interface ApiService {
     @POST("HEROApp_BE/CreatePengajuan.php")
     Call<StringResponse> createPengajuan(@Body RequestBody body);
 
+    @POST("HEROApp_BE/CreatePengajuanAdmin.php")
+    Call<StringResponse> createPengajuanAdmin(@Body RequestBody body);
+
     @POST("HEROApp_BE/CreatePersetujuan.php")
     Call<StringResponse> CreatePersetujuan(@Body RequestBody body);
 

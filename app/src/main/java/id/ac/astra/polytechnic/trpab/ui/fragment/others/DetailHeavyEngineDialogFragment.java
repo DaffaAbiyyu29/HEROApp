@@ -76,7 +76,7 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     private TextView detail_catatan_text;
     private MaterialButton detail_button_setuju;
     TextInputEditText hm1, hm2, hm3, hm4, hm5, hm6, hm7, hm8, hm9, hm10, hm11;
-    static String idUnt, idUser;
+    static String idUnt, idUser, roleUser;
     String selectedItemText;
 
     Bundle args;
@@ -182,6 +182,8 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
             String hoursMeter = args.getString(ARG_HM);
             String imageResId = args.getString(ARG_IMAGE_RES_ID);
 
+            Log.d("ppp", title);
+
             if (title.equals("Perawatan Alat")){
                 perawatanAlatDialog();
             } else if (title.equals("Peminjaman Alat")) {
@@ -248,8 +250,8 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     }
 
     private void perawatanAlatDialog() {
-        getDataPenggunaan(idUnt);
-
+        getUserById(idUser);
+//        detail_pj_value.setText();
         detail_keterangan_text.setVisibility(View.GONE);
         detail_keterangan_value.setVisibility(View.GONE);
         detail_diajukan_date_end_text.setVisibility(View.GONE);
@@ -313,6 +315,8 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
     }
 
     private void peminjamanAlatDialog() {
+        getUserById(idUser);
+        Log.d("role", roleUser);
         hm1.setBackgroundResource(R.color.cream);
         hm2.setBackgroundResource(R.color.cream);
         hm3.setBackgroundResource(R.color.cream);
@@ -348,31 +352,59 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
                 penggunaan.setKeterangan(String.valueOf(detail_keterangan_value.getText()));
                 penggunaan.setCreaby(args.getString(ARG_ID_USER));
 
-                mViewModel.createPengajuan(penggunaan, new PenggunaanViewModel.PenggunaanCallback() {
-                    @Override
-                    public void onSuccess(String result) {
-                        if (mListener != null) {
-                            mListener.onPeminjamanAdded();
+                if (roleUser.equals("Admin")){
+                    mViewModel.createPengajuanAdmin(penggunaan, new PenggunaanViewModel.PenggunaanCallback() {
+                        @Override
+                        public void onSuccess(String result) {
+                            if (mListener != null) {
+                                mListener.onPeminjamanAdded();
+                            }
+
+                            // Menutup dialog saat ini
+                            dismiss();
+
+                            // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                            PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                                    "Berhasil !",
+                                    "Selamat peminjaman alat telah berhasil dilakukan",
+                                    R.drawable.ic_success
+                            );
+                            dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
                         }
 
-                        // Menutup dialog saat ini
-                        dismiss();
+                        @Override
+                        public void onFailure(Throwable t) {
+                            // Handle failure
+                            Log.e("oooo", "Failed to create pengajuan: " + t.getMessage());
+                        }
+                    });
+                } else {
+                    mViewModel.createPengajuan(penggunaan, new PenggunaanViewModel.PenggunaanCallback() {
+                        @Override
+                        public void onSuccess(String result) {
+                            if (mListener != null) {
+                                mListener.onPeminjamanAdded();
+                            }
 
-                        // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
-                        PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
-                                "Berhasil !",
-                                "Selamat peminjaman alat telah berhasil dilakukan",
-                                R.drawable.ic_success
-                        );
-                        dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
-                    }
+                            // Menutup dialog saat ini
+                            dismiss();
 
-                    @Override
-                    public void onFailure(Throwable t) {
-                        // Handle failure
-                        Log.e("oooo", "Failed to create pengajuan: " + t.getMessage());
-                    }
-                });
+                            // Menampilkan PopupResponseDialog setelah dialog saat ini ditutup
+                            PopupResponseDialog dialogFragment = PopupResponseDialog.newInstance(
+                                    "Berhasil !",
+                                    "Selamat peminjaman alat telah berhasil dilakukan",
+                                    R.drawable.ic_success
+                            );
+                            dialogFragment.show(getParentFragmentManager(), "PopupResponseDialog");
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            // Handle failure
+                            Log.e("oooo", "Failed to create pengajuan: " + t.getMessage());
+                        }
+                    });
+                }
             }
         });
     }
@@ -660,11 +692,13 @@ public class DetailHeavyEngineDialogFragment extends DialogFragment {
                 // Handle success
                 String message = String.valueOf(result.getMessage());
                 Gson gson = new Gson();
-                Log.d("oooologin", gson.toJson(result));
+                Log.d("qqq", gson.toJson(result));
                 String jsonResponse = gson.toJson(result.getResult());
 
                 User[] users = gson.fromJson(jsonResponse, User[].class);
+                Log.d("ppp99", gson.toJson(users[0].getRole()));
                 detail_pj_value.setText(users[0].getNama());
+                roleUser = users[0].getRole();
             }
 
             @Override

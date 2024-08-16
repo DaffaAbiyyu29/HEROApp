@@ -93,6 +93,56 @@ public class PenggunaanViewModel extends ViewModel {
         }
     }
 
+    public void createPengajuanAdmin(Penggunaan penggunaan, PenggunaanCallback callback) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("unt_id", penggunaan.getId());
+            jsonObject.put("pgn_keterangan", penggunaan.getKeterangan());
+            jsonObject.put("pgn_creaby", penggunaan.getCreaby());
+
+            Log.d("oooo", "ppp : " + jsonObject);
+
+            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObject.toString());
+
+            ApiService apiService = ApiClient.getClient().create(ApiService.class);
+            Call<StringResponse> call = apiService.createPengajuanAdmin(requestBody);
+            call.enqueue(new Callback<StringResponse>() {
+                @Override
+                public void onResponse(Call<StringResponse> call, Response<StringResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        StringResponse dataResponse = response.body();
+                        if (dataResponse.getResult() != null) {
+                            if (callback != null) {
+                                callback.onSuccess(dataResponse.getResult());
+                            }
+                        } else {
+                            if (callback != null) {
+                                callback.onFailure(new Exception("Result is null"));
+                            }
+                        }
+                    } else {
+                        if (callback != null) {
+                            callback.onFailure(new Exception("Response unsuccessful or body is null"));
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<StringResponse> call, Throwable t) {
+                    if (callback != null) {
+                        callback.onFailure(t);
+                    }
+                    Log.e("PenggunaanViewModel", "Failed to fetch data from server: " + t.getMessage());
+                }
+            });
+        } catch (JSONException e) {
+            if (callback != null) {
+                callback.onFailure(e);
+            }
+            Log.e("PenggunaanViewModel", "Failed to create JSON object: " + e.getMessage());
+        }
+    }
+
     public void CreatePersetujuan(Penggunaan penggunaan, PenggunaanCallback callback) {
         try {
             JSONObject jsonObject = new JSONObject();

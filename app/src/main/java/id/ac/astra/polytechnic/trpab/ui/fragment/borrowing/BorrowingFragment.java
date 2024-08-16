@@ -152,6 +152,7 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         btnOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                title = "Peminjaman Alat";
                 setActiveButton(btnOne, underlineOne);
                 mViewModel.fetchDataUnitByName("", Collections.singletonList(1));
                 setupRecyclerView(mViewModel.getAvailableList(), false);
@@ -166,6 +167,7 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         btnTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                title = "Persetujuan Alat";
                 setActiveButton(btnTwo, underlineTwo);
                 mViewModel.fetchDataUnitByName("", Collections.singletonList(2));
                 setupRecyclerView(mViewModel.getPendingList(), true);
@@ -180,6 +182,7 @@ public class BorrowingFragment extends Fragment implements HeavyEngineAdapter.On
         btnThree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                title = "Pengembalian Alat";
                 setActiveButton(btnThree, underlineThree);
                 mViewModel.fetchDataUnitByName("", Arrays.asList(3, 5));
                 setupRecyclerView(mViewModel.getUnavailableList(), false);
